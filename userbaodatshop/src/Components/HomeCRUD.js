@@ -1,5 +1,5 @@
 import React from 'react'
-import "../Assets/css/bootstrap.min.css"
+// import "../Assets/css/bootstrap.min.css"
 // import "../Assets/css/style.css"
 
 // import "../Assets/css/font-awesome.min.css"
