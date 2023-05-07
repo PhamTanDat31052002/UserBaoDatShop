@@ -17,15 +17,15 @@ export default function ProductCRUD()
     			<div class="col-sm-4">
     				<div class="best_shoes">
     					<p class="best_text">Best Shoes </p>
-    					<div class="shoes_icon"><img src="images/shoes-img4.png" alt=""/></div>
+    					<div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt=''/></div>
     					<div class="star_text">
     						<div class="left_part">
     							<ul>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
+    	    					<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
     	    					</ul>
     						</div>
     						<div class="right_part">
@@ -34,114 +34,50 @@ export default function ProductCRUD()
     					</div>
     				</div>
     			</div>
-    			<div class="col-sm-4">
+				<div class="col-sm-4">
     				<div class="best_shoes">
     					<p class="best_text">Best Shoes </p>
-    					<div class="shoes_icon"><img src="images/shoes-img5.png" alt=""/></div>
+    					<div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt=''/></div>
     					<div class="star_text">
     						<div class="left_part">
     							<ul>
-    	    						<li><a href="index.html"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="index.html"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="index.html"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="index.html"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="index.html"><img src="images/star-icon.png" alt=""/></a></li>
+    	    					<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
     	    					</ul>
     						</div>
     						<div class="right_part">
-    							<div class="shoes_price">$ <span >400</span></div>
-                                {/* <div class="shoes_price">$ <span style="color: #ff4e5b;">400</span></div> */}
+    							<div class="shoes_price">$ <span >60</span></div>
     						</div>
-
     					</div>
     				</div>
     			</div>
-    			<div class="col-sm-4">
+				<div class="col-sm-4">
     				<div class="best_shoes">
     					<p class="best_text">Best Shoes </p>
-    					<div class="shoes_icon"><img src="images/shoes-img6.png" alt=""/></div>
+    					<div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt=''/></div>
     					<div class="star_text">
     						<div class="left_part">
     							<ul>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
+    	    					<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
     	    					</ul>
     						</div>
     						<div class="right_part">
-    							<div class="shoes_price">$ <span>50</span></div>
+    							<div class="shoes_price">$ <span >60</span></div>
     						</div>
     					</div>
     				</div>
     			</div>
+				
+    		
     		</div>
-    		<div class="row">
-    			<div class="col-sm-4">
-    				<div class="best_shoes">
-    					<p class="best_text">Sports Shoes</p>
-    					<div class="shoes_icon"><img src="images/shoes-img7.png" alt=""/></div>
-    					<div class="star_text">
-    						<div class="left_part">
-    							<ul>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    					</ul>
-    						</div>
-    						<div class="right_part">
-    							<div class="shoes_price">$ <span>70</span></div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm-4">
-    				<div class="best_shoes">
-    					<p class="best_text">Sports Shoes</p>
-    					<div class="shoes_icon"><img src="images/shoes-img8.png" alt=""/></div>
-    					<div class="star_text">
-    						<div class="left_part">
-    							<ul>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="a"><img src="images/star-icon.png" alt=""/></a></li>
-    	    					</ul>
-    						</div>
-    						<div class="right_part">
-    							<div class="shoes_price">$ <span>100</span></div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm-4">
-    				<div class="best_shoes">
-    					<p class="best_text">Sports Shoes</p>
-    					<div class="shoes_icon">
-                            {/* <img src="images/shoes-img9.png"> */}
-                                
-                            </div>
-    					<div class="star_text">
-    						<div class="left_part">
-    							<ul>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    						<li><a href="s"><img src="images/star-icon.png" alt=""/></a></li>
-    	    					</ul>
-    						</div>
-    						<div class="right_part">
-    							<div class="shoes_price">$ <span>90</span></div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
+    		
     		<div class="buy_now_bt">
     			<button class="buy_text">Buy Now</button>
     		</div>

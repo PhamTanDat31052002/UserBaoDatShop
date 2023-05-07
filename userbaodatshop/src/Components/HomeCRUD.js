@@ -12,7 +12,7 @@ export default function HomeCRUD() {
                 <div classNameName="container">
                     <div className="row">
                         <div className="col-sm-3">
-                            {/* <div className="logo"><a href="#"><img src="images/logo.png"></a></div> */}
+                            <div className="logo"><a href="a"><img src={require('../Assets/images/logo.png')} alt=''/></a></div>
                         </div>
                         <div className="col-sm-9">
                             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,8 +26,9 @@ export default function HomeCRUD() {
                                         <a className="nav-item nav-link" href="shoes.html">Áo đá banh</a>
                                         <a className="nav-item nav-link" href="racing boots.html">Giày đá banh</a>
                                         <a className="nav-item nav-link" href="contact.html">Liên hệ</a>
-                                        {/* <a className="nav-item nav-link last" href="#"><img src="images/search_icon.png"></a>
-                           <a className="nav-item nav-link last" href="contact.html"><img src="images/shop_icon.png"></a> */}
+                                        
+                           <a className="nav-item nav-link last" href="s"><img src={require('../Assets/images/search_icon.png')} alt=''/></a>
+                           <a className="nav-item nav-link last" href="contact.html"><img src={require('../Assets/images/shop_icon.png')} alt=''/></a>
                                     </div>
                                 </div>
                             </nav>
@@ -88,21 +89,37 @@ export default function HomeCRUD() {
                             <div className="col-md-6">
                                 <div className="about-img">
                                     <button className="new_bt">New</button>
-                                    {/* <div className="shoes-img"><img src="images/shoes-img1.png"></div> */}
+                                    <div className="shoes-img"><img src={require('../Assets/images/shoes-img1.png')} alt=''/></div>
                                     <p className="sport_text">Men Sports</p>
-                                    {/* <div className="dolar_text">$<strong style="color: #f12a47;">90</strong> </div> */}
+                                    <div className="dolar_text">$<strong >90</strong> </div>
                                     <div className="star_icon">
                                         <ul>
-                                            {/* <li><a href="#"><img src="images/star-icon.png"></a></li>
-    	    						<li><a href="#"><img src="images/star-icon.png"></a></li>
-    	    						<li><a href="#"><img src="images/star-icon.png"></a></li>
-    	    						<li><a href="#"><img src="images/star-icon.png"></a></li>
-    	    						<li><a href="#"><img src="images/star-icon.png"></a></li> */}
+                                    <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <button className="seemore_bt">See More</button>
                             </div>
+                            <div className="col-md-6">
+    	    			<div className="about-img2">
+    	    				<div className="shoes-img2"><img src={require('../Assets/images/shoes-img2.png')} alt=''/></div>
+    	    				<p className="sport_text">Men Sports</p>
+    	    				<div className="dolar_text">$<strong style={{color: "#f12a47"}}>90</strong> </div>
+    	    				<div className="star_icon">
+    	    					<ul>
+                                    <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    					</ul>
+    	    				</div>
+    	    			</div>
+    	    		</div>
 
                         </div>
                     </div>
@@ -114,16 +131,24 @@ export default function HomeCRUD() {
                     <p className="consectetur_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
                 </div>
             </div>
+
             <div className="collectipn_section_3 layuot_padding">
                 <div className="container">
                     <div className="racing_shoes">
                         <div className="row">
                             <div className="col-md-8">
-                                {/* <div className="shoes-img3"><img src="images/shoes-img3.png"></div> */}
+                                <div className="shoes-img3"><img src={require("../Assets/images/shoes-img3.png")} alt=''/></div>
                             </div>
                             <div className="col-md-4">
-                                {/* <div className="sale_text"><strong>Sale <br><span style="color: #0a0506;">JOGING</span> <br>SHOES</strong></div> */}
-                                {/* <div className="number_text"><strong>$ <span style="color: #0a0506">100</span></strong></div> */}
+                                <div className="sale_text">
+                                    <strong>Sale 
+                                        
+                                          <span style={{color: "#0a0506"}}>JOGING</span>
+                                    
+                                    </strong>
+                                </div>
+                                {/* <br><span style="color: #0a0506;">JOGING</span> <br>SHOES */}
+                                    <div className="number_text"><strong>$ <span>100</span></strong></div> 
                                 <button className="seemore">See More</button>
                             </div>
                         </div>
@@ -136,6 +161,105 @@ export default function HomeCRUD() {
                     <p className="consectetur_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
                 </div>
             </div>
+
+            
+            
+            {/* Sản phẩm */}
+
+
+
+
+            <div class="layout_padding gallery_section">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-sm-4">
+    				<div class="best_shoes">
+    					<p class="best_text">Best Shoes </p>
+    					<div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt=''/></div>
+    					<div class="star_text">
+    						<div class="left_part">
+    							<ul>
+                                    <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    					</ul>
+    						</div>
+    						<div class="right_part">
+    							<div class="shoes_price">$ <span style={{color: "#ff4e5b"}}>60</span></div>
+                            
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+                <div class="col-sm-4">
+    				<div class="best_shoes">
+    					<p class="best_text">Best Shoes </p>
+    					<div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt=''/></div>
+    					<div class="star_text">
+    						<div class="left_part">
+    							<ul>
+                                    <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    					</ul>
+    						</div>
+    						<div class="right_part">
+    							<div class="shoes_price">$ <span style={{color: "#ff4e5b"}}>60</span></div>
+                            
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+                <div class="col-sm-4">
+    				<div class="best_shoes">
+    					<p class="best_text">Best Shoes </p>
+    					<div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt=''/></div>
+    					<div class="star_text">
+    						<div class="left_part">
+    							<ul>
+                                    <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    					</ul>
+    						</div>
+    						<div class="right_part">
+    							<div class="shoes_price">$ <span style={{color: "#ff4e5b"}}>60</span></div>
+                            
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+                 <div class="col-sm-4">
+    				<div class="best_shoes">
+    					<p class="best_text">Best Shoes </p>
+    					<div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt=''/></div>
+    					<div class="star_text">
+    						<div class="left_part">
+    							<ul>
+                                    <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    						<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt=''/></a></li>
+    	    					</ul>
+    						</div>
+    						<div class="right_part">
+    							<div class="shoes_price">$ <span style={{color: "#ff4e5b"}}>60</span></div>
+                            
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    	
+    	</div>
+    </div>
+    </div>
         </>
     )
 }
