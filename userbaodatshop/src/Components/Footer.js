@@ -1,5 +1,6 @@
 import React from "react";
 import "../Assets/css/style.css"
+import "../Assets/css/bootstrap.min.css"
 export default function Footer()
 {
     return(
@@ -13,10 +14,10 @@ export default function Footer()
     					<div><a href="a"><img src={require('../Assets/images/footer-logo.png')} alt=""/></a></div>
     				</div>
     				<div class="col-sm-6 col-lg-2">
-    					<div class="footer-logo"><img src={require('../Assets/images/phone-icon.png')} alt=""/><span class="map_text">(71) 1234567890</span></div>
+    					<div class="footer-logo"><img src={require('../Assets/images/phone-icon.png')} alt=""/><span class="map_text">(84)<br></br> 1234567890</span></div>
     				</div>
     				<div class="col-sm-6 col-lg-3">
-    					<div class="footer-logo"><img src={require('../Assets/images/email-icon.png')} alt=""/><span class="map_text">Demo@gmail.com</span></div>
+    					<div class="footer-logo"><img src={require('../Assets/images/email-icon.png')} alt=""/><span class="map_text">pndat31052002@gmail.com</span></div>
     				</div>
     				<div class="col-sm-6 col-lg-3">
     					<div class="social_icon">
@@ -34,38 +35,36 @@ export default function Footer()
     	    <div class="footer_section_2">
 		        <div class="row">
     		        <div class="col-sm-4 col-lg-2">
-    		        	<p class="dummy_text"> ipsum dolor sit amet, consectetur ipsum dolor sit amet, consectetur  ipsum dolor sit amet,</p>
+    		        	<p class="dummy_text"> </p>
     		        </div>
     		        <div class="col-sm-4 col-lg-2">
-    		        	<h2 class="shop_text">Address </h2>
-    		        	<div class="image-icon"><img src={require("../Assets/images/map-icon.png")} alt=""/><span class="pet_text">No 40 Baria Sreet 15/2 NewYork City, NY, United States.</span></div>
+    		        	<h2 class="shop_text">Địa chỉ </h2>
+    		        	<div class="image-icon"><img src={require("../Assets/images/map-icon.png")} alt=""/><span class="pet_text">638 Lê Trọng Tấn, Bình Hưng Hòa, Bình Tân, TP.HCM</span></div>
     		        </div>
     		        <div class="col-sm-4 col-md-6 col-lg-3">
     				    <h2 class="shop_text">Our Company </h2>
     				    <div class="delivery_text">
     				    	<ul>
-    				    		<li>Delivery</li>
-    				    		<li>Legal Notice</li>
-    				    		<li>About us</li>
-    				    		<li>Secure payment</li>
-    				    		<li>Contact us</li>
+    				    		<li>Vận chuyển</li>
+    				    		<li>Thông tin cửa hàng</li>
+    				    		<li>Thanh toán an toàn</li>
+    				    		<li>Liên hệ chúng tôi</li>
     				    	</ul>
     				    </div>
     		        </div>
     			<div class="col-sm-6 col-lg-3">
-    				<h2 class="adderess_text">Products</h2>
+    				<h2 class="adderess_text">Sản phẩm</h2>
     				<div class="delivery_text">
     				    	<ul>
-    				    		<li>Prices drop</li>
-    				    		<li>New products</li>
-    				    		<li>Best sales</li>
-    				    		<li>Contact us</li>
-    				    		<li>Sitemap</li>
+    				    		<li>Giảm giá</li>
+    				    		<li>Sản phẩm mới</li>
+    				    		<li>Bán chạy nhất</li>
+    				    		<li>Sơ đồ trang web</li>
     				    	</ul>
     				    </div>
     			</div>
     			<div class="col-sm-6 col-lg-2">
-    				<h2 class="adderess_text">Newsletter</h2>
+    				<h2 class="adderess_text">Bảng tin</h2>
     				<div class="form-group">
                         <input type="text" class="enter_email" placeholder="Enter Your email" name="Name"/>
                     </div>
