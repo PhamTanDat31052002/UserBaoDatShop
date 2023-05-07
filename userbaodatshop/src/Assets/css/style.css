@@ -15,15 +15,15 @@
 
 @import url(animate.min.css);
 @import url(normalize.css);
-@import url(icomoon.css);
-@import url(css/font-awesome.min.css);
-@import url(meanmenu.css);
-@import url(owl.carousel.min.css);
-@import url(swiper.min.css);
-@import url(slick.css);
+/* @import url(icomoon.css); */
+/* @import url(css/font-awesome.min.css); */
+/* @import url(meanmenu.css);
+@import url(owl.carousel.min.css); */
+/* @import url(swiper.min.css); */
+/* @import url(slick.css);
 @import url(jquery.fancybox.min.css);
 @import url(jquery-ui.css);
-@import url(nice-select.css);
+@import url(nice-select.css); */
 
 /*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
 
@@ -449,7 +449,7 @@ body{
 .about-img2{
 	width: 100%;
 	float: left;
-	background-image: url(../images/about-img2.png);
+	background-image: url(../images/banner.png);
 	height: auto;
 	box-shadow: 0px 0px 10px 0px;
 	margin-left: -50px;
@@ -657,7 +657,7 @@ a:hover {
 .shop_banner{
 	width: 100%;
 	float: left;
-	background-image: url(../images/shop-banner.png);
+	/* background-image: url(../images/shop-banner.png); */
 	height: auto;
 	padding: 70px;
 }
