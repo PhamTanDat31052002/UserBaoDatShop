@@ -9,7 +9,7 @@ export default function HomeCRUD() {
 
 
             <div className="header_section">
-                <div classNameName="container">
+                {/* <div classNameName="container">
                     <div className="row">
                         <div className="col-sm-3">
                             <div className="logo"><a href="a"><img src={require('../Assets/images/logo.png')} alt=''/></a></div>
@@ -34,7 +34,7 @@ export default function HomeCRUD() {
                             </nav>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="banner_section">
                     <div className="container-fluid">
                         <section className="slide-wrapper">

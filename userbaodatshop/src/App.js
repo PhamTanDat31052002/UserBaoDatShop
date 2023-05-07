@@ -7,8 +7,10 @@ import Cart from './Page/Cart';
 import Checkout from './Page/Checkout';
 import Contact from './Page/Contact';
 import Product from './Page/Product';
+
 function App() {
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Home />} />
