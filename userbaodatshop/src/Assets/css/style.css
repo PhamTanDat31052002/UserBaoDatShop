@@ -802,6 +802,18 @@ a:hover {
     height: auto;
     background: #0c0116;
 }
-.itemsa{
-    color: #000;
+.parent {
+    border-radius: 5%;
+}
+
+.parent .hidden-child{
+    visibility: hidden;
+}
+
+.parent:hover .hidden-child{
+    visibility: visible;
+}
+.parent:hover .imageMax{
+    width: 120%;
+   
 }
