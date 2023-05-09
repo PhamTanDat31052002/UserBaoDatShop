@@ -25,10 +25,26 @@ export default function ProductCRUD() {
 
 	return (
 		<>
-			<div className="collection_section layout_padding">
+		<div>
+			<div>
+			<select className="selectLoc">
+						<option  value={"a"}>Lọc</option>
+						<option  value={"a"}>Giá tăng dần</option>
+						<option  value={"a"}>Giá giảm dần</option>
+						
+					</select>
+			</div>
+		<div className="ContainerProduct">
+		
+			
+			<div className="collection_section layout_padding columnPD1">
 				<div className="container">
-					<h1 className="new_text"><strong>New Arrivals Products</strong></h1>
-					<p className="consectetur_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+					<select>
+						<option className="itemSelectPD" value={"a"}>Môn thể thao</option>
+						<option className="itemSelectPD" value={"a"}>Bóng đá</option>
+						<option className="itemSelectPD" value={"a"}>Cầu lông</option>
+						<option className="itemSelectPD" value={"a"}>Bóng chuyền</option>
+					</select>
 				</div>
 			</div>
 			<div className="layout_padding gallery_section">
@@ -40,7 +56,8 @@ export default function ProductCRUD() {
 									<p className="best_text "> {dep.name} </p>
 									<div className="shoes_icon imageMax"><img src={require("../Assets/images/" + dep.image)} alt='a' /></div>
 									<div className="star_text " >
-										<div className="left_part">
+										
+										<div className="left_part ">
 											<ul>
 												<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
 												<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
@@ -49,11 +66,16 @@ export default function ProductCRUD() {
 												<li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
 											</ul>
 										</div>
-										<div className="right_part">
-											<div className="shoes_price hidden-child"><span >{dep.price}đ</span></div>
+										<div className="right_part hidden-child">
+											<div className="shoes_price "><span >{dep.price}đ</span></div>
 											
 										</div>
+										
 									</div>
+									<div className="hidden-child2">
+											<i className="fa fa-shopping-cart gioHangPD"></i>
+											<button className="btnMua">Mua ngay</button>
+										</div>
 								</div>
 							</div>
 						)}
@@ -65,6 +87,9 @@ export default function ProductCRUD() {
 					</div>
 				</div>
 			</div>
+		</div>
+		</div>
+		
 
 		</>
 	)

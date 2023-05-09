@@ -802,18 +802,87 @@ a:hover {
     height: auto;
     background: #0c0116;
 }
+ /* Các sản phẩm */
 .parent {
     border-radius: 5%;
+    position: relative;
+    overflow: hidden;
+    height: 105%;
 }
 
 .parent .hidden-child{
-    visibility: hidden;
+    position: absolute;
+    right: -100%;
+    transition: all 1s;
+}
+.hidden-child2{
+    width: 100%;
+}
+.parent .hidden-child2{
+    bottom: -100%;
+    
+    transition: all 1s;
+    position: absolute;
+    width: 100%;
+}
+.parent .hidden-child3{
+    left: -100%;
+    transition: all 1s;
+    position: absolute;
+    width: 100%;
+}
+.parent:hover .hidden-child3{
+    left: 1%;
+    
+}
+.parent:hover .hidden-child2{
+    bottom: 5%;
+    
+}
+.parent:hover{
+    opacity: 0.9;
 }
 
 .parent:hover .hidden-child{
-    visibility: visible;
+    right: 5%;
+    
 }
 .parent:hover .imageMax{
     width: 120%;
    
+}
+.ContainerProduct{
+    width: 100%;
+  
+    display: flex;
+}
+.columnPD1
+{
+    width: 20%;
+    padding: 2%;
+    display: inline;
+}
+.selectLoc
+{
+    margin: 1% 1% 1% 90%;
+    padding: 0.5%;
+    text-align: center;
+    
+}
+.gioHangPD{
+    position: absolute;
+    font-size: 55px;
+    color: red;
+    margin-left: 25%;
+ 
+
+    
+}
+.btnMua{
+
+    padding: 3%;
+    border-radius: 5%;
+    background-color: rgb(168, 41, 41);
+    margin-left: 55%;
+    margin-top: 1%;
 }
