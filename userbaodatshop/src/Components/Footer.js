@@ -11,7 +11,7 @@ export default function Footer()
     			<div class="row">
     				<div class="col-sm-6 col-lg-2">
               
-    					<div><a href="a"><img src={require('../Assets/images/footer-logo.png')} alt=""/></a></div>
+    					<div><a href="/"><img src={require('../Assets/images/footer-logo.png')} alt=""/></a></div>
     				</div>
     				<div class="col-sm-6 col-lg-2">
     					<div class="footer-logo"><img src={require('../Assets/images/phone-icon.png')} alt=""/><span class="map_text">(84)<br></br> 1234567890</span></div>
@@ -22,7 +22,7 @@ export default function Footer()
     				<div class="col-sm-6 col-lg-3">
     					<div class="social_icon">
     						<ul>
-    							<li><a href="a"><img src={require('../Assets/images/fb-icon.png')} alt="" /></a></li> 
+    							<li><a href="https://www.facebook.com/"><img src={require('../Assets/images/fb-icon.png')} alt="" /></a></li> 
     							<li><a href="a"><img src={require('../Assets/images/twitter-icon.png')} alt="" /></a></li>
     							<li><a href="a"><img src={require('../Assets/images/in-icon.png')} alt="" /></a></li>
     							<li><a href="a"><img src={require('../Assets/images/google-icon.png')} alt="" /></a></li>

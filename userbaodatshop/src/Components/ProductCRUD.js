@@ -1,6 +1,6 @@
 import React from "react";
 import { variable } from "../Variable"
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import "../Assets/css/style.css"
@@ -14,7 +14,7 @@ export default function ProductCRUD() {
 			.then(response => response.json())
 			.then(data => setRecord(data)).catch(err => console.log(err))
 	}, [id])
-
+	
 	const [currentPage, setcurrenPage] = useState(1);
 	const recordsPerPage = 5;
 	const lastIndex = currentPage * recordsPerPage;
@@ -53,8 +53,9 @@ export default function ProductCRUD() {
 						{a.map(dep =>
 							<div className="col-sm-4  ">
 								<div className="best_shoes parent ">
-									<p className="best_text "> {dep.name} </p>
-									<div className="shoes_icon imageMax"><img src={require("../Assets/images/" + dep.image)} alt='a' /></div>
+									<p className="best_text "><a href="a">{dep.name}</a>  </p>
+									<NavLink to="/detail" state={dep.id}>áccc</NavLink>
+									<div className="shoes_icon imageMax"><a href="a"><img src={require("../Assets/images/" + dep.image)} alt='a' /></a></div>
 									<div className="star_text " >
 										
 										<div className="left_part ">
