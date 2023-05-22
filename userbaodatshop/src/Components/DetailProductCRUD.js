@@ -13,39 +13,33 @@ export default function DetailProductCRUD(props) {
     useEffect(() => {
         fetch(variable.API_URL + "Products/GetProductById/" + id)
             .then(response => response.json())
-            .then(data => setRecords(data)).catch(err => console.log(err))
+            .then(data => { setRecords(data) }
+            ).catch(err => console.log(err))
     }, [id]);
-    const isEmpty = (v) => {
-        return Object.keys(v).length === 0;
-      };
+
+
+    console.log(records.image);
     return (
-        
+
         <>
-        <p>{records.image}</p>
+
             <div className="containerDT">
                 <div className="columnDT1">
                     <div className="cntimgDT">
-                        if({records.image}.length!=0)
-                        {
-                               <img className="imgDT" src={require("../Assets/images/"+records.image)} alt="sp" />
-                        }
-                        else{
-                             <img className="imgDT" src={require("../Assets/images/AoMC2023.png")} alt="sp" />
-                        }
-                     
+                        {/* <img className="imgDT" src={require("../Assets/images/"+records.image)} alt="sp" /> */}
                     </div>
                 </div>
                 <div className="columnDT2">
                     <div>
                         <p className="tieudeDT" >{records.name}</p>
                         <p className="phudeDT">Chất liệu:</p>
-                        <p className="phudeDT">Loại:</p>
-                        <p className="phudeDT">Mã số:</p>
+                        <p className="phudeDT">Loại: </p>
+                        <p className="phudeDT">Mã số: {records.sku}</p>
                     </div>
                     <div>
-                        <p className="giaDT" >Giá gốc:  <span className="soGiaGocDT">12312</span>Đ </p>
+                        <p className="giaDT" >Giá gốc:  <span className="soGiaGocDT">{records.price}</span>Đ </p>
 
-                        <p className="giaDT">Giá Sale:1232131 Đ</p>
+                        <p className="giaDT">Giá Sale: {records.price} Đ</p>
                         <p>Tiết kiệm: 1312Đ</p>
                     </div>
                 </div>
@@ -55,5 +49,5 @@ export default function DetailProductCRUD(props) {
             </div>
         </>
     )
-  
+
 }
