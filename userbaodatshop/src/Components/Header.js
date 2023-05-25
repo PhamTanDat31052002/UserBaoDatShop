@@ -40,6 +40,7 @@ export default function Header() {
                                                 <NavLink onClick={() => {
                                                     localStorage.clear()
                                                     window.location.reload(false);
+                                                    
                                                 }} className="far fa-user-circle nav-item nav-link itemTask2"
                                                     style={{ fontSize: "32px" }}></NavLink>
                                             }

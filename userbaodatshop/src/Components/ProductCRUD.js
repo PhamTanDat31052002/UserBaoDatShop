@@ -10,7 +10,9 @@ export default function ProductCRUD() {
 	var id = location.state;
 	var [records, setRecord] = useState([]);
 	var [ProductType, setProductType] = useState([]);
-
+	const [selectedType, setSelectedType] = useState('Tất cả');
+	const [filteredProducts, setFilteredProducts] = useState([]);
+	
 	useEffect(() => {
 		fetch(variable.API_URL + "Products/GetAllProduct")
 			.then(response => response.json())
@@ -22,7 +24,28 @@ export default function ProductCRUD() {
 			.then(response => response.json())
 			.then(data => setProductType(data)).catch(err => console.log(err))
 	}, [id]);
+	// Filter
+	
+	useEffect(() => {
+		if(selectedType === "")
+		{
+			setFilteredProducts(records);
+		}
+		if (selectedType === 'Tất cả') {
+			setFilteredProducts(records);
+		} else {
+			const filtered = records.filter(pr => pr.productTypeId === selectedType);
+			setFilteredProducts(filtered);
+		
+		}
+		console.log(selectedType)
+		
+	
+	}, [selectedType]);
 
+	const handleFilterByType = (productTypeId) => {
+		setSelectedType(productTypeId);
+	};
 	// chuyển trang
 	const [currentPage, setcurrenPage] = useState(1);
 	const recordsPerPage = 5;
@@ -31,8 +54,8 @@ export default function ProductCRUD() {
 	const a = records.slice(firstIndex, lastIndex);
 	const npage = Math.ceil(records.length / recordsPerPage)
 	const numbers = Array.from({ length: npage }, (_, i) => i + 1)
-console.log(records)
-console.log(ProductType)
+	
+	
 	return (
 		<>
 
@@ -47,27 +70,30 @@ console.log(ProductType)
 				</div>
 				<div className="ContainerProduct">
 
-
+				
 					<div className="collection_section layout_padding columnPD1">
-						<div className="container">
-							<select>
-							{
-								ProductType.map(a=>
-									<option className="itemSelectPD" value={"da"}>{a.name}</option>	
-									)
-							}
+						<div className="container ">
+						
+							<select  value={selectedType} onChange={(e) => handleFilterByType(e.target.value)}>
+								<option value="Tất cả">Tất cả</option>
 								
-					
+								{
+									ProductType.map(a =>
+										<option className="itemSelectPD" value={a.id}>{a.name}</option>
+									)
+								}
 							</select>
 							
+						
 						</div>
+						
 					</div>
+					
 					<div className="layout_padding gallery_section">
 						<div className="container">
 							<div className="row">
-								{a.map(dep =>
+								{filteredProducts.map(dep =>
 									<div className="col-sm-3 itemPR ">
-
 										<div className="best_shoes parent ">
 
 											<NavLink to="/detail" state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>

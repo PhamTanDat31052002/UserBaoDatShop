@@ -34,7 +34,7 @@ const Auth = () => {
 			.then(result => {
 				if (result == "Failed") alert("Failed");
 				if (result != "Failed") {
-					setToken(result);
+					setToken(result);//api tra ve token       name id
 					window.location.reload(false);
 				}
 
