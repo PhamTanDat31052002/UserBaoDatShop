@@ -63,7 +63,7 @@ const Auth = () => {
 													<div className="section text-center">
 														<h4 className="mb-4 pb-3">Đăng nhập</h4>
 														<div className="form-group">
-															<input type="email" className="form-style" placeholder="Email" onChange={(e) => ChangeName(e.target.value)} />
+															<input type="email" className="form-style" placeholder="Tên đăng nhập" onChange={(e) => ChangeName(e.target.value)} />
 															<i className="input-icon uil uil-at"></i>
 														</div>
 														<div className="form-group mt-2">

@@ -83,12 +83,8 @@ export default function ProductCRUD() {
 									)
 								}
 							</select>
-							
-						
-						</div>
-						
-					</div>
-					
+						</div>	
+					</div>		
 					<div className="layout_padding gallery_section">
 						<div className="container">
 							<div className="row">

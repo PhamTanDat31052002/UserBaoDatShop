@@ -977,3 +977,43 @@ body{
 
 
 
+/* icon user */
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-left: 22%;
+    margin-bottom: 0%;
+  }
+  
+  .select-trigger {
+ 
+ 
+    cursor: pointer;
+  }
+  
+  .select-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    list-style: none;
+  }
+  
+  .select-trigger:hover + .select-dropdown,
+  .select-dropdown:hover {
+    display: block;
+  }
+  
+  .select-dropdown li {
+    padding: 5px;
+  }
+  
+  .select-dropdown li:hover {
+    background-color: #ccc;
+  }
+  

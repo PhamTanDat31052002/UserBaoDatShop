@@ -11,7 +11,6 @@ export default function Header() {
     var a = 1;
     return (
         <>
-
             <div class="header_section header_main">
                 <div class="headerlink">
                     <div class="row">
@@ -28,21 +27,33 @@ export default function Header() {
                                         <div className="itemHeader1">
                                             <NavLink to="/" className="nav-item nav-link itemTask1" >Trang chủ</NavLink>
                                             <NavLink to="/product" className="nav-item nav-link itemTask1" >Sản phẩm</NavLink>
+                                            
+                                                    
                                         </div>
                                         <div className="itemHeader2">
+                                            
                                             {/* <a className="nav-item nav-link last" href="s"><img src={require('../Assets/images/search_icon.png')} alt=''/></a> */}
-                                            <NavLink to="/cart" className="fa fa-shopping-bag nav-item nav-link itemTask2" style={{ fontSize: "32px" }}></NavLink>
+                                            <NavLink to="/cart" className="fa fa-shopping-bag nav-item nav-link itemTask2" style={{ fontSize: "32px" }}>GH</NavLink>
                                             {/* <NavLink to="/cart" className="nav-item nav-link itemTask2" ><img src={require('../Assets/images/shop_icon.png')} alt=''/></NavLink> */}
                                             {token == null ?// eslint-disable-next-line
                                                 <NavLink to="/login" className="far fa-user-circle nav-item nav-link itemTask2"
-                                                    style={{ fontSize: "32px" }}></NavLink> :
+                                                    style={{ fontSize: "32px" }}>ĐN</NavLink> :
+                                                <div className="select-wrapper">
+                                                    <div className="select-trigger">
+                                                    <NavLink to="/a" className="far fa-user-circle nav-item nav-link itemTask2"
+                                                    style={{ fontSize: "32px" }}>a</NavLink>
+                                                    </div>
+                                                    <ul className="select-dropdown">
+                                                        <li> <NavLink onClick={() => {
+                                                            localStorage.clear()
+                                                            window.location.reload(false);
 
-                                                <NavLink onClick={() => {
-                                                    localStorage.clear()
-                                                    window.location.reload(false);
-                                                    
-                                                }} className="far fa-user-circle nav-item nav-link itemTask2"
-                                                    style={{ fontSize: "32px" }}></NavLink>
+                                                        }}
+                                                            style={{ fontSize: "15px" }}> Đăng xuất</NavLink></li>
+                                                    </ul>
+
+                                                </div>
+
                                             }
                                         </div>
                                     </div>
