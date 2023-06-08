@@ -15,10 +15,13 @@
 .columnDT2{
     width: 40%;
     background-color: white;
+    border-right: 1px solid ;
 }
 .columnDT3{
     width: 25%;
     background-color: white;
+   
+    margin-left: 2%;
 }
 .imgDT{
     width: 80%;
@@ -60,3 +63,127 @@
     text-align: left;
     font-size: 30px;
 }
+
+
+/* Button thêm giỏ hàng */
+
+
+   .comic-button {
+    display: inline-block;
+    margin-left: 2%;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #ee5959;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px #000;
+    transition: all 0.3s ease;
+  }
+  
+  .comic-button:hover {
+    background-color: #fff;
+    color: #ff5252;
+    border: 2px solid #ff5252;
+    box-shadow: 5px 5px 0px #ff5252;
+  }
+  
+  .comic-button:active {
+    background-color: #fcf414;
+    box-shadow: none;
+    transform: translateY(4px);
+  }
+
+  .congTru{
+    width: 6%;
+    height: 35px;
+    margin: 1%;
+    border: 1px solid black;
+    background-color: white;
+    text-align: center;
+  }
+  .textCongTru{
+    border: none;
+    font-size: 32px;
+    width: 10%;
+    text-align: center;
+
+  }
+  .divcongtru{
+    margin-left: 2%
+  }
+  .kichThuoc{
+    margin-left: 3%;
+  }
+
+
+  /* button mua ngay details */
+ .muaNgayDT{
+    margin: 3%;
+    width: 90%;
+    height: 40px;
+    background-color: #1f1919;
+    color: white;
+    font-weight: bold;
+   
+ }
+.muaNgayDT:visited {
+ text-transform: uppercase;
+ text-decoration: none;
+ color: rgb(27, 27, 27);
+ padding: 10px 30px;
+ display: inline-block;
+ transition: all .2s;
+ position: relative;
+
+}
+
+.muaNgayDT:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
+}
+
+.btmuaNgayDTn:active {
+ transform: translateY(-3px);
+}
+
+.muaNgayDT::after {
+ 
+ display: inline-block;
+ height: 100%;
+ width: 100%;
+ 
+ top: 0;
+ left: 0;
+ position: absolute;
+ z-index: -1;
+ transition: all .3s;
+}
+
+.muaNgayDT:hover::after {
+ background-color: rgb(0, 238, 255);
+ transform: scaleX(1.4) scaleY(1.5);
+ opacity: 0;
+}
+
+.ChiCoTai{
+    border: 1px solid;
+    padding: 3%;
+    margin: 3%;
+    width: 90%;
+}
+
+/* ảnh phụ */
+.gallery {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .main-image {
+    max-width: 100%;
+    height: auto;
+  }
