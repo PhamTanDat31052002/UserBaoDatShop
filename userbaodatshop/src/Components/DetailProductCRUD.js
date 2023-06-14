@@ -17,6 +17,10 @@ export default function Product2() {
     const [number, setNumber] = useState(1);
     var [records, setRecords] = useState()
     var [sizePr,setSizePr]=useState();
+    const [itemSize, setItemSize] = useState('');
+    const itemSizeClick = (event) => {
+        setItemSize(event.target.value);
+      };
     // const alertWithoutButtons = () => {
     //     const title = 'Thêm giỏ hàng thành công';
     //     const message = 'Successful, letting you in...';
@@ -137,12 +141,16 @@ export default function Product2() {
                                     <p>Tiết kiệm: 1312Đ</p>
                                 </div>
                                  <div className='kichThuoc'>
-                                            <span>Kích thước:</span>
+                                            <span style={{marginTop:"1%"}}>Kích thước:</span>
                                   {  sizePr != null ?
                                         sizePr.map(e => 
-                                        <span>{e.name}</span>
-
+                                     
+                                       <div className='itemSizeDT'>
+                                            <input  type="radio" name={e.productId} id={e.name} value={e.name} onChange={itemSizeClick} />
+                                            <label className="itemRadioDT" for={e.name}>{e.name}</label>
+                                       </div>
                                         ): null}
+                                      
                                         </div>
                                 
                                
@@ -157,7 +165,7 @@ export default function Product2() {
 
                                     <button className='congTru' onClick={congThem1}>+</button>
 
-                                    <  button className="comic-button" onClick={() => AddCart(records)}>Thêm vào giỏ </button>
+                                    <  button disabled={!itemSize} className="comic-button" onClick={() => AddCart(records)}>Thêm vào giỏ </button>
                                 </div>
 
                                 <div>

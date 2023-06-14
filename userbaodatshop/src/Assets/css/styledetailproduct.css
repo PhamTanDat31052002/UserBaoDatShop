@@ -115,9 +115,7 @@
   .divcongtru{
     margin-left: 2%
   }
-  .kichThuoc{
-    margin-left: 3%;
-  }
+ 
 
 
   /* button mua ngay details */
@@ -202,4 +200,30 @@
 
   .zoomed {
     transform: scale(2); /* Phóng to hình ảnh */
+  }
+  /* size */
+  input[type="radio"] {
+    display: none;
+  }
+  input[type="radio"]:checked + label {
+    background-color: black; /* Màu nền khi chọn */
+    color: #fff; /* Màu chữ khi chọn */
+
+  }
+  .kichThuoc{
+    margin-left: 3%;
+    width: 100%;
+    display: flex;
+  }
+  .itemSizeDT{
+    text-align: center;
+    margin: 0% 1%;
+    border: 1px solid;
+    width: 10%;
+  }
+  .itemRadioDT{
+    /* padding-left: 20%; */
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
   }
