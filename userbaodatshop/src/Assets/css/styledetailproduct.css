@@ -23,12 +23,12 @@
    
     margin-left: 2%;
 }
-.imgDT{
+#imgDT{
     width: 80%;
     margin-left: 9%;
 }
-.imgDT:hover{
-    width: 100%;
+#imgDT:hover{
+    width: 120%;
     margin-left: 0%;
 }
 .tieudeDT{
@@ -146,7 +146,7 @@
  box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
 }
 
-.btmuaNgayDTn:active {
+.muaNgayDT:active {
  transform: translateY(-3px);
 }
 
@@ -183,7 +183,23 @@
     text-align: center;
   }
   
-  .main-image {
-    max-width: 100%;
-    height: auto;
+  /* zoom ảnh */
+  .maxImgDT{
+    position: relative;
+    width: 400px; /* Đặt kích thước container */
+    height: 400px;
+    overflow: hidden;
+    
+  }
+  #imgDT {
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 100%; /* 100% kích thước ban đầu */
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .zoomed {
+    transform: scale(2); /* Phóng to hình ảnh */
   }

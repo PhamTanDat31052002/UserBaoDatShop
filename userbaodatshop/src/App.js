@@ -9,19 +9,24 @@ import Contact from './Page/Contact';
 import Product from './Page/Product';
 import DetailProduct from './Page/DetailProduct';
 import Login from './Page/Login';
+import IFAccount from './Page/IFAccount';
 
 function App() {
+
+
+  
   return (
-    
+
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route path="/cart" exact element={<Cart/>} />
-        <Route path='/checkout' exact element={<Checkout/>}/>
-        <Route path='/contact' exact element={<Contact/>}/>
-        <Route path='/product' exact element={<Product/>}/>
-        <Route path='/detail'exact element={<DetailProduct/>}/>
-        <Route path='/login' exact element={<Login/>}/>
+        <Route path="/cart" exact element={<Cart />} />
+        <Route path='/checkout' exact element={<Checkout />} />
+        <Route path='/contact' exact element={<Contact />} />
+        <Route path='/product' exact element={<Product />} />
+        <Route path='/detail' exact element={<DetailProduct />} />
+        <Route path='/login' exact element={<Login />} />
+        <Route path='/account' exact element={<IFAccount/>}/>
       </Routes>
     </BrowserRouter>
 

@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react'
 import { variable } from "../Variable"
 import "../Assets/css/styleLogin.css"
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 const Auth = () => {
 	const [username, setusername] = useState("")
-	function setToken(userToken) {
-		localStorage.setItem('token', JSON.stringify(userToken));
-	}
+	const history = useNavigate();
+
 	const [password, setpassword] = useState("")
 	const ChangeName = (value) => {
 		setusername(value)
@@ -15,6 +15,15 @@ const Auth = () => {
 	const ChangePass = (value) => {
 		setpassword(value)
 	}
+	function setToken(userToken) {
+        const now = new Date()
+        const item = {
+            value: userToken,
+            expiry: now.getDate() + 7,
+        }
+
+        localStorage.setItem('token', JSON.stringify(item));
+    }
 	const Login = () => {
 
 		if (username == "") return alert("Nhập Username");
@@ -33,10 +42,10 @@ const Auth = () => {
 		}).then(res => res.json())
 			.then(result => {
 				if (result == "Failed") alert("Failed");
-				if (result != "Failed") {
-					setToken(result);//api tra ve token       name id
+                if (result != "Failed") {
+                    setToken(result);
 					window.location.reload(false);
-				}
+                }
 
 			}, (error) => {
 				alert("Failed");

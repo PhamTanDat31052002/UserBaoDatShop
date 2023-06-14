@@ -4,11 +4,12 @@ import { variable } from "../Variable"
 import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+
+import Dropdown from 'react-dropdown-select';
 import "../Assets/css/style.css"
 
 export default function ProductCRUD() {
-	var location = useLocation();
-	var id = location.state;
+	
 	var [records, setRecord] = useState([]);
 	var [ProductType, setProductType] = useState([]);
 	const [selectedType, setSelectedType] = useState('Tất cả');
@@ -18,19 +19,33 @@ export default function ProductCRUD() {
 		fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
 			.then(response => response.json())
 			.then(data => setRecord(data)).catch(err => console.log(err))
-	}, [id])
-
+	}, [])
+	
 	useEffect(() => {
 		fetch(variable.API_URL + "ProductTypes/GetAllProductTypeStatusTrue")
 			.then(response => response.json())
 			.then(data => setProductType(data)).catch(err => console.log(err))
-	}, [id]);
+	}, []);
 
 
 
 	const handleFilterByType = (productTypeId) => {
 		setSelectedType(productTypeId);
 	};
+	
+	const ChangeFilter = (productTypeId) => {
+		
+		if(productTypeId==="0") 
+		{ fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
+		.then(response => response.json())
+		.then(data => setRecord(data)).catch(err => console.log(err))
+		}else{
+		fetch(variable.API_URL + "Products/GetAllProductInProductType/"+productTypeId)
+		.then(response => response.json())
+		.then(data => setRecord(data)).catch(err => console.log(err))}
+	};
+
+	
 	// chuyển trang
 	const [currentPage, setcurrenPage] = useState(1);
 	const recordsPerPage = 12;
@@ -52,18 +67,27 @@ export default function ProductCRUD() {
 			setcurrenPage(currentPage - 1)
 		}
 	});
-
-
-
+	const FilterPrice = (productTypeId) => {
+	
+	};
+	//custom select
+	const options = [
+		{ value: 'Option 1', label: 'Option 1' },
+		{ value: 'Option 2', label: 'Option 2' },
+		{ value: 'Option 3', label: 'Option 3' },
+	  ];
 	return (
 		<>
+		  {/* <div className="custom-select">
+      <Dropdown options={options} />
+    </div> */}
+
 
 			<div>
 				<div>
-					<select className="selectLoc">
-						<option value={"a"}>Lọc</option>
-						<option value={"a"}>Giá tăng dần</option>
-						<option value={"a"}>Giá giảm dần</option>
+					<select className="selectLoc" onChange={(e) => FilterPrice(e.target.value)}>
+						<option value={"1"}>Giá tăng dần</option>
+						<option value={"0"}>Giá giảm dần</option>
 
 					</select>
 				</div>
@@ -73,30 +97,35 @@ export default function ProductCRUD() {
 					<div className="collection_section layout_padding columnPD1">
 						<div className="container ">
 
-							<select value={selectedType} onChange={(e) => handleFilterByType(e.target.value)}>
-								<option value="Tất cả">Tất cả</option>
-
-								{
-									ProductType.map(a =>
-										<option className="itemSelectPD" value={a.id}>{a.name}</option>
+							<select value={selectedType} onChange={(e) => ChangeFilter(e.target.value)}>
+								
+							<option value="0" hidden>Tất cả</option>
+								
+									<option value="0">Tất cả</option>
+									{
+										ProductType.map(a =>
+										<>
+											<option className="itemSelectPD" value={a.id}>{a.name}</option>
+										</>
+										
 									)
 								}
+								
 							</select>
 						</div>
+					
+					
 					</div>
 					<div className="layout_padding gallery_section">
 						<div className="container">
 							<div className="row">
-								{a.filter((item) => {
-
-									return selectedType === "Tất cả"
-										? item : item.productTypeId.toString().includes(selectedType)
-								})
-									.map(dep =>
+								{
+								a.map(dep =>
 										<div className="col-sm-3 itemPR ">
 											<div className="best_shoes parent ">
 
 												<NavLink to="/detail"  state={ dep.id }><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
+											
 												<NavLink to="/detail" state={ dep.id }><div className="shoes_icon "><a href="a"><img src={require("../Assets/images/" + dep.image)} alt='a' /></a></div></NavLink>
 
 												<div className="star_text " >
