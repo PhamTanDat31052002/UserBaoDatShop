@@ -12,8 +12,8 @@ export default function CartCRUD() {
     var [records, setRecords] = useState();
     var [productItem, setProductItem] = useState([]);
     var [total, settotal] = useState(0);
-
-
+    var [productid, setProductid] = useState(0);
+    var [Size, setSize] = useState(1);
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -21,7 +21,7 @@ export default function CartCRUD() {
     })
     var [count, setcount] = useState(0);
     useEffect(() => {
-   
+
         const token = getToken();
         fetch(variable.API_URL + "Carts/GetAllCart", {
             method: "GET",
@@ -39,6 +39,12 @@ export default function CartCRUD() {
             .then(result => {
                 setProductItem(result)
             }).catch(err => console.log(err))
+        //
+        fetch(variable.API_URL + "ProductSizes/GetAllProductSizeStatusTrue")
+            .then(respone => respone.json())
+            .then(result => {
+                setSize(result)
+            }).catch(err => console.log(err))
         // toatl
         fetch(variable.API_URL + "Carts/GetAllTotal", {
             method: "GET",
@@ -52,90 +58,105 @@ export default function CartCRUD() {
             .then(data => settotal(data)).catch(err => console.log(err))
 
     }, [count])
-    const DeleteCartById=((id)=>{
+    const DeleteCartById = ((id) => {
         const token = getToken();
-        fetch(variable.API_URL+"Carts/DeleteCart/" +id ,{
-           method: "DELETE",
+        fetch(variable.API_URL + "Carts/DeleteCart/" + id, {
+            method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 'Authorization': `Bearer ${token.value}`,
             }
         }).then(response => response.json())
-        .then(result => {
-       
-        //    if(result=="Thành công")
-        //    {
-            setcount(count+1)
-         //  }
-        //    window.location.reload();
-        })
-        
+            .then(result => {
+
+                //    if(result=="Thành công")
+                //    {
+                setcount(count + 1)
+                //  }
+                //    window.location.reload();
+            })
+
+    })
+    const VND = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+      });
+    const UpdateCartAdd = ((id) => {
+        const token = getToken();
+        fetch(variable.API_URL + "Carts/UpdateCart+1/" + id, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            }
+        }).then(response => response.json())
+            .then(result => {
+
+                // if(result=="Thành công")
+                // {
+                setcount(count + 1)
+                //  }
+                //    window.location.reload();
+            })
+    })
+    const UpdateCartMinus = ((id) => {
+        const token = getToken();
+        fetch(variable.API_URL + "Carts/UpdateCart-1/" + id, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            }
+        }).then(response => response.json())
+            .then(result => {
+
+                // if(result=="Thành công")
+                // {
+                setcount(count + 1)
+                //  }
+                //    window.location.reload();
+            })
     })
 
-    const UpdateCartAdd=((id)=>{
-        const token=getToken();
-        fetch(variable.API_URL+"Carts/UpdateCart+1/" +id,{
-            method:"PUT",
-            headers:{
-                'Content-Type':'application/json',
-                Accept:'application/json',
-                'Authorization': `Bearer ${token.value}`
-            }
-        }).then(response => response.json())
-        .then(result => {
-           
-            // if(result=="Thành công")
-            // {
-             setcount(count+1)
-          //  }
-         //    window.location.reload();
-         })
-    })
-    const UpdateCartMinus=((id)=>{
-        const token=getToken();
-        fetch(variable.API_URL+"Carts/UpdateCart-1/" +id,{
-            method:"PUT",
-            headers:{
-                'Content-Type':'application/json',
-                Accept:'application/json',
-                'Authorization': `Bearer ${token.value}`
-            }
-        }).then(response => response.json())
-        .then(result => {
-       
-            // if(result=="Thành công")
-            // {
-             setcount(count+1)
-          //  }
-         //    window.location.reload();
-         })
+
+
+    const DeleteAllCart = (() => {
+        const token = getToken();
+        if (window.confirm('Are you sure?')) {
+
+
+            fetch(variable.API_URL + "Carts/DeleteAllCart", {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization': `Bearer ${token.value}`
+                }
+            }).then(response => response.json())
+                .then(result => {
+
+                    // if(result=="Thành công")
+                    // {
+                    setcount(count + 1)
+                    // }
+                    //    window.location.reload();
+                })
+        }
     })
    
-    const DeleteAllCart=(()=>{
-        const token=getToken();
-        if (window.confirm('Are you sure?')) {
-        
-      
-        fetch(variable.API_URL+ "Carts/DeleteAllCart",{
-            method:"DELETE",
-            headers:{
-                'Content-Type':'application/json',
-                Accept:'application/json',
-                'Authorization': `Bearer ${token.value}`
-            }
-        }).then(response => response.json())
-        .then(result => {
-       
-            // if(result=="Thành công")
-            // {
-             setcount(count+1)
-           // }
-         //    window.location.reload();
-         })  }
+    const productId = ((id) => {
+       var data;
+        fetch(variable.API_URL + "ProductSizes/GetProductIdByProductSize/" + id)
+            .then(respone => respone.json())
+            .then(result => {
+                data=result
+                setProductid(result)
+            }).catch(err => console.log(err))
+            return {data}
     })
-
-
     return (
         <>
 
@@ -152,62 +173,74 @@ export default function CartCRUD() {
                     {
                         records != null ?
                             records.map(dep =>
-                                productItem.filter((item) => {
-                                    return item.id == dep.productId ?
-                                        item
-                                        : null
-                                })
-                                    .map(data =>
-                                        <div className='ctnDetailCart'>
-
-
-                                            <div className='itemDetailCart1'>
-                                                <button onClick={()=> DeleteCartById(dep.cartId) } class="fas fa-times"></button>
-
-                                            </div>
-                                            <div className='itemDetailCart2'>
-                                                <div className="imgItemDetailCart2">
-                                                    <div className='itemIMG'>
-                                                        <img src={require('../Assets/images/' + data.image
-                                                        )} alt='sp' ></img>
+                            
+                             
+                                    productItem.filter((item) => {
+                                        productId(dep.productSizeId)
+                                        return item.id == productid ?
+                                            item
+                                            : null
+                                    })
+                                        .map(data =>
+                                            <div className='ctnDetailCart'>
+    
+    
+                                                <div className='itemDetailCart1'>
+                                                    <button onClick={() => DeleteCartById(dep.cartId)} class="fas fa-times"></button>
+    
+                                                </div>
+                                                <div className='itemDetailCart2'>
+                                                    <div className="imgItemDetailCart2">
+                                                        <div className='itemIMG'>
+                                                            <img src={require('../Assets/images/' + data.image
+                                                            )} alt='sp' ></img>
+                                                        </div>
+    
                                                     </div>
-
+                                                    <div className='textItemDetailCart2'>
+                                                        <p>{data.name} </p>
+                                                        <p>Mã:{data.sku}
+                                                        </p>
+    
+                                                        {
+                                                            Size.map(ab =>
+                                                                ab.id == dep.productSizeId ?
+                                                                    <p>Size:{ab.name} </p>
+                                                                    : null
+                                                            )
+                                                        }
+                                                    </div>
                                                 </div>
-                                                <div className='textItemDetailCart2'>
-                                                    <p>{data.name} </p>
-                                                    <p>Mã:{data.sku}
-                                                    </p>
-                                                    <p>Size: {data.productId}</p>
+                                                <div className='itemDetailCart3'>
+                                                    <p style={{ marginTop: "2%" }}>{data.price}đ </p>
                                                 </div>
-                                            </div>
-                                            <div className='itemDetailCart3'>
-                                                <p  style={{ marginTop: "2%" }}>{data.price}đ </p>
-                                            </div>
-                                            <div className='itemDetailCart3'>
-                                                <div className='divcongtruCart'>
-
-                                                    <button className='congTruCart' onClick={()=>{
-                                                           if(dep.quantity>=2)
-                                                           {
-                                                             
-                                                               UpdateCartMinus(dep.cartId)
-                                                           }
-                                                           else{
-                                                            DeleteCartById(dep.cartId)
-                                                           }
-                                                    }}>-</button>
-
-                                                    <input type="text" className='textCongTruCart' value={dep.quantity}></input>
-
-                                                    <button className='congTruCart' onClick={()=>UpdateCartAdd(dep.cartId)}>+</button>
-
+                                                <div className='itemDetailCart3'>
+                                                    <div className='divcongtruCart'>
+    
+                                                        <button className='congTruCart' onClick={() => {
+                                                            if (dep.quantity >= 2) {
+    
+                                                                UpdateCartMinus(dep.cartId)
+                                                            }
+                                                            else {
+                                                                DeleteCartById(dep.cartId)
+                                                            }
+                                                        }}>-</button>
+    
+                                                        <input type="text" className='textCongTruCart' value={dep.quantity}></input>
+    
+                                                        <button className='congTruCart' onClick={() => UpdateCartAdd(dep.cartId)}>+</button>
+    
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className='itemDetailCart4'>
-                                                {dep.quantity * data.price}đ
-                                            </div>
-
-                                        </div>)
+                                                <div className='itemDetailCart4'>
+                                                   
+                                                    {VND.format(dep.quantity * data.price)} 
+                                                </div>
+    
+                                            </div>)
+                                
+                                          
                             )
                             : null
 
@@ -215,9 +248,9 @@ export default function CartCRUD() {
 
                     <div className='cnttiepTucMuaSam'>
                         <NavLink className="tiepTucMuaSam" to={"/product"} ><i class="fas fa-chevron-left"></i> Tiếp tục mua sắm</NavLink>
-                        <button className='deleteAllCart'  onClick={()=>DeleteAllCart()}>Xóa toàn bộ giỏ hàng</button>
+                        <button className='deleteAllCart' onClick={() => DeleteAllCart()}>Xóa toàn bộ giỏ hàng</button>
                     </div>
-                 
+
                 </div>
                 <div className='itemCart2'>
                     <div className='thanhTienCart'>
@@ -226,9 +259,9 @@ export default function CartCRUD() {
                         </div>
                         <div className='itemThanhTienCart2'>
                             <span >
-                                {
-                                    total + "VNĐ"
-                                }
+                                
+                                      {VND.format(total)} 
+                                
                             </span>
                         </div>
 

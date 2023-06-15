@@ -16,11 +16,11 @@ export default function Product2() {
     var id = location.state;
     const [number, setNumber] = useState(1);
     var [records, setRecords] = useState()
-    var [sizePr,setSizePr]=useState();
+    var [sizePr, setSizePr] = useState();
     const [itemSize, setItemSize] = useState('');
     const itemSizeClick = (event) => {
         setItemSize(event.target.value);
-      };
+    };
     // const alertWithoutButtons = () => {
     //     const title = 'Thêm giỏ hàng thành công';
     //     const message = 'Successful, letting you in...';
@@ -28,7 +28,7 @@ export default function Product2() {
     //     const alertOptions = {
     //       cancelable: true,
     //     };
-    
+
     //     alert(title);
     //   };
 
@@ -45,9 +45,12 @@ export default function Product2() {
         fetch(variable.API_URL + "Products/GetProductById/" + id)
             .then(response => response.json())
             .then(data => setRecords(data)).catch(err => console.log(err))
-         fetch(variable.API_URL + "ProductSizes/GetProductSizeById/" + id)
+
+        fetch(variable.API_URL + "ProductSizes/GetProductSizeByProductId/" + id)
             .then(response => response.json())
             .then(data => setSizePr(data)).catch(err => console.log(err))
+
+        
     }, [id])
 
     const truDi1 = () => {
@@ -60,7 +63,9 @@ export default function Product2() {
     }
 
     const AddCart = (data) => {
-         const token = getToken();
+        if(itemSize=="")
+        return alert("Chọn size đi")
+        const token = getToken();
 
         fetch(variable.API_URL + "Carts/CreateCart", {
             method: "POST",
@@ -70,13 +75,16 @@ export default function Product2() {
                 'Authorization': `Bearer ${token.value}`
             },
             body: JSON.stringify({
-                productId: data.id,
+                productSizeId: itemSize,
                 quantity: number,
             })
         })
             .then(response => response.json())
             .then(result => {
+                if(result=="Thành công")
                 alert("Thêm giỏ hàng thành công!")
+            }, (error) => {
+                console.log(error);
             })
     }
     return (
@@ -130,8 +138,8 @@ export default function Product2() {
                             <div className="columnDT2">
                                 <div>
                                     <p className="tieudeDT" >{records.name}</p>
-                                    <p className="phudeDT">Chất liệu:</p>
-                                    <p className="phudeDT">Loại: </p>
+                                    {/* <p className="phudeDT">Chất liệu:</p>
+                                    <p className="phudeDT">Loại: </p> */}
                                     <p className="phudeDT">Mã số: {records.sku}</p>
                                 </div>
                                 <div>
@@ -140,20 +148,24 @@ export default function Product2() {
                                     <p className="giaDT">Giá Sale: {records.price} Đ</p>
                                     <p>Tiết kiệm: 1312Đ</p>
                                 </div>
-                                 <div className='kichThuoc'>
-                                            <span style={{marginTop:"1%"}}>Kích thước:</span>
-                                  {  sizePr != null ?
-                                        sizePr.map(e => 
-                                     
-                                       <div className='itemSizeDT'>
-                                            <input  type="radio" name={e.productId} id={e.name} value={e.name} onChange={itemSizeClick} />
-                                            <label className="itemRadioDT" for={e.name}>{e.name}</label>
-                                       </div>
-                                        ): null}
-                                      
-                                        </div>
-                                
-                               
+                                <div className='kichThuoc'>
+                                    <span style={{ marginTop: "1%" }}>Kích thước:</span>
+                                    {sizePr != null ?
+                                        sizePr.map(e =>
+                                            e.stock != 0 ?
+                                                <div className='itemSizeDT'>
+                                                    <input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} />
+                                                    <label className="itemRadioDT" for={e.name}>{e.name}</label>
+                                                </div>
+                                                : <div className='itemSizeDT'>
+                                              
+                                                <label className="itemRadioDT" for={e.name}>{e.name}</label>
+                                            </div>
+                                        ) : null}
+
+                                </div>
+
+
                                 <div className='divcongtru'>
 
                                     <div>
@@ -165,9 +177,9 @@ export default function Product2() {
 
                                     <button className='congTru' onClick={congThem1}>+</button>
 
-                                    <  button disabled={!itemSize} className="comic-button" onClick={() => AddCart(records)}>Thêm vào giỏ </button>
+                                    <  button  className="comic-button" onClick={() => AddCart(records)}>Thêm vào giỏ </button>
                                 </div>
-
+                                {/* disabled={!itemSize} */}
                                 <div>
                                     <button className='muaNgayDT'>Mua ngay</button>
                                 </div>
@@ -221,6 +233,77 @@ export default function Product2() {
                         <div>
                             <p className="motaDT">Mô tả sản phẩm</p>
                             <span>{records.description}</span>
+                        </div>
+                        <div className='containerDanhGia'>
+                            <div>
+                                <h5>Đánh giá sản phẩm</h5>
+                            </div>
+                            <div>
+                                <span>4.9</span>
+                                <span> trên</span>
+                                <span> 5</span>
+                                <div className="starReview ">
+                                    <i class="fas fa-star itemStar"></i>
+                                    <i class="fas fa-star itemStar"></i>
+                                    <i class="fas fa-star itemStar"></i>
+                                    <i class="fas fa-star itemStar"></i>
+                                    <i class="fas fa-star itemStar"></i>
+
+                                </div>
+                                <div className='cacDanhGia'>
+                                    <div className='itemCacDanhGia1'>
+                                        <div className="imgReview">
+                                            <img src={require("../Assets/images//AoBarca2023.png")} alt="ac"></img>
+                                        </div>
+                                    </div>
+                                    <div className='itemCacDanhGia2'>
+                                        <div>
+                                            <span>Tên</span>
+                                        </div>
+                                        <div className="starUser ">
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                        </div>
+                                        <div className='noiDungDanhGia'>
+                                            <div>
+                                                <span>Nội dung:</span>
+                                            </div>
+                                            <span>Tốt</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className='cacDanhGia'>
+                                    <div className='itemCacDanhGia1'>
+                                        <div className="imgReview">
+                                            <img src={require("../Assets/images//AoBarca2023.png")} alt="ac"></img>
+                                        </div>
+                                    </div>
+                                    <div className='itemCacDanhGia2'>
+                                        <div>
+                                            <span>Tên</span>
+                                        </div>
+                                        <div className="starUser ">
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                            <i class="fas fa-star itemStarUser"></i>
+                                        </div>
+                                        <div className='noiDungDanhGia'>
+                                            <div>
+                                                <span>Nội dung:</span>
+                                            </div>
+                                            <span>Tốt</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     : null

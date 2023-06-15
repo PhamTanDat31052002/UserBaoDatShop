@@ -28,7 +28,7 @@ export default function ProductCRUD() {
 	}, []);
 
 
-
+	console.log(records)
 	const handleFilterByType = (productTypeId) => {
 		setSelectedType(productTypeId);
 	};
@@ -44,8 +44,32 @@ export default function ProductCRUD() {
 		.then(response => response.json())
 		.then(data => setRecord(data)).catch(err => console.log(err))}
 	};
+	const getToken = (() => {
+        const tokenString = localStorage.getItem('token');
+        const userToken = JSON.parse(tokenString);
+        return userToken
+    })
 
-	
+	const AddCart = (data) => {
+        const token = getToken();
+
+        fetch(variable.API_URL + "Carts/CreateCart", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            },
+            body: JSON.stringify({
+                productId: data.id,
+                quantity: 1,
+            })
+        })
+            .then(response => response.json())
+            .then(result => {
+                alert("Thêm giỏ hàng thành công!")
+            })
+    }
 	// chuyển trang
 	const [currentPage, setcurrenPage] = useState(1);
 	const recordsPerPage = 12;
