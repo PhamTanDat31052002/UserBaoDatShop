@@ -576,7 +576,7 @@ pre code {
     overflow-y: scroll
 }
 
-.container {
+.container{
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
@@ -11143,3 +11143,69 @@ a.text-dark:hover {
 }
 
 /*# sourceMappingURL=bootstrap.min.css.map */
+
+.scroll-container {
+    width: 100%;
+    height: 250px;
+    overflow: auto;
+  }
+  
+  .item-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .item-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .item-list li:last-child {
+    border-bottom: none;
+  }
+  .itemCheckOut{
+    display: flex;
+    width: 100%;
+ 
+    border-top: 1px solid;
+    margin-bottom: 1%;
+
+  }
+  .imgItemCheckOut{
+    width: 20%;
+  }
+  .tenItemCheckOut{
+    
+    width: 50%;
+  }
+  .giaItemCheckOut{
+    width: 30%;
+    padding-top: 2%;
+    text-align: right;
+  }
+  .tamTinhCO{
+    padding-top: 2%;
+    margin-top: 2%;
+    border-top: 1px solid black;
+    width: 100%;
+    display: flex;
+  }
+  .itemTamTinh1{
+    width: 50%;
+    text-align: left;
+  }
+  .itemTamTinh2{
+    width: 50%;
+    text-align: right;
+  }
+  .tiepTucThanhToan{
+    width: 100%;
+    display: flex;
+   margin: 2%;
+
+   
+  }
+  .tiepTucThanhToan a{
+    color: black;
+  }

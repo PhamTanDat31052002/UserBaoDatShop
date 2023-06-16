@@ -28,7 +28,7 @@ export default function ProductCRUD() {
 	}, []);
 
 
-	console.log(records)
+	
 	const handleFilterByType = (productTypeId) => {
 		setSelectedType(productTypeId);
 	};
@@ -144,6 +144,7 @@ export default function ProductCRUD() {
 						<div className="container">
 							<div className="row">
 								{
+								
 								a.map(dep =>
 										<div className="col-sm-3 itemPR ">
 											<div className="best_shoes parent ">

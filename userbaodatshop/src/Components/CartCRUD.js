@@ -12,8 +12,8 @@ export default function CartCRUD() {
     var [records, setRecords] = useState();
     var [productItem, setProductItem] = useState([]);
     var [total, settotal] = useState(0);
-    var [productid, setProductid] = useState(0);
-    var [Size, setSize] = useState(1);
+
+    
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -39,12 +39,7 @@ export default function CartCRUD() {
             .then(result => {
                 setProductItem(result)
             }).catch(err => console.log(err))
-        //
-        fetch(variable.API_URL + "ProductSizes/GetAllProductSizeStatusTrue")
-            .then(respone => respone.json())
-            .then(result => {
-                setSize(result)
-            }).catch(err => console.log(err))
+
         // toatl
         fetch(variable.API_URL + "Carts/GetAllTotal", {
             method: "GET",
@@ -58,6 +53,7 @@ export default function CartCRUD() {
             .then(data => settotal(data)).catch(err => console.log(err))
 
     }, [count])
+   
     const DeleteCartById = ((id) => {
         const token = getToken();
         fetch(variable.API_URL + "Carts/DeleteCart/" + id, {
@@ -125,7 +121,7 @@ export default function CartCRUD() {
 
     const DeleteAllCart = (() => {
         const token = getToken();
-        if (window.confirm('Are you sure?')) {
+        if (window.confirm('Bạn muốn xóa toàn bộ giỏ hàng?')) {
 
 
             fetch(variable.API_URL + "Carts/DeleteAllCart", {
@@ -147,16 +143,7 @@ export default function CartCRUD() {
         }
     })
    
-    const productId = ((id) => {
-       var data;
-        fetch(variable.API_URL + "ProductSizes/GetProductIdByProductSize/" + id)
-            .then(respone => respone.json())
-            .then(result => {
-                data=result
-                setProductid(result)
-            }).catch(err => console.log(err))
-            return {data}
-    })
+
     return (
         <>
 
@@ -171,22 +158,21 @@ export default function CartCRUD() {
                         <span className='itemHeadCart2'>Thành tiền</span>
                     </div>
                     {
+                       
                         records != null ?
                             records.map(dep =>
-                            
-                             
                                     productItem.filter((item) => {
-                                        productId(dep.productSizeId)
-                                        return item.id == productid ?
+                                        
+                                        return item.id == dep.productSize.productId ?
                                             item
                                             : null
                                     })
                                         .map(data =>
                                             <div className='ctnDetailCart'>
-    
+                                            
     
                                                 <div className='itemDetailCart1'>
-                                                    <button onClick={() => DeleteCartById(dep.cartId)} class="fas fa-times"></button>
+                                                    <button onClick={() => DeleteCartById(dep.id)} class="fas fa-times"></button>
     
                                                 </div>
                                                 <div className='itemDetailCart2'>
@@ -201,14 +187,7 @@ export default function CartCRUD() {
                                                         <p>{data.name} </p>
                                                         <p>Mã:{data.sku}
                                                         </p>
-    
-                                                        {
-                                                            Size.map(ab =>
-                                                                ab.id == dep.productSizeId ?
-                                                                    <p>Size:{ab.name} </p>
-                                                                    : null
-                                                            )
-                                                        }
+                                                        <p>Size: {dep.productSize.name}</p> 
                                                     </div>
                                                 </div>
                                                 <div className='itemDetailCart3'>
@@ -220,16 +199,16 @@ export default function CartCRUD() {
                                                         <button className='congTruCart' onClick={() => {
                                                             if (dep.quantity >= 2) {
     
-                                                                UpdateCartMinus(dep.cartId)
+                                                                UpdateCartMinus(dep.id)
                                                             }
                                                             else {
-                                                                DeleteCartById(dep.cartId)
+                                                                DeleteCartById(dep.id)
                                                             }
                                                         }}>-</button>
     
                                                         <input type="text" className='textCongTruCart' value={dep.quantity}></input>
     
-                                                        <button className='congTruCart' onClick={() => UpdateCartAdd(dep.cartId)}>+</button>
+                                                        <button className='congTruCart' onClick={() => UpdateCartAdd(dep.id)}>+</button>
     
                                                     </div>
                                                 </div>

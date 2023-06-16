@@ -10,6 +10,7 @@ import Product from './Page/Product';
 import DetailProduct from './Page/DetailProduct';
 import Login from './Page/Login';
 import IFAccount from './Page/IFAccount';
+import Pay from './Page/Pay';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
         <Route path='/detail' exact element={<DetailProduct />} />
         <Route path='/login' exact element={<Login />} />
         <Route path='/account' exact element={<IFAccount/>}/>
+        <Route path='/pay' exact element={<Pay/>}/>
       </Routes>
     </BrowserRouter>
 

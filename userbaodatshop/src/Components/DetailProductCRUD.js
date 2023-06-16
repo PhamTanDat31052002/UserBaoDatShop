@@ -95,7 +95,7 @@ export default function Product2() {
                         <div className="containerDT">
                             <div className="columnDT1">
                                 <div className='gallery'>
-
+                
 
                                     <div className="cntimgDT ">
                                         <div classname='maxImgDT'>
@@ -161,7 +161,7 @@ export default function Product2() {
                                               
                                                 <label className="itemRadioDT" for={e.name}>{e.name}</label>
                                             </div>
-                                        ) : null}
+                                       ) : null}
 
                                 </div>
 
