@@ -2,11 +2,12 @@ import React from "react"
 import { useState, useEffect } from 'react'
 import { variable } from "../Variable"
 import "../Assets/css/styleLogin.css"
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import { Alert, Space, message } from 'antd';
 const Auth = () => {
 	const [username, setusername] = useState("")
-	const history = useNavigate();
+	const history = useNavigate()
 
 	const [password, setpassword] = useState("")
 	const ChangeName = (value) => {
@@ -21,7 +22,7 @@ const Auth = () => {
             value: userToken,
             expiry: now.getDate() + 7,
         }
-
+		
         localStorage.setItem('token', JSON.stringify(item));
     }
 	const Login = () => {
@@ -44,11 +45,26 @@ const Auth = () => {
 				if (result == "Failed") alert("Failed");
                 if (result != "Failed") {
                     setToken(result);
-					window.location.reload(false);
+					const tokenString = localStorage.getItem('token');
+                    const decoded = jwt_decode(tokenString);
+					if (decoded.RoleUser == "Costumer") {
+                        setTimeout(() => {
+                            message.success("Login Sucess")
+                        }, 0);
+                        setTimeout(() => {
+							history("/")
+                        }, 50);
+                    }
+					else
+					setTimeout(() => {
+						message.error("Login Failed")
+					}, 0);
                 }
 
 			}, (error) => {
-				alert("Failed");
+				setTimeout(() => {
+                    message.error("Login Failed")
+                }, 0);
 			}
 			)
 	}

@@ -1,0 +1,78 @@
+.donHang{
+  background-color: white;
+    width: 100%;
+}
+.quaTrinhVanChuyen{
+    
+    padding: 2%;
+    display: flex;
+    border-bottom: 1px solid rgb(136, 110, 110);
+
+}
+.itemQuaTrinhVanChuyen{
+    width: 50%;
+}
+.itemDonHang{
+    border-bottom: 1px solid rgb(215, 215, 199);
+}
+.sanPhamIV{
+    width: 100%;
+    display: flex;
+    padding: 2%;
+}
+.imgsanPhamIV{
+    width: 15%;
+ 
+}
+.chiTietsanPhamIV{
+    width: 50%;
+    
+    padding: 1%;
+}
+.giasanPhamIV{
+    text-align: right;
+    width: 35%;
+  
+    padding-top: 4%;
+}
+
+.ctnDongHang{
+
+    margin-top: 1%;
+   
+    width: 100%;
+    display: flex;
+}
+.IV2{
+    width: 65%;
+    background-color: rgb(249, 246, 243);
+    margin-right: 10%;
+    margin-top: 20px;
+    margin-bottom: 2%;
+}
+.cntTinhTrangDon{
+
+	padding: 2%;
+    border-bottom: 1px solid beige;
+    background-color: white;
+}
+.thanhTienIV{
+    text-align: right;
+    padding: 2%;
+    font-size: 20px;
+}
+.huyDonIV{
+    padding: 0% 2% 2% 0%;
+    text-align: right;
+}
+.btnHuyDonIV{
+    padding: 1% 2%;
+    background-color: black;
+    color: white;
+}
+a{
+    color: black;
+}
+a:hover{
+    color: black;
+}

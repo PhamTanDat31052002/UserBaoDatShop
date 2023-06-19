@@ -5,6 +5,7 @@ import { variable } from "../Variable"
 import { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+
 export default function CheckoutCRUD() {
     var [infor, setInfor] = useState();
     var [allCart, setAllCart] = useState();
@@ -24,6 +25,11 @@ export default function CheckoutCRUD() {
     const [show, setShow] = useState(false);
     const history = useNavigate();
     const handleClose = () => setShow(false);
+    var [sdtPay, setSDTPay] = useState('');
+    var [dcPay, setDcPay] = useState('');
+    var [dataPay, setdatapay] = useState([]);
+
+   
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -75,7 +81,15 @@ export default function CheckoutCRUD() {
         fetch("https://provinces.open-api.vn/api/?depth=3")
             .then(response => response.json())
             .then(data => setAPIDiaChi(data)).catch(err => console.log(err))
+        // if(infor.phone==null)
 
+        // {
+
+        //     setSDTPay("")
+        // }
+        // else{
+        //     setSDTPay(infor.phone)
+        // }
     }, [])
 
     return (
@@ -137,7 +151,12 @@ export default function CheckoutCRUD() {
                                                 <div>
                                                     <span>Phí vận chuyển</span>
                                                 </div>
-
+                                                <div>
+                                                    <span>Giảm giá:</span>
+                                                </div>
+                                                <div style={{ borderTop: "1px solid" }}>
+                                                    <span style={{ fontSize: "23px" }}>Tổng tiền:</span>
+                                                </div>
 
                                             </div>
                                             <div className="itemTamTinh2">
@@ -145,7 +164,15 @@ export default function CheckoutCRUD() {
                                                     <span>{VND.format(total)}</span>
                                                 </div>
                                                 <div>
-                                                    <span>-</span>
+                                                    <span>0</span>
+                                                </div>
+                                                <div>
+                                                    <span>0</span>
+                                                </div>
+                                                <div style={{ paddingTop: "2%", borderTop: "1px solid" }}>
+                                                    <span style={{ fontSize: "23px" }}>
+                                                        {VND.format(total)}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -177,7 +204,10 @@ export default function CheckoutCRUD() {
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">Số điện thoại <span class="text-muted"></span></label>
-                                        <input type="number" class="form-control" id="numberphone" placeholder="Số điện thoại" value={infor.phone} onChange={(e) => setInfor(e.target.value)} />
+                                        <input type="number" class="form-control" id="numberphone" placeholder="Số điện thoại" value={infor.phone} onChange={(e) => {
+                                            setInfor(e.target.value)
+                                            setSDTPay(e.target.value)
+                                        }} />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập số điện thoại nhận hàng!
                                         </div>
@@ -187,13 +217,15 @@ export default function CheckoutCRUD() {
 
                                         <label for="address">Địa chỉ </label>
                                         <input type="text" class="form-control" id="address" placeholder="Số nhà, tên đường" required value=
-                                        {
-                                            Address1==""?
-                                            infor.address:Address1
-                                        } 
-                                        onChange={(e) => {
-                                            setInfor(e.target.value)
-                                             setAddress1(e.target.value)}} />
+                                            {
+                                                Address1 == "" ?
+                                                    infor.address : Address1
+
+                                            }
+                                            onChange={(e) => {
+                                                setInfor(e.target.value)
+                                                setAddress1(e.target.value)
+                                            }} />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập địa chỉ cụ thể!
                                         </div>
@@ -226,7 +258,7 @@ export default function CheckoutCRUD() {
                                                             <select class="custom-select d-block w-100" id="country" required onChange={(e) => {
                                                                 setIdTinh(e.target.value)
                                                                 setTinh(e.target.value)
-                                                               
+
                                                             }
 
                                                             }
@@ -299,97 +331,36 @@ export default function CheckoutCRUD() {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => 
-                                                    {
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => {
 
                                                         setAddress1(Address + "," + Xa + "," + Quan + "," + Tinh)
-                                                       
+
                                                     }
-                                                      
-                                                        }>Lưu</button>
+
+                                                    }>Lưu</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* <div class="mb-3">
-                            <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                            <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" />
-                        </div> */}
 
-
-                                    {/* <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="same-address" />
-                            <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="save-info" />
-                            <label class="custom-control-label" for="save-info">Save this information for next time</label>
-                        </div>
-                        <hr class="mb-4" />
-
-                        <h4 class="mb-3">Payment</h4>
-
-                        <div class="d-block my-3">
-                            <div class="custom-control custom-radio">
-                                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required />
-                                <label class="custom-control-label" for="credit">Credit card</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required />
-                                <label class="custom-control-label" for="debit">Debit card</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required />
-                                <label class="custom-control-label" for="paypal">PayPal</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="cc-name">Name on card</label>
-                                <input type="text" class="form-control" id="cc-name" placeholder="" required />
-                                <small class="text-muted">Full name as displayed on card</small>
-                                <div class="invalid-feedback">
-                                    Name on card is required
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="cc-number">Credit card number</label>
-                                <input type="text" class="form-control" placeholder="" required />
-
-                                <div class="invalid-feedback">
-                                    Credit card number is required/
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <label for="cc-expiration">Expiration</label>
-                                <input type="text" class="form-control" id="cc-expiration" placeholder="" required />
-                                <div class="invalid-feedback">
-                                    Expiration date required/
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="cc-cvv">CVV</label>
-                                <input type="text" class="form-control" id="cc-cvv" placeholder="" required />
-                                <div class="invalid-feedback">
-                                    Security code required/
-                                </div>
-                            </div>
-                        </div> */}
                                     <hr class="mb-4" />
                                     <div className="tiepTucThanhToan">
                                         <NavLink to={"/cart"}><p>Giỏ hàng</p></NavLink>
                                         {/* <NavLink to={"/pay"}> */}
-                                        <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit" >
-                                            Tiếp tục đến phương thức thanh toán</button>
+
+                                        <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit"  >
+
+                                             <NavLink to={'/pay'} state={   [Address1 == '' ?
+                                                    infor.address : Address1,sdtPay == '' ? infor.phone : sdtPay,total]}  >
+                                                Tiếp tục đến phương thức thanh toán</NavLink> 
+                                        </button>
                                         {/* </NavLink> */}
                                     </div>
 
                                 </form>
                             </div>
-                        </div>
+                        </div >
                         {/* <div>
                 <footer class="my-5 pt-5 text-muted text-center text-small">
                     <p class="mb-1">&copy; 2017-2019 Company Name</p>
@@ -400,7 +371,7 @@ export default function CheckoutCRUD() {
                     </ul>
                 </footer>
             </div> */}
-                    </div> : null
+                    </div > : null
             }
 
 

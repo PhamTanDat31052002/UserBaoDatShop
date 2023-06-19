@@ -11,10 +11,11 @@ import DetailProduct from './Page/DetailProduct';
 import Login from './Page/Login';
 import IFAccount from './Page/IFAccount';
 import Pay from './Page/Pay';
+import Loading from './Page/Loading';
+import Invoice from './Page/Invoice';
 
 function App() {
-
-
+ 
   
   return (
 
@@ -29,6 +30,8 @@ function App() {
         <Route path='/login' exact element={<Login />} />
         <Route path='/account' exact element={<IFAccount/>}/>
         <Route path='/pay' exact element={<Pay/>}/>
+        <Route path='/loading' exact element={<Loading/>}/>
+        <Route path='/invoice' exact element={<Invoice/>}/>
       </Routes>
     </BrowserRouter>
 

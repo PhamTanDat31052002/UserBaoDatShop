@@ -9,7 +9,7 @@ import Dropdown from 'react-dropdown-select';
 import "../Assets/css/style.css"
 
 export default function ProductCRUD() {
-	
+
 	var [records, setRecord] = useState([]);
 	var [ProductType, setProductType] = useState([]);
 	const [selectedType, setSelectedType] = useState('Tất cả');
@@ -28,48 +28,51 @@ export default function ProductCRUD() {
 	}, []);
 
 
-	
 	const handleFilterByType = (productTypeId) => {
 		setSelectedType(productTypeId);
 	};
-	
+
 	const ChangeFilter = (productTypeId) => {
-		
-		if(productTypeId==="0") 
-		{ fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
-		.then(response => response.json())
-		.then(data => setRecord(data)).catch(err => console.log(err))
-		}else{
-		fetch(variable.API_URL + "Products/GetAllProductInProductType/"+productTypeId)
-		.then(response => response.json())
-		.then(data => setRecord(data)).catch(err => console.log(err))}
+
+		if (productTypeId === "0") {
+			fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
+				.then(response => response.json())
+				.then(data => setRecord(data)).catch(err => console.log(err))
+		} else {
+			fetch(variable.API_URL + "Products/GetAllProductInProductType/" + productTypeId)
+				.then(response => response.json())
+				.then(data => setRecord(data)).catch(err => console.log(err))
+		}
 	};
 	const getToken = (() => {
-        const tokenString = localStorage.getItem('token');
-        const userToken = JSON.parse(tokenString);
-        return userToken
-    })
-
+		const tokenString = localStorage.getItem('token');
+		const userToken = JSON.parse(tokenString);
+		return userToken
+	})
+	const VND = new Intl.NumberFormat('vi-VN', {
+		style: 'currency',
+		currency: 'VND',
+	});
 	const AddCart = (data) => {
-        const token = getToken();
+		const token = getToken();
 
-        fetch(variable.API_URL + "Carts/CreateCart", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'Authorization': `Bearer ${token.value}`
-            },
-            body: JSON.stringify({
-                productId: data.id,
-                quantity: 1,
-            })
-        })
-            .then(response => response.json())
-            .then(result => {
-                alert("Thêm giỏ hàng thành công!")
-            })
-    }
+		fetch(variable.API_URL + "Carts/CreateCart", {
+			method: "POST",
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				'Authorization': `Bearer ${token.value}`
+			},
+			body: JSON.stringify({
+				productId: data.id,
+				quantity: 1,
+			})
+		})
+			.then(response => response.json())
+			.then(result => {
+				alert("Thêm giỏ hàng thành công!")
+			})
+	}
 	// chuyển trang
 	const [currentPage, setcurrenPage] = useState(1);
 	const recordsPerPage = 12;
@@ -92,19 +95,48 @@ export default function ProductCRUD() {
 		}
 	});
 	const FilterPrice = (productTypeId) => {
-	
+
 	};
+	// const AddCart = (data) => {
+    //     if(itemSize=="")
+    //     return <div class="modal-dialog modal-sm">{alert("a")}</div>
+                   
+
+    //     const token = getToken();
+
+    //     fetch(variable.API_URL + "Carts/CreateCart", {
+    //         method: "POST",
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             Accept: 'application/json',
+    //             'Authorization': `Bearer ${token.value}`
+    //         },
+    //         body: JSON.stringify({
+    //             productSizeId: itemSize,
+    //             quantity: number,
+    //         })
+    //     })
+    //         .then(response => response.json())
+    //         .then(result => {
+    //             if(result=="Thành công")
+    //             alert("Thêm giỏ hàng thành công!")
+    //         }, (error) => {
+    //             console.log(error);
+    //         })
+    // }
 	//custom select
 	const options = [
 		{ value: 'Option 1', label: 'Option 1' },
 		{ value: 'Option 2', label: 'Option 2' },
 		{ value: 'Option 3', label: 'Option 3' },
-	  ];
+	];
+
+
+	
+
 	return (
 		<>
-		  {/* <div className="custom-select">
-      <Dropdown options={options} />
-    </div> */}
+
 
 
 			<div>
@@ -120,41 +152,44 @@ export default function ProductCRUD() {
 
 					<div className="collection_section layout_padding columnPD1">
 						<div className="container ">
+							{/* <div className="custom-select">
 
+								<Dropdown value={selectedType} onChange={(e) => ChangeFilter(e.target.value)} options={ProductType} />
+							</div> */}
 							<select value={selectedType} onChange={(e) => ChangeFilter(e.target.value)}>
-								
-							<option value="0" hidden>Tất cả</option>
-								
-									<option value="0">Tất cả</option>
-									{
-										ProductType.map(a =>
+
+								<option value="0" hidden>Tất cả</option>
+
+								<option value="0">Tất cả</option>
+								{
+									ProductType.map(a =>
 										<>
 											<option className="itemSelectPD" value={a.id}>{a.name}</option>
 										</>
-										
+
 									)
 								}
-								
+
 							</select>
 						</div>
-					
-					
+
+
 					</div>
 					<div className="layout_padding gallery_section">
 						<div className="container">
 							<div className="row">
 								{
-								
-								a.map(dep =>
+
+									a.map(dep =>
 										<div className="col-sm-3 itemPR ">
 											<div className="best_shoes parent ">
 
-												<NavLink to="/detail"  state={ dep.id }><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
-											
-												<NavLink to="/detail" state={ dep.id }><div className="shoes_icon "><a href="a"><img src={require("../Assets/images/" + dep.image)} alt='a' /></a></div></NavLink>
+												<NavLink to="/detail"  state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
+
+												<NavLink to="/detail" state={dep.id}><div className="shoes_icon "><a href="a"><img src={require("../Assets/images/" + dep.image)} alt='a' /></a></div></NavLink>
 
 												<div className="star_text " >
-													<NavLink to="/detail"state={ dep.id }>
+													<NavLink to="/detail" state={dep.id}>
 														<div className="left_part ">
 															<ul>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
@@ -166,8 +201,8 @@ export default function ProductCRUD() {
 														</div>
 													</NavLink>
 
-													<NavLink to="/detail" state={ dep.id }><div className="right_part hidden-child">
-														<div className="shoes_price "><span >{dep.price}đ</span></div>
+													<NavLink to="/detail" state={dep.id}><div className="right_part hidden-child">
+														<div className="shoes_price "><span >{VND.format(dep.price)}</span></div>
 
 
 
@@ -193,26 +228,26 @@ export default function ProductCRUD() {
 
 						<div className="nextPage">
 
-					
-						<nav>
-							<ul className='pagination'>
-								<li className='page-item'>
-									<a href='#' className='page-link' onClick={() => prePage(currentPage)}>Trước</a>
-								</li>
-								{
-									numbers.map((n, i) => (
-										<li className={`page-item  ${currentPage === n ? 'active' : ''}`} key={i}>
-											<a href='#' className='page-link'
-												onClick={() => changePage(n)}>{n}</a>
-										</li>
-									))
-								}
-								<li className='page-item'>
-									<a href='#' className='page-link' onClick={() => nextPage(currentPage, npage)}>Sau</a>
-								</li>
 
-							</ul>
-						</nav>
+							<nav>
+								<ul className='pagination'>
+									<li className='page-item'>
+										<a href='#' className='page-link' onClick={() => prePage(currentPage)}>Trước</a>
+									</li>
+									{
+										numbers.map((n, i) => (
+											<li className={`page-item  ${currentPage === n ? 'active' : ''}`} key={i}>
+												<a href='#' className='page-link'
+													onClick={() => changePage(n)}>{n}</a>
+											</li>
+										))
+									}
+									<li className='page-item'>
+										<a href='#' className='page-link' onClick={() => nextPage(currentPage, npage)}>Sau</a>
+									</li>
+
+								</ul>
+							</nav>
 						</div>
 					</div>
 

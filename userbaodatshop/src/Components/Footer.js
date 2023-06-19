@@ -11,7 +11,7 @@ export default function Footer()
     			<div class="row">
     				<div class="col-sm-6 col-lg-2">
               
-    					<div><a href="/"><img src={require('../Assets/images/footer-logo.png')} alt=""/></a></div>
+    					<div style={{ width:"70%" }}><a href="/"><img src={require('../Assets/images/logo.png')} alt=""/></a></div>
     				</div>
     				<div class="col-sm-6 col-lg-2">
     					<div class="footer-logo"><img src={require('../Assets/images/phone-icon.png')} alt=""/><span class="map_text">(84)<br></br> 1234567890</span></div>

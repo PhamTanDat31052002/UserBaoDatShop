@@ -3,6 +3,7 @@ import "../Assets/css/styleIF.css"
 import { useEffect } from 'react';
 import { variable } from "../Variable"
 import { useState } from 'react';
+import { NavLink } from "react-router-dom";
 
 export default function IFAccountCRUD(){
     var [records, setRecords] = useState();
@@ -32,10 +33,8 @@ export default function IFAccountCRUD(){
                 <div className="containerIF">
                 <div className="IF1">
                    <div className="itemIF1_1">
-                    <div >
-                        Tên
-                    </div>
-                    <p>Đơn đã mua</p>
+                   <NavLink to={"/account"}><p>Tài khoản của tôi</p></NavLink>
+                    <NavLink to={'/invoice'}><p>Đơn hàng của tôi</p></NavLink>
                     <p>Kho voucher</p>
                     <p>Thông báo</p>
                    </div>

@@ -6,14 +6,14 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useEffect } from 'react';
 
-
+import { useNavigate } from 'react-router-dom';	
 export default function CartCRUD() {
     const [number, setNumber] = useState(1);
-    var [records, setRecords] = useState();
+    var [records, setRecords] = useState([]);
     var [productItem, setProductItem] = useState([]);
     var [total, settotal] = useState(0);
+    const history = useNavigate()
 
-    
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -53,7 +53,7 @@ export default function CartCRUD() {
             .then(data => settotal(data)).catch(err => console.log(err))
 
     }, [count])
-   
+
     const DeleteCartById = ((id) => {
         const token = getToken();
         fetch(variable.API_URL + "Carts/DeleteCart/" + id, {
@@ -77,7 +77,7 @@ export default function CartCRUD() {
     const VND = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
-      });
+    });
     const UpdateCartAdd = ((id) => {
         const token = getToken();
         fetch(variable.API_URL + "Carts/UpdateCart+1/" + id, {
@@ -142,7 +142,7 @@ export default function CartCRUD() {
                 })
         }
     })
-   
+
 
     return (
         <>
@@ -158,68 +158,68 @@ export default function CartCRUD() {
                         <span className='itemHeadCart2'>Thành tiền</span>
                     </div>
                     {
-                       
+
                         records != null ?
                             records.map(dep =>
-                                    productItem.filter((item) => {
-                                        
-                                        return item.id == dep.productSize.productId ?
-                                            item
-                                            : null
-                                    })
-                                        .map(data =>
-                                            <div className='ctnDetailCart'>
-                                            
-    
-                                                <div className='itemDetailCart1'>
-                                                    <button onClick={() => DeleteCartById(dep.id)} class="fas fa-times"></button>
-    
-                                                </div>
-                                                <div className='itemDetailCart2'>
-                                                    <div className="imgItemDetailCart2">
-                                                        <div className='itemIMG'>
-                                                            <img src={require('../Assets/images/' + data.image
-                                                            )} alt='sp' ></img>
-                                                        </div>
-    
+                                productItem.filter((item) => {
+
+                                    return item.id == dep.productSize.productId ?
+                                        item
+                                        : null
+                                })
+                                    .map(data =>
+                                        <div className='ctnDetailCart'>
+
+
+                                            <div className='itemDetailCart1'>
+                                                <button onClick={() => DeleteCartById(dep.id)} class="fas fa-times"></button>
+
+                                            </div>
+                                            <div className='itemDetailCart2'>
+                                                <div className="imgItemDetailCart2">
+                                                    <div className='itemIMG'>
+                                                        <img src={require('../Assets/images/' + data.image
+                                                        )} alt='sp' ></img>
                                                     </div>
-                                                    <div className='textItemDetailCart2'>
-                                                        <p>{data.name} </p>
-                                                        <p>Mã:{data.sku}
-                                                        </p>
-                                                        <p>Size: {dep.productSize.name}</p> 
-                                                    </div>
+
                                                 </div>
-                                                <div className='itemDetailCart3'>
-                                                    <p style={{ marginTop: "2%" }}>{data.price}đ </p>
+                                                <div className='textItemDetailCart2'>
+                                                    <p>{data.name} </p>
+                                                    <p>Mã:{data.sku}
+                                                    </p>
+                                                    <p>Size: {dep.productSize.name}</p>
                                                 </div>
-                                                <div className='itemDetailCart3'>
-                                                    <div className='divcongtruCart'>
-    
-                                                        <button className='congTruCart' onClick={() => {
-                                                            if (dep.quantity >= 2) {
-    
-                                                                UpdateCartMinus(dep.id)
-                                                            }
-                                                            else {
-                                                                DeleteCartById(dep.id)
-                                                            }
-                                                        }}>-</button>
-    
-                                                        <input type="text" className='textCongTruCart' value={dep.quantity}></input>
-    
-                                                        <button className='congTruCart' onClick={() => UpdateCartAdd(dep.id)}>+</button>
-    
-                                                    </div>
+                                            </div>
+                                            <div className='itemDetailCart3'>
+                                                <p style={{ marginTop: "2%" }}>{data.price}đ </p>
+                                            </div>
+                                            <div className='itemDetailCart3'>
+                                                <div className='divcongtruCart'>
+
+                                                    <button className='congTruCart' onClick={() => {
+                                                        if (dep.quantity >= 2) {
+
+                                                            UpdateCartMinus(dep.id)
+                                                        }
+                                                        else {
+                                                            DeleteCartById(dep.id)
+                                                        }
+                                                    }}>-</button>
+
+                                                    <input type="text" className='textCongTruCart' value={dep.quantity}></input>
+
+                                                    <button className='congTruCart' onClick={() => UpdateCartAdd(dep.id)}>+</button>
+
                                                 </div>
-                                                <div className='itemDetailCart4'>
-                                                   
-                                                    {VND.format(dep.quantity * data.price)} 
-                                                </div>
-    
-                                            </div>)
-                                
-                                          
+                                            </div>
+                                            <div className='itemDetailCart4'>
+
+                                                {VND.format(dep.quantity * data.price)}
+                                            </div>
+
+                                        </div>)
+
+
                             )
                             : null
 
@@ -238,16 +238,20 @@ export default function CartCRUD() {
                         </div>
                         <div className='itemThanhTienCart2'>
                             <span >
-                                
-                                      {VND.format(total)} 
-                                
+
+                                {VND.format(total)}
+
                             </span>
                         </div>
 
                     </div>
-                    <NavLink to={"/checkout"}> <div>
-                        <button className='thanhToanCart '>Thanh toán</button>
-                    </div></NavLink>
+                  <div>
+                        <button className='thanhToanCart ' onClick={()=>{
+                           
+                            if(records=="") return alert("Giỏ hàng của bạn chưa có gì!");
+                             else return history("/checkout")
+                        }}>Thanh toán</button>
+                    </div>
 
                 </div>
             </div>

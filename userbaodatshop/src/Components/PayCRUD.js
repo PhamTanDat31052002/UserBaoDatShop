@@ -4,14 +4,21 @@ import { variable } from "../Variable"
 import { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import "../Assets/css/stylepay.css"
-export default function PayCRUD(){
-
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+export default function PayCRUD() {
+    var location = useLocation();
+    var tongTien=location.state[2]
+    var dc=location.state[0];
+    var sdt=location.state[1];
+    var history=useNavigate();
+   
     var [infor, setInfor] = useState();
     var [allCart, setAllCart] = useState();
     var [productItem, setProductItem] = useState([]);
     var [total, settotal] = useState(0);
 
-    
+
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -59,125 +66,153 @@ export default function PayCRUD(){
         })
             .then(response => response.json())
             .then(data => settotal(data)).catch(err => console.log(err))
-       
-     
 
     }, [])
 
+    const AddInvoice=(()=>{
+        const token=getToken();
+        fetch(variable.API_URL + "Inovices/CreateInvoice", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            },
+            body: JSON.stringify({
+                total:tongTien,
+                shippingAddress: dc,
+                shippingPhone: sdt,
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if(result==true)
+            { alert("Mua hàng thành công!")
+            history("/")}
+           
+        }, (error) => {
+            console.log(error);
+        })
+    })
 
-    return(
+    return (
         <>
-        
-        <>
-            {
-                infor != null ?
-                    <div class="container">
 
-                        <div class="row">
-                            <div class="col-md-4 order-md-2 mb-4">
-                                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-muted">Giỏ hàng</span>
-                                    <span class="badge badge-secondary badge-pill">3</span>
-                                </h4>
+            <>
+                {
+                    infor != null ?
+                        <div class="container">
 
-                                <div class="scroll-container">
-                                    {allCart != null ?
-                                        allCart.map(dep =>
-                                            productItem.filter((item) => {
-                                                return item.id == dep.productSize.productId ?
-                                                    item : null
-                                            }
-                                            ).map(data => <ul class="item-list">
-                                                <li className="itemCheckOut">
-                                                    <div className="imgItemCheckOut">
-                                                        <img src={require("../Assets/images/" + data.image)} alt="sp"></img>
-                                                    </div>
-                                                    <div className="tenItemCheckOut">
-                                                        <div>
-                                                            <span style={{ wordWrap: "break-word" }}>{data.name}</span>
+                            <div class="row">
+                                <div class="col-md-4 order-md-2 mb-4">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-muted">Giỏ hàng</span>
+                                        <span class="badge badge-secondary badge-pill">3</span>
+                                    </h4>
+
+                                    <div class="scroll-container">
+                                        {allCart != null ?
+                                            allCart.map(dep =>
+                                                productItem.filter((item) => {
+                                                    return item.id == dep.productSize.productId ?
+                                                        item : null
+                                                }
+                                                ).map(data => <ul class="item-list">
+                                                    <li className="itemCheckOut">
+                                                        <div className="imgItemCheckOut">
+                                                            <img src={require("../Assets/images/" + data.image)} alt="sp"></img>
                                                         </div>
-                                                        <div>
-                                                            <span style={{ fontSize: "13px" }}>Size: {dep.productSize.name} | Số lượng: {dep.quantity}</span>
+                                                        <div className="tenItemCheckOut">
+                                                            <div>
+                                                                <span style={{ wordWrap: "break-word" }}>{data.name}</span>
+                                                            </div>
+                                                            <div>
+                                                                <span style={{ fontSize: "13px" }}>Size: {dep.productSize.name} | Số lượng: {dep.quantity}</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="giaItemCheckOut">
-                                                        <span>{VND.format(dep.quantity * data.price)}</span>
-                                                    </div>
-                                                </li>
-                                            </ul>)
+                                                        <div className="giaItemCheckOut">
+                                                            <span>{VND.format(dep.quantity * data.price)}</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>)
 
-                                        )
-                                        : null
-                                    }
+                                            )
+                                            : null
+                                        }
+
+                                    </div>
+
+                                    <form class="card p-3">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Mã giảm giá" />
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-secondary">Sử dụng</button>
+                                            </div>
+                                            <div className="tamTinhCO">
+                                                <div className="itemTamTinh1">
+                                                    <div>
+                                                        <span>Tạm tính</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>Phí vận chuyển</span>
+                                                    </div>
+
+
+                                                </div>
+                                                <div className="itemTamTinh2">
+                                                    <div>
+                                                        <span>{VND.format(total)}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>-</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
 
                                 </div>
 
-                                <form class="card p-3">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Mã giảm giá" />
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-secondary">Sử dụng</button>
-                                        </div>
-                                        <div className="tamTinhCO">
-                                            <div className="itemTamTinh1">
-                                                <div>
-                                                    <span>Tạm tính</span>
-                                                </div>
-                                                <div>
-                                                    <span>Phí vận chuyển</span>
-                                                </div>
-
-
-                                            </div>
-                                            <div className="itemTamTinh2">
-                                                <div>
-                                                    <span>{VND.format(total)}</span>
-                                                </div>
-                                                <div>
-                                                    <span>-</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                            <div class="col-md-8 order-md-1" >
-                                <h4 class="mb-3">Phương thức thanh toán</h4>
-                               <div>
-                                    <span>Phương thức vận chuyển</span>
-                               </div>
-                               <div className="GHTanNoi">
-                                    <div className="itemGHTanNoi1">
-                                        <span>Giao hàng tận nơi</span>
-                                    </div>
-                                    <div className="itemGHTanNoi2">
-                                    <span>20000</span>
-                                    </div>
-                               </div>
-                               <div className="phuongThucThanhToan">
+                                <div class="col-md-8 order-md-1" >
+                                    <h4 class="mb-3">Phương thức thanh toán</h4>
                                     <div>
-                                        <span style={{paddingBottom:"2%"}}>Phương thức thanh toán</span>
+                                        <span>Phương thức vận chuyển</span>
                                     </div>
-                                    <div className="cacPhuongThucThanhToan">
-                                        <div className="containerPay">
-                                        <input type="radio" name="itempay" className="itempay" id="item1" checked/>
-                                            <label className="itempay" for="item1">Thanh toán khi nhận hàng (COD)</label>
-                                            <input type="radio" name="itempay" className="itempay" id="item2"/>
-                                            <label className="itempay" for="item2">Chuyển khoản qua nhân hàng</label>
+                                    <div className="GHTanNoi">
+                                        <div className="itemGHTanNoi1">
+                                            <span>Giao hàng tận nơi</span>
+                                        </div>
+                                        <div className="itemGHTanNoi2">
+                                            <span>20000</span>
                                         </div>
                                     </div>
-                               </div>
+                                    <div className="phuongThucThanhToan">
+                                        <div>
+                                            <span style={{ paddingBottom: "2%" }}>Phương thức thanh toán</span>
+                                        </div>
+                                        <div className="cacPhuongThucThanhToan">
+                                            <div className="containerPay">
+                                                <input type="radio" name="itempay" className="itempay" id="item1" checked />
+                                                <label className="itempay" for="item1">Thanh toán khi nhận hàng (COD)</label>
+                                                <input type="radio" name="itempay" className="itempay" id="item2" />
+                                                <label className="itempay" for="item2">Chuyển khoản qua nhân hàng</label>
+                                            </div>
+                                        </div>
+                                            <div>
+                                                <button  className='hoanTatDonHang' onClick={()=>AddInvoice()}>Hoàn tất đơn hàng</button>
+                                            </div>
+                                    </div>
+                                </div>
+                                
                             </div>
-                        </div>
-                    
-                    </div> : null
-            }
+                          
+                        </div> : null
+                       
+                }
 
 
-        </>
-    )
+            </>
+            )
         </>
     )
 }

@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import "../Components/Message.js"
+import Loading from "../Page/Loading";
 import Message from '../Components/Message.js';
 // import "../Assets/scrip/zoomScrip"
 
@@ -31,7 +32,13 @@ export default function Product2() {
 
     //     alert(title);
     //   };
-
+    const VND = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
+    const loading=(()=>
+         <Loading/>
+    )
 
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
@@ -63,9 +70,12 @@ export default function Product2() {
     }
 
     const AddCart = (data) => {
-        if(itemSize=="")
-        return alert("Chọn size đi")
         const token = getToken();
+        if(itemSize=="")
+        return <div class="modal-dialog modal-sm">{alert("Bạn chưa chọn size")}</div>
+        if(token==null)           
+        return <div class="modal-dialog modal-sm">{alert("Bạn cần đăng nhập để thêm giỏ hàng!")}</div>
+  
 
         fetch(variable.API_URL + "Carts/CreateCart", {
             method: "POST",
@@ -143,9 +153,9 @@ export default function Product2() {
                                     <p className="phudeDT">Mã số: {records.sku}</p>
                                 </div>
                                 <div>
-                                    <p className="giaDT" >Giá gốc:  <span className="soGiaGocDT">{records.price}</span>Đ </p>
+                                    <p className="giaDT" >Giá gốc:  <span className="soGiaGocDT">{VND.format(records.price)}</span> </p>
 
-                                    <p className="giaDT">Giá Sale: {records.price} Đ</p>
+                                    <p className="giaDT">Giá Sale: {VND.format(records.price)}</p>
                                     <p>Tiết kiệm: 1312Đ</p>
                                 </div>
                                 <div className='kichThuoc'>
@@ -305,8 +315,9 @@ export default function Product2() {
                             </div>
 
                         </div>
-                    </div>
-                    : null
+                    </div>:null
+               
+                     
 
 
             }
