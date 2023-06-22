@@ -42,14 +42,14 @@ const Auth = () => {
 			})
 		}).then(res => res.json())
 			.then(result => {
-				if (result == "Failed") alert("Failed");
+				if (result == "Failed") message.error("Sai tài khoản hoặc mật khẩu");
                 if (result != "Failed") {
                     setToken(result);
 					const tokenString = localStorage.getItem('token');
                     const decoded = jwt_decode(tokenString);
 					if (decoded.RoleUser == "Costumer") {
                         setTimeout(() => {
-                            message.success("Login Sucess")
+                            message.success("Đăng nhập thành công!")
                         }, 0);
                         setTimeout(() => {
 							history("/")
@@ -57,13 +57,13 @@ const Auth = () => {
                     }
 					else
 					setTimeout(() => {
-						message.error("Login Failed")
+						message.error("Đăng nhập thất bại!")
 					}, 0);
                 }
 
 			}, (error) => {
 				setTimeout(() => {
-                    message.error("Login Failed")
+                    message.error("Đăng nhập thất bại!")
                 }, 0);
 			}
 			)

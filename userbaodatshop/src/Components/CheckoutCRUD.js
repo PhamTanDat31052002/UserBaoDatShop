@@ -28,8 +28,9 @@ export default function CheckoutCRUD() {
     var [sdtPay, setSDTPay] = useState('');
     var [dcPay, setDcPay] = useState('');
     var [dataPay, setdatapay] = useState([]);
-
-   
+    var [phiShip,setPhiShip]=useState(20000);
+    var [voucher,setVoucher]=useState(0);
+    var [giaCuoiCung,setGiaCuoiCung]=useState(0);
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -81,15 +82,7 @@ export default function CheckoutCRUD() {
         fetch("https://provinces.open-api.vn/api/?depth=3")
             .then(response => response.json())
             .then(data => setAPIDiaChi(data)).catch(err => console.log(err))
-        // if(infor.phone==null)
 
-        // {
-
-        //     setSDTPay("")
-        // }
-        // else{
-        //     setSDTPay(infor.phone)
-        // }
     }, [])
 
     return (
@@ -164,14 +157,18 @@ export default function CheckoutCRUD() {
                                                     <span>{VND.format(total)}</span>
                                                 </div>
                                                 <div>
-                                                    <span>0</span>
+                                                    <span>{VND.format(phiShip)}</span>
                                                 </div>
                                                 <div>
-                                                    <span>0</span>
+                                                    <span>{VND.format(voucher)}</span>
                                                 </div>
+                                             
                                                 <div style={{ paddingTop: "2%", borderTop: "1px solid" }}>
                                                     <span style={{ fontSize: "23px" }}>
-                                                        {VND.format(total)}
+                                                        {
+                                                        
+                                                        VND.format(total+phiShip-voucher)
+                                                        }
                                                     </span>
                                                 </div>
                                             </div>
@@ -352,7 +349,7 @@ export default function CheckoutCRUD() {
                                         <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit"  >
 
                                              <NavLink to={'/pay'} state={   [Address1 == '' ?
-                                                    infor.address : Address1,sdtPay == '' ? infor.phone : sdtPay,total]}  >
+                                                    infor.address : Address1,sdtPay == '' ? infor.phone : sdtPay,total+phiShip-voucher]}  >
                                                 Tiếp tục đến phương thức thanh toán</NavLink> 
                                         </button>
                                         {/* </NavLink> */}

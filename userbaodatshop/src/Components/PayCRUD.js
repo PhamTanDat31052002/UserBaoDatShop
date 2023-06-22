@@ -6,17 +6,20 @@ import { NavLink } from "react-router-dom";
 import "../Assets/css/stylepay.css"
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { Alert, Space, message } from 'antd';
 export default function PayCRUD() {
     var location = useLocation();
     var tongTien=location.state[2]
     var dc=location.state[0];
     var sdt=location.state[1];
     var history=useNavigate();
+    var [payMedIV, setPayMedIV] = useState(false);
    
+    var payIV=false;
     var [infor, setInfor] = useState();
     var [allCart, setAllCart] = useState();
     var [productItem, setProductItem] = useState([]);
-    var [total, settotal] = useState(0);
+    
 
 
     const getToken = (() => {
@@ -55,17 +58,8 @@ export default function PayCRUD() {
             .then(result => {
                 setProductItem(result)
             }).catch(err => console.log(err))
-        //total
-        fetch(variable.API_URL + "Carts/GetAllTotal", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'Authorization': `Bearer ${token.value}`,
-            }
-        })
-            .then(response => response.json())
-            .then(data => settotal(data)).catch(err => console.log(err))
+      
+     
 
     }, [])
 
@@ -82,13 +76,15 @@ export default function PayCRUD() {
                 total:tongTien,
                 shippingAddress: dc,
                 shippingPhone: sdt,
+                paymentMethods:payMedIV,
+                pay:payIV
             })
         })
         .then(response => response.json())
         .then(result => {
             if(result==true)
-            { alert("Mua hàng thành công!")
-            history("/")}
+            { message.success("Đặt hàng thành công!")
+            history("/invoice")}
            
         }, (error) => {
             console.log(error);
@@ -144,28 +140,24 @@ export default function PayCRUD() {
 
                                     <form class="card p-3">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Mã giảm giá" />
+                                            {/* <input type="text" class="form-control" placeholder="Mã giảm giá" />
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-secondary">Sử dụng</button>
-                                            </div>
+                                            </div> */}
                                             <div className="tamTinhCO">
                                                 <div className="itemTamTinh1">
                                                     <div>
                                                         <span>Tạm tính</span>
                                                     </div>
-                                                    <div>
-                                                        <span>Phí vận chuyển</span>
-                                                    </div>
+                                                  
 
 
                                                 </div>
                                                 <div className="itemTamTinh2">
                                                     <div>
-                                                        <span>{VND.format(total)}</span>
+                                                        <span>{VND.format(tongTien)}</span>
                                                     </div>
-                                                    <div>
-                                                        <span>-</span>
-                                                    </div>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
@@ -192,9 +184,9 @@ export default function PayCRUD() {
                                         </div>
                                         <div className="cacPhuongThucThanhToan">
                                             <div className="containerPay">
-                                                <input type="radio" name="itempay" className="itempay" id="item1" checked />
+                                                <input type="radio" name="itempay" onClick={()=>setPayMedIV(false)} className="itempay" id="item1" checked />
                                                 <label className="itempay" for="item1">Thanh toán khi nhận hàng (COD)</label>
-                                                <input type="radio" name="itempay" className="itempay" id="item2" />
+                                                <input type="radio" name="itempay" onClick={()=>setPayMedIV(true)} className="itempay" id="item2" />
                                                 <label className="itempay" for="item2">Chuyển khoản qua nhân hàng</label>
                                             </div>
                                         </div>

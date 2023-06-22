@@ -25,8 +25,8 @@ const Profile = () => {
     };
     const history = useNavigate()
     const handleSignOut = () => {
-        localStorage.clear()
-        window.location.reload(false);
+        localStorage.clear();
+        history("/")
     };
     return (
         <Box>
@@ -91,7 +91,7 @@ const Profile = () => {
                     <ListItemText>My Tasks</ListItemText>
                 </MenuItem>
                 <Box mt={1} py={1} px={2}>
-                    <Button to="/auth/login" variant="outlined" color="primary" component={Link} fullWidth onClick={handleSignOut}>
+                    <Button to="/" variant="outlined" color="primary" component={Link} fullWidth onClick={handleSignOut}>
                         Logout
                     </Button>
                 </Box>

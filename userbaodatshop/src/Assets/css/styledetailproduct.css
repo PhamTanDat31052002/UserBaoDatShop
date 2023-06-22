@@ -46,10 +46,19 @@
     padding: 3%;
     background-color: rgb(172, 166, 166);
 }
+.hienThiGia{
+  margin-left: 1%;
+  margin-top: 1%;
+}
 .giaDT{
+   
     font-size: 20px;
     font-weight: bold;
     
+}
+.giaDT2{
+  font-size: 18px;
+
 }
 .soGiaGocDT{
     text-decoration-line: line-through;
@@ -174,12 +183,8 @@
     width: 90%;
 }
 
-/* ảnh phụ */
-.gallery {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-  }
+
+
   
   /* zoom ảnh */
   .maxImgDT{
@@ -209,6 +214,10 @@
     background-color: black; /* Màu nền khi chọn */
     color: #fff; /* Màu chữ khi chọn */
 
+  }
+  .tonKho{
+    padding: 1% 0%;
+    margin-left: 3%;
   }
   .kichThuoc{
     margin-left: 3%;
@@ -281,3 +290,49 @@
   .noiDungDanhGia{
     margin-top: 1%;
   }
+  /* ảnh phụ */
+  .thumbnail-gallery {
+    display: flex;
+    
+  }
+  
+  .thumbnail-gallery img {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .selected {
+    border: 2px solid red;
+  }
+  
+/* zoom hình */
+.image-zoom-container {
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.zoom-box {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 2px solid red;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.zoomable-image {
+  transition: transform 0.3s;
+}
+
+.zoomable-image:hover {
+  transform: scale(2);
+}
+
+  

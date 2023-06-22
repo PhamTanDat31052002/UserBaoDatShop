@@ -7,10 +7,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import "../Components/Message.js"
 import Loading from "../Page/Loading";
-import Message from '../Components/Message.js';
+
 // import "../Assets/scrip/zoomScrip"
 
-
+import { Alert, Space, message } from 'antd';
 
 export default function Product2() {
     var location = useLocation();
@@ -19,19 +19,14 @@ export default function Product2() {
     var [records, setRecords] = useState()
     var [sizePr, setSizePr] = useState();
     const [itemSize, setItemSize] = useState('');
+    var [tonKho, setTonKho] = useState(0);
     const itemSizeClick = (event) => {
         setItemSize(event.target.value);
     };
-    // const alertWithoutButtons = () => {
-    //     const title = 'Thêm giỏ hàng thành công';
-    //     const message = 'Successful, letting you in...';
-    //     const emptyArrayButtons = [];
-    //     const alertOptions = {
-    //       cancelable: true,
-    //     };
-
-    //     alert(title);
-    //   };
+    const [selectedImage, setSelectedImage] = useState('');
+      
+        const handleClick = (image) => {
+          setSelectedImage(image);}
     const VND = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
@@ -51,7 +46,9 @@ export default function Product2() {
 
         fetch(variable.API_URL + "Products/GetProductById/" + id)
             .then(response => response.json())
-            .then(data => setRecords(data)).catch(err => console.log(err))
+            .then(data => {setRecords(data)
+                            setSelectedImage(data.image)
+            }).catch(err => console.log(err))
 
         fetch(variable.API_URL + "ProductSizes/GetProductSizeByProductId/" + id)
             .then(response => response.json())
@@ -65,16 +62,19 @@ export default function Product2() {
             setNumber(number - 1) : setNumber(number - 0);
     }
     const congThem1 = () => {
-        number >= 100 ?
+        number >= tonKho ?
             setNumber(number + 0) : setNumber(number + 1);
     }
 
     const AddCart = (data) => {
         const token = getToken();
         if(itemSize=="")
-        return <div class="modal-dialog modal-sm">{alert("Bạn chưa chọn size")}</div>
+        return setTimeout(() => {
+            message.error("Bạn chưa chọn size")
+        }, 0);
+    
         if(token==null)           
-        return <div class="modal-dialog modal-sm">{alert("Bạn cần đăng nhập để thêm giỏ hàng!")}</div>
+        return  message.warning("Bạn cần đăng nhập để thêm giỏ hàng!")
   
 
         fetch(variable.API_URL + "Carts/CreateCart", {
@@ -92,11 +92,21 @@ export default function Product2() {
             .then(response => response.json())
             .then(result => {
                 if(result=="Thành công")
-                alert("Thêm giỏ hàng thành công!")
+                message.success("Thêm giỏ hàng thành công!")
             }, (error) => {
                 console.log(error);
             })
     }
+    
+    //  zoom hình
+    const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (event) => {
+    const { left, top } = event.target.getBoundingClientRect();
+    const x = event.clientX - left;
+    const y = event.clientY - top;
+    setZoomPosition({ x, y });
+  };
     return (
         <>
             {
@@ -109,54 +119,51 @@ export default function Product2() {
 
                                     <div className="cntimgDT ">
                                         <div classname='maxImgDT'>
-                                            <img id="imgDT" src={require("../Assets/images/" + records.image)} alt="sp" />
-
+                                            {/* <img id="imgDT" src={require("../Assets/images/" + records.image)} alt="sp" /> */}
+                                            <div>
+                                                <img id="imgDT" src={require("../Assets/images/"+ selectedImage)} alt="Ảnh lớn" />
+                                              
                                         </div>
+                                        
+                                        </div>
+                                        
 
                                     </div>
-                                    {/* <div className='anhPhu'>
-                                <div className="thumbnail" onclick={changeImage(this)}>
-                                 
-                                    <img src={require("../Assets/images/" + records.image)} alt="img3" />
-                                </div>
-                                <div className="thumbnail" onclick={changeImage(this)}>
                                
-                                 <img src={require("../Assets/images/" + records.image)} alt="img3" />
-                                </div>
-                                <div className="thumbnail" onclick={changeImage(this)}>
-                                 <img src={require("../Assets/images/AoBarca2023.png")} alt="img3" />
-                                 
-                                </div>
-                              
-                            </div> */}
-                                    {/* <div className="gallery">
-     
-                                 <img src={require({mainImage})} className="main-image"  alt="sp" />
-
-    
-                        <div className="thumbnails">
-                            {thumbnailImages.map((image, index) => (
-                            <div key={index} className="thumbnail" onClick={() => handleThumbnailClick(image)}>
-                              
-                                <img src={require({image})} alt='sp' />
-                            </div>
-                            ))}
-      </div>
-    </div> */}
-                                </div>
+                                </div>  <div className="thumbnail-gallery">
+                                                     <img
+                                                    src={require("../Assets/images/"+records.image)}
+                                                    alt="Ảnh nhỏ 1"
+                                                    className={selectedImage == records.image ? 'selected' : null}
+                                                    onClick={() => handleClick(records.image)}
+                                                    />
+                                                    <img
+                                                    src={require("../Assets/images/AoTot2023.png")}
+                                                    alt="Ảnh nhỏ 1"
+                                                    className={selectedImage == 'AoTot2023.png' ? 'selected' : null}
+                                                    onClick={() => handleClick('AoTot2023.png')}
+                                                    />
+                                                    <img
+                                                    src={require("../Assets/images/AoMU2023.png")}
+                                                    alt="Ảnh nhỏ 2"
+                                                    className={selectedImage == 'AoMU2023.png' ? 'selected' : null}
+                                                    onClick={() => handleClick('AoMU2023.png')}
+                                                    />
+                                                    {/* Thêm các ảnh nhỏ khác tương tự */}
+                                                </div>
                             </div>
                             <div className="columnDT2">
                                 <div>
                                     <p className="tieudeDT" >{records.name}</p>
                                     {/* <p className="phudeDT">Chất liệu:</p>
                                     <p className="phudeDT">Loại: </p> */}
-                                    <p className="phudeDT">Mã số: {records.sku}</p>
+                                    <span className="phudeDT">Mã số: {records.sku}</span>
                                 </div>
-                                <div>
-                                    <p className="giaDT" >Giá gốc:  <span className="soGiaGocDT">{VND.format(records.price)}</span> </p>
+                                <div className='hienThiGia'>
+                                    <p className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(records.price)}</span> </p>
 
                                     <p className="giaDT">Giá Sale: {VND.format(records.price)}</p>
-                                    <p>Tiết kiệm: 1312Đ</p>
+                                   
                                 </div>
                                 <div className='kichThuoc'>
                                     <span style={{ marginTop: "1%" }}>Kích thước:</span>
@@ -164,17 +171,22 @@ export default function Product2() {
                                         sizePr.map(e =>
                                             e.stock != 0 ?
                                                 <div className='itemSizeDT'>
-                                                    <input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} />
+                                                    <input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} onClick={()=>{
+                                                        setNumber(1)
+                                                        setTonKho(e.stock)}} />
                                                     <label className="itemRadioDT" for={e.name}>{e.name}</label>
+                                            
                                                 </div>
                                                 : <div className='itemSizeDT'>
-                                              
                                                 <label className="itemRadioDT" for={e.name}>{e.name}</label>
+                                             
                                             </div>
                                        ) : null}
 
                                 </div>
-
+                                <div className='tonKho'>
+                                            <span>Tồn kho: {tonKho}</span>
+                                </div>
 
                                 <div className='divcongtru'>
 
@@ -315,10 +327,22 @@ export default function Product2() {
                             </div>
 
                         </div>
+
+{/* zoom */}
+ {/* <div className="image-zoom-container">
+      <div className="image-container" onMouseMove={handleMouseMove}>
+        <div className="zoom-box" style={{
+          left: zoomPosition.x,
+          top: zoomPosition.y,
+        }}></div>
+        <img src={require("../Assets/images/AoBarca2023.png")} alt="Hình ảnh" className="zoomable-image" />
+      </div>
+    </div> */}
+{/* zoom */}
                     </div>:null
                
                      
-
+// <img src={require("../Assets/images/AoBarca2023.png")} alt="Hình ảnh" />
 
             }
         </>

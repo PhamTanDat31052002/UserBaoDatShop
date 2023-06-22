@@ -57,9 +57,21 @@
     background-color: white;
 }
 .thanhTienIV{
-    text-align: right;
+    
     padding: 2%;
     font-size: 20px;
+
+    display: flex;
+}
+.thanhTien1{
+    width: 50%;
+    font-size: 16px;
+   
+}
+.thanhTien2{
+    text-align: right;
+    width: 50%;
+
 }
 .huyDonIV{
     padding: 0% 2% 2% 0%;
@@ -75,4 +87,7 @@ a{
 }
 a:hover{
     color: black;
+}
+.thongKeTinhTrang{
+    text-align: center;
 }

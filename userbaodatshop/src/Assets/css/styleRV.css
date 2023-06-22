@@ -1,0 +1,9 @@
+.starRV {
+    color: black;
+    cursor: pointer;
+  }
+  
+  .starRV.filled {
+    color: orange;
+  }
+  
