@@ -111,13 +111,13 @@ export default function InvoiceCRUD() {
                     <div className="cntTinhTrangDon">
                         <p className="hscuatoi">Tình trạng đơn hàng</p>
                        <div className="thongKeTinhTrang">
-                       <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                       <ButtonGroup variant="" className="btnTinhTrang"  aria-label="outlined primary button group">
                             <Button onClick={()=>filterTinhTrang(0)}>Tất cả</Button>
                             <Button onClick={()=>filterTinhTrang(1)}>Chưa xác nhận</Button>
-                            <Button  onClick={()=>filterTinhTrang(2)}>Đang chuẩn bị</Button>
-                            <Button  onClick={()=>filterTinhTrang(3)}>Đang vận chuyển</Button>
-                            <Button  onClick={()=>filterTinhTrang(5)}>Hoàn tất</Button>
-                            <Button  onClick={()=>filterTinhTrang(4)}>Đã hủy</Button>
+                            <Button onClick={()=>filterTinhTrang(2)}>Đang chuẩn bị</Button>
+                            <Button onClick={()=>filterTinhTrang(3)}>Đang vận chuyển</Button>
+                            <Button onClick={()=>filterTinhTrang(5)}>Hoàn tất</Button>
+                            <Button onClick={()=>filterTinhTrang(4)}>Đã hủy</Button>
                             </ButtonGroup>
                        </div>
                       
@@ -197,7 +197,12 @@ export default function InvoiceCRUD() {
                                             } >Đánh giá</button>
                                         </div>:
                                             <div className="huyDonIV">
+                                                    {/* modal */}
+                                                  
+                                                    
+                                            
 
+                                                        {/* modal */}
                                                 <button className="btnHuyDonIV" onClick={() => {
                                                     if (dep.orderStatus == 1 || dep.orderStatus == 2) {
                                                         console.log(dep.orderStatus)

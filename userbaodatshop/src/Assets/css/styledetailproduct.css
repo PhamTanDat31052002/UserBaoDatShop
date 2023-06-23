@@ -335,4 +335,20 @@
   transform: scale(2);
 }
 
+  /* đánh giá */
+  .starRV {
+    color: black;
+    cursor: pointer;
+    font-size: 300%;
+  }
   
+  .starRV.filled {
+    color: orange;
+    font-size: 300%;
+  }
+  .ngayDanhGia{
+    font-size: 10px;
+  }
+  .starRVHienThi{
+    color: orange;
+  }

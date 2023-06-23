@@ -327,7 +327,7 @@ export default function CheckoutCRUD() {
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => {
 
                                                         setAddress1(Address + "," + Xa + "," + Quan + "," + Tinh)
@@ -358,16 +358,7 @@ export default function CheckoutCRUD() {
                                 </form>
                             </div>
                         </div >
-                        {/* <div>
-                <footer class="my-5 pt-5 text-muted text-center text-small">
-                    <p class="mb-1">&copy; 2017-2019 Company Name</p>
-                    <ul class="list-inline">
-                        <li class="list-inline-item">Privacy</li>
-                        <li class="list-inline-item">ABC</li>
-                        <li class="list-inline-item">Support</li>
-                    </ul>
-                </footer>
-            </div> */}
+                 
                     </div > : null
             }
 

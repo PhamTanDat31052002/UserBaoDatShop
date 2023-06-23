@@ -14,7 +14,7 @@ import Pay from './Page/Pay';
 import Loading from './Page/Loading';
 import Invoice from './Page/Invoice';
 import PrimarySearchAppBar from "./Page/testHD"
-import Review from './Page/Review';
+
 function App() {
  
   
@@ -34,7 +34,7 @@ function App() {
         <Route path='/loading' exact element={<Loading/>}/>
         <Route path='/invoice' exact element={<Invoice/>}/>
         <Route path='/test' exact element={<PrimarySearchAppBar/>}/>
-        <Route path='/review' exact element={<Review/>}/>
+      
       </Routes>
     </BrowserRouter>
 

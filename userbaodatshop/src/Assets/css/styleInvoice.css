@@ -11,6 +11,7 @@
 }
 .itemQuaTrinhVanChuyen{
     width: 50%;
+    
 }
 .itemDonHang{
     border-bottom: 1px solid rgb(215, 215, 199);
@@ -90,4 +91,9 @@ a:hover{
 }
 .thongKeTinhTrang{
     text-align: center;
+}
+.btnTinhTrang{
+   
+    color: black;
+    background-color: rgb(224, 225, 226);
 }
