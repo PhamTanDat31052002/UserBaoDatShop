@@ -8,6 +8,13 @@ import { useEffect } from 'react';
 import Dropdown from 'react-dropdown-select';
 import "../Assets/css/style.css"
 
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 export default function ProductCRUD() {
 
 	var [records, setRecord] = useState([]);
@@ -20,6 +27,26 @@ export default function ProductCRUD() {
 	const [number, setNumber] = useState(1);
 	var [tonKho, setTonKho] = useState(0);
 	const [itemSize, setItemSize] = useState('');
+	const [isLiked, setIsLiked] = useState(false);
+	const [idStar, setIdStar] = useState(0);
+
+
+	// Yêu thích sp
+	const handleClickLike = () => {
+		setIsLiked(!isLiked);
+	};
+	const [open, setOpen] = React.useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+
+
 	const itemSizeClick = (event) => {
 		setItemSize(event.target.value);
 	};
@@ -27,6 +54,11 @@ export default function ProductCRUD() {
 		fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
 			.then(response => response.json())
 			.then(data => setRecord(data)).catch(err => console.log(err))
+
+		// fetch(variable.API_URL + "GetAverageStartReview/"+idStar)
+		// 	.then(response => response.json())
+		// 	.then(data => (data)).catch(err => console.log(err))
+
 	}, [])
 
 	useEffect(() => {
@@ -89,6 +121,25 @@ export default function ProductCRUD() {
 			.then(response => response.json())
 			.then(result => {
 				alert("Thêm giỏ hàng thành công!")
+			})
+	}
+	const LikeProduct = (data) => {
+		const token = getToken();
+
+		fetch(variable.API_URL + "LoveProducts/CreateLoveProducts", {
+			method: "PUT",
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				'Authorization': `Bearer ${token.value}`
+			},
+			body: JSON.stringify({
+				id: data.id
+			})
+		})
+			.then(response => response.json())
+			.then(result => {
+				alert("Đã thêm vào danh sách yêu thích")
 			})
 	}
 	// chuyển trang
@@ -236,7 +287,48 @@ export default function ProductCRUD() {
 												</div>
 												<div className="hidden-child2">
 													{/* <i className="fa fa-shopping-cart gioHangPD"></i> */}
-													<button className="gioHangPD"><img src={require("../Assets/images/iconThemGioHang.png")} alt="giohang"></img></button>
+
+													<button
+														className="gioHangPD"
+														onClick={
+															() => {
+																LikeProduct(dep)
+																handleClickLike()
+															}
+														}
+														style={{
+															display: 'inline-block',
+															padding: '4px',
+															borderRadius: '50%',
+															backgroundColor: 'white',
+															border: 'none',
+															cursor: 'pointer',
+															outline: 'none',
+
+														}}
+													>
+														<div
+															style={{
+																position: 'relative',
+																width: '24px',
+																height: '24px',
+															}}
+														>
+															<div
+																style={{
+
+																	position: 'absolute',
+																	top: 0,
+																	left: 0,
+																	width: '100%',
+																	height: '100%',
+
+																}}
+															/>
+															{isLiked ? '❤️' : '🤍'}
+														</div>
+													</button>
+
 													{/* <button className="btnMua">Mua ngay</button> */}
 
 													{/* btnmua */}
@@ -323,6 +415,32 @@ export default function ProductCRUD() {
 													</div>
 													{/* btnmua */}
 
+													{/* <Button variant="outlined" onClick={handleClickOpen}>
+														Open alert dialog
+													</Button>
+													<Dialog
+														open={open}
+														onClose={handleClose}
+														aria-labelledby="alert-dialog-title"
+														aria-describedby="alert-dialog-description"
+													>
+														<DialogTitle id="alert-dialog-title">
+															{"Use Google's location service?"}
+														</DialogTitle>
+														<DialogContent>
+															<DialogContentText id="alert-dialog-description">
+																Let Google help apps determine location. This means sending anonymous
+																location data to Google, even when no apps are running.
+															</DialogContentText>
+														</DialogContent>
+														<DialogActions>
+															<Button onClick={handleClose}>Disagree</Button>
+															<Button onClick={handleClose} autoFocus>
+																Agree
+															</Button>
+														</DialogActions>
+													</Dialog> */}
+													
 												</div>
 											</div>
 										</div>

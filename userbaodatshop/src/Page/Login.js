@@ -7,10 +7,10 @@ export default function Login() {
 
     return(
         <>
-      
-        <Header/>
+        <div style={{ backgroundColor: "gainsboro"}} >    
+                <Header/>
         <LoginCRUD/>
-        
+        </div>
         </>
     )
 }

@@ -13,7 +13,11 @@ import IFAccount from './Page/IFAccount';
 import Pay from './Page/Pay';
 import Loading from './Page/Loading';
 import Invoice from './Page/Invoice';
-import PrimarySearchAppBar from "./Page/testHD"
+import Favourites from './Page/Favourites';
+import Register from './Page/Register';
+import CheckoutBuyNow from './Page/CheckoutBuyNow';
+import PayBuyNow from './Page/PayBuyNow';
+
 
 function App() {
  
@@ -32,9 +36,11 @@ function App() {
         <Route path='/account' exact element={<IFAccount/>}/>
         <Route path='/pay' exact element={<Pay/>}/>
         <Route path='/loading' exact element={<Loading/>}/>
-        <Route path='/invoice' exact element={<Invoice/>}/>
-        <Route path='/test' exact element={<PrimarySearchAppBar/>}/>
-      
+        <Route path='/invoice' exact element={<Invoice/>}/>   
+        <Route path='/favourites' exact element={<Favourites/>}/>
+        <Route path='/register' exact element={<Register/>}/>
+        <Route path='/checkoutbuynow' exact element={<CheckoutBuyNow/>}/>
+        <Route path='/paybuynow' exact element={<PayBuyNow/>}/>
       </Routes>
     </BrowserRouter>
 

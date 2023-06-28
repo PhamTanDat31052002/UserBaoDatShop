@@ -4,9 +4,17 @@ import { useEffect } from 'react';
 import { variable } from "../Variable"
 import { useState } from 'react';
 import { NavLink } from "react-router-dom";
+import { Email, Phone } from "@mui/icons-material";
 
 export default function IFAccountCRUD(){
     var [records, setRecords] = useState();
+    var [name, setName] = useState("");
+    var [email, setEmail] = useState("");
+    var [phone, setPhone] = useState("");
+    var [address, setAddress] = useState("");
+    var [avatar, setAvatar] = useState();
+    var [NameAvatar, setNameAvatar] = useState();
+    
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -24,7 +32,25 @@ export default function IFAccountCRUD(){
         }).then(response => response.json())
         .then(data => setRecords(data)).catch(err => console.log(err))
     },[])
-   
+   const Update=(()=>{
+    const token=getToken();
+    fetch(variable.API_URL + "Account/UpdateAccount",{
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization': `Bearer ${token.value}`,
+        }
+        ,body: JSON.stringify({
+            email:email,
+            Phone:phone,
+            Address:address,
+            FullName:name,
+        })
+    }).then(response => response.json())
+    .then(data => setRecords(data)).catch(err => console.log(err))
+   })
+
     return(
         <>
         {
@@ -35,6 +61,7 @@ export default function IFAccountCRUD(){
                    <div className="itemIF1_1">
                    <NavLink to={"/account"}><p>Tài khoản của tôi</p></NavLink>
                     <NavLink to={'/invoice'}><p>Đơn hàng của tôi</p></NavLink>
+                    <NavLink to={'/favourites'}><p>Danh sách yêu thích</p></NavLink>
                     <p>Kho voucher</p>
                     <p>Thông báo</p>
                    </div>
@@ -48,23 +75,23 @@ export default function IFAccountCRUD(){
                         <div className="item1_itemIF2_2">
                             <p>Tên đăng nhập</p>
                             <p>Tên</p>
+                            <input type="text" onChange={(e)=>{setName(e.target.value)}} value={name==""? records.fullName:name} ></input>
                             <p>Email</p>
+                            <input type="text" onChange={(e)=>{setEmail(e.target.value)}} value={email==""?records.email:email} ></input>
                             <p>Số điện thoại</p>
+                            <input type="text" onChange={(e)=>{setPhone(e.target.value)}} value={records.phone}  ></input>
                             <p>Địa chỉ</p>
+                            <input type="text" onChange={(e)=>{setAddress(e.target.value)}} value={records.address}></input>
                         </div>
                         <div className="item2_itemIF2_2">
-                              <p>{records.username}</p>
-                            <p>{records.fullName}</p>
-                            <p>{records.email}</p>
-                            <p>{records.phone}</p>
-                            <p>{records.address}</p>
-                            <button className="btnLuuIF">Lưu</button>
+                            <button className="btnLuuIF" onClick={()=>Update()}>Lưu</button>
                         </div>
                         <div className="item3_itemIF2_2">
                             <div className="imgIF">
-                            <img src={require("../Assets/images//AoBarca2023.png")} alt="ac"></img>
+                            <img src={"https://localhost:7067/wwwroot/image/Avatar/"+records.avatar} alt="ac"></img>
                             </div>
                              <div>
+                                <input type="file"></input>
                                 <button className="btnChonAnh">Chọn ảnh</button>
                              </div>
                         </div>

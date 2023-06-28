@@ -1,11 +1,11 @@
 import React from "react";
-import PayCRUD from "../Components/PayCRUD";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import jwt_decode from "jwt-decode";
 import Login from './Login';
-export default function Pay()
-{
+import PayBuyNowCRUD from "../Components/PayBuyNowCRUD";
+
+export default function PayBuyNow(){
     function getToken() {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -25,10 +25,11 @@ export default function Pay()
       const decoded = jwt_decode(token);
       if (decoded.RoleUser =="Costumer")
     return(
+
         <>
-        <Header/>
-        <PayCRUD/>
-        <Footer/>
+            <Header/>
+            <PayBuyNowCRUD/>
+            <Footer/>
         </>
     )
     else  return <Login />

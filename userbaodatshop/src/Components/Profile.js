@@ -73,14 +73,14 @@ const Profile = () => {
                     <ListItemIcon>
                         <IconUser width={20} />
                     </ListItemIcon>
-                    <ListItemText>My Profile</ListItemText>
+                    <ListItemText>Thông tin tài khoản</ListItemText>
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>
                         <IconMail width={20} />
                     </ListItemIcon>
                  
-                    <ListItemText onClick={()=>history("/account")}>My Account</ListItemText>
+                    <ListItemText onClick={()=>history("/account")}> Đơn hàng </ListItemText>
                    
                     
                 </MenuItem>

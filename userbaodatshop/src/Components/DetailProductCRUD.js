@@ -2,10 +2,10 @@
 import React from 'react';
 import { variable } from "../Variable"
 import "../Assets/css/styledetailproduct.css"
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import "../Components/Message.js"
+
 import Loading from "../Page/Loading";
 
 // import "../Assets/scrip/zoomScrip"
@@ -18,11 +18,17 @@ export default function Product2() {
     const [number, setNumber] = useState(1);
     var [records, setRecords] = useState()
     var [sizePr, setSizePr] = useState();
+    var [idPrSize, setIdPrSize] = useState(0);
     const [itemSize, setItemSize] = useState('');
     var [tonKho, setTonKho] = useState(0);
     const [stars, setStars] = useState([false, false, false, false, false]);
     var [review, setReview] = useState([]);
     var [starTB, setStarTB] = useState(0);
+    var [contentAddRV, setContentAddRV] = useState('');
+    var [starAddRV, setStarAddRV] = useState(0);
+    var [load, setLoad] = useState(0);
+    var [tongComment, setTongComment] = useState(0);
+    var [tongStar, setTongStar] = useState(0);
     const itemSizeClick = (event) => {
         setItemSize(event.target.value);
     };
@@ -61,11 +67,15 @@ export default function Product2() {
 
         fetch(variable.API_URL + "Reviews/GetAllReviewProduct/" + id)
             .then(response => response.json())
-            .then(data => setReview(data)).catch(err => console.log(err))
+            .then(data => {
+                setTongComment(data.length)
+                setReview(data)
+
+            }).catch(err => console.log(err))
 
 
-    }, [id])
-   
+    }, [load])
+
     const truDi1 = () => {
         number >= 2 ?
             setNumber(number - 1) : setNumber(number - 0);
@@ -106,7 +116,37 @@ export default function Product2() {
                 console.log(error);
             })
     }
+    const Addreview = () => {
+        const token = getToken();
 
+        if (token == null)
+            return message.warning("Bạn cần đăng nhập để đánh giá!")
+
+
+        fetch(variable.API_URL + "Reviews/CreateReview", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            },
+            body: JSON.stringify({
+                productId: id,
+                content: contentAddRV,
+                star: starAddRV
+            })
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result == true) {
+                    message.success("Đã đánh giá")
+                    setLoad(load + 1)
+                }
+
+            }, (error) => {
+                console.log(error);
+            })
+    }
     //  zoom hình
     const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
 
@@ -127,14 +167,39 @@ export default function Product2() {
         }
         setStars(newStars);
     })
-    const DatetimeFormat=((e)=>{
-        const abc = new Date(e) 
-        var day =  abc.getDate()  +"/";
-        var month = abc.getMonth()+1 + "/";
+    const DatetimeFormat = ((e) => {
+        const abc = new Date(e)
+        var day = abc.getDate() + "/";
+        var month = abc.getMonth() + 1 + "/";
         var year = abc.getFullYear()
-        let format4 = day   + month  + year;
+        let format4 = day + month + year;
         return format4;
     })
+
+    const handleCommentChange = ((event) => {
+        setContentAddRV(event.target.value);
+    });
+
+    const handleSubmit = ((event) => {
+        event.preventDefault();
+
+        setContentAddRV('');
+    });
+    // show đánh giá
+    const [showAllComments, setShowAllComments] = useState(false);
+
+    const handleToggleComments = () => {
+        setShowAllComments(!showAllComments);
+    };
+    const displayedComments = showAllComments ? review : review.slice(0, 5);
+    // ẩn đánh giá
+    const handleResetComments = () => {
+        setContentAddRV('');
+        setShowAllComments(false);
+    };
+
+
+
     return (
         <>
             {
@@ -188,9 +253,14 @@ export default function Product2() {
                                     <span className="phudeDT">Mã số: {records.sku}</span>
                                 </div>
                                 <div className='hienThiGia'>
-                                    <p className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(records.price)}</span> </p>
+                                    <div>
+                                        <span className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(records.price)}</span> </span>
+                                    </div>
+                                    <div>
+                                        <span className="giaDT">Giá Sale: {VND.format(records.price)}</span>
+                                    </div>
 
-                                    <p className="giaDT">Giá Sale: {VND.format(records.price)}</p>
+
 
                                 </div>
                                 <div className='kichThuoc'>
@@ -202,6 +272,7 @@ export default function Product2() {
                                                     <input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} onClick={() => {
                                                         setNumber(1)
                                                         setTonKho(e.stock)
+                                                        setIdPrSize(e.id)
                                                     }} />
                                                     <label className="itemRadioDT" for={e.name}>{e.name}</label>
 
@@ -233,7 +304,22 @@ export default function Product2() {
 
 
                                 <div>
-                                    <button className='muaNgayDT'>Mua ngay</button>
+                                    {
+                                        idPrSize == '' ?
+
+                                            <button className='muaNgayDT' onClick={() => message.error("Bạn chưa chọn size!")}>
+                                                Mua ngay
+                                            </button>
+
+
+                                            : <NavLink to={'/checkoutbuynow'}
+                                                state={[number, idPrSize, records.price * number, id]}>
+                                                <button className='muaNgayDT'>
+                                                    Mua ngay
+                                                </button>
+                                            </NavLink>
+                                    }
+
                                 </div>
                                 <div className='ChiCoTai'>
 
@@ -291,13 +377,14 @@ export default function Product2() {
                             <div>
                                 <h5>Đánh giá sản phẩm</h5>
                             </div>
-                          
+
                             <div>
                                 <div>
-                                 
+
                                     <span>4.9</span>
                                     <span> trên</span>
                                     <span> 5</span>
+                                    <span> ({tongComment} đánh giá)</span>
                                     <div className="starReview ">
                                         <i class="fas fa-star itemStar"></i>
                                         <i class="fas fa-star itemStar"></i>
@@ -307,49 +394,58 @@ export default function Product2() {
 
                                     </div>
                                 </div>
-                              
-                                {
-                                    review != null ?
-                                        review.map(rv=>
-                                            <div className='cacDanhGia'>
-                                            <div className='itemCacDanhGia1'>
-                                                <div className="imgReview">
-                                                    <img src={require("../Assets/images/AoBarca2023.png")} alt="ac"></img>
-                                                </div>
-                                            </div>
-                                            <div className='itemCacDanhGia2'>
-                                                <div>
-                                                    <span>{rv.account.fullName}</span>
-                                                </div>
-                                                <div className="starUser ">
-                                                    {
-                                                        
-                                                        rv.star==5?    <div><span className='starRVHienThi'>★★★★★</span></div>:
-                                                            rv.star==4?<div><span className='starRVHienThi'>★★★★</span><span>★</span></div>:                                                          
-                                                            rv.star==3?<div><span className='starRVHienThi'>★★★</span><span>★★</span></div>:                                                          
-                                                            rv.star==2?<div><span className='starRVHienThi'>★★</span><span>★★★</span></div>:                                                          
-                                                            rv.star==1?<div><span className='starRVHienThi'>★</span><span>★★★★</span></div>:null                                                          
-                                                        
-                                                    }
-                                                    
-                                                </div>
-                                                <div className='noiDungDanhGia'>
-                                                    <div>
-                                                         <span>{rv.content}</span>
-                                                    </div>
-                                                    
-                                                    <div className='ngayDanhGia'><span>Ngày đánh giá: {DatetimeFormat(rv.dateTime)} </span></div>
-                                                </div>
-                                            </div>
 
-                                        </div>
-                                            )
-                                         : null
+                                {
+                                    displayedComments != null ?
+                                        displayedComments.map(rv =>
+                                            <div className='cacDanhGia'>
+                                                <div className='itemCacDanhGia1'>
+                                                    <div className="imgReview">
+                                                        <img src={require("../Assets/images/AoBarca2023.png")} alt="ac"></img>
+                                                    </div>
+                                                </div>
+                                                <div className='itemCacDanhGia2'>
+                                                    <div>
+                                                        <span>{rv.account.fullName}</span>
+                                                    </div>
+                                                    <div className="starUser ">
+                                                        {
+
+                                                            rv.star == 5 ? <div><span className='starRVHienThi'>★★★★★</span></div> :
+                                                                rv.star == 4 ? <div><span className='starRVHienThi'>★★★★</span><span>★</span></div> :
+                                                                    rv.star == 3 ? <div><span className='starRVHienThi'>★★★</span><span>★★</span></div> :
+                                                                        rv.star == 2 ? <div><span className='starRVHienThi'>★★</span><span>★★★</span></div> :
+                                                                            rv.star == 1 ? <div><span className='starRVHienThi'>★</span><span>★★★★</span></div> : null
+
+                                                        }
+
+                                                    </div>
+                                                    <div className='noiDungDanhGia'>
+                                                        <div>
+                                                            <span>{rv.content}</span>
+                                                        </div>
+
+                                                        <div className='ngayDanhGia'><span>Ngày đánh giá: {DatetimeFormat(rv.dateTime)} </span></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        )
+                                        : null
                                 }
 
                                 <div className='vietDanhGia'>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                         Viết đánh giá
+                                    </button>
+
+                                    {!showAllComments && review.length > 5 && (
+                                        <button class="btn btn-light xemthemBL" onClick={handleToggleComments}>Xem thêm ({review.length - 5}) bình luận</button>
+                                    )}
+                                    <button>
+                                        {showAllComments && (
+                                            <button class="btn btn-light xemthemBL" onClick={handleResetComments}>Ẩn bớt</button>
+                                        )}
                                     </button>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -367,7 +463,10 @@ export default function Product2() {
                                                             <span
                                                                 key={index}
                                                                 className={`starRV ${filled ? 'filled' : ''}`}
-                                                                onClick={() => clickStar(index)}
+                                                                onClick={() => {
+                                                                    setStarAddRV(index + 1)
+                                                                    clickStar(index)
+                                                                }}
                                                             >
                                                                 ★
                                                             </span>
@@ -376,13 +475,24 @@ export default function Product2() {
 
                                                     <div class="row">
 
+                                                        <textarea
+                                                            value={contentAddRV}
+                                                            onChange={handleCommentChange}
+                                                            placeholder="Nhập bình luận"
+                                                            className="comment-input"
+                                                            required
+                                                        />
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal"
-
-                                                        >Gửi đánh giá</button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => {
+                                                            if (starAddRV == 0) {
+                                                                return message.warning("Bạn chưa chọn sao!")
+                                                            }
+                                                            Addreview()
+                                                        }} >Gửi đánh giá</button>
                                                     </div>
+
                                                 </div>
 
                                             </div>

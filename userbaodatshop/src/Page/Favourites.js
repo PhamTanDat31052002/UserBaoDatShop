@@ -1,11 +1,10 @@
 import React from "react";
-import PayCRUD from "../Components/PayCRUD";
+import FavouriteCRUD from "../Components/FavouriteCRUD";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import jwt_decode from "jwt-decode";
 import Login from './Login';
-export default function Pay()
-{
+export default function Favourites(){
     function getToken() {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -27,7 +26,7 @@ export default function Pay()
     return(
         <>
         <Header/>
-        <PayCRUD/>
+        <FavouriteCRUD/>
         <Footer/>
         </>
     )

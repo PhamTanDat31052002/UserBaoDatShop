@@ -1,9 +1,33 @@
 import React from 'react'
 // import "../Assets/css/bootstrap.min.css"
 import "../Assets/css/style.css"
-
+import { useEffect } from 'react';
+import { variable } from "../Variable"
+import { useState } from 'react';
 // import "../Assets/css/font-awesome.min.css"
 export default function HomeCRUD() {
+    function getToken() {
+        const tokenString = localStorage.getItem('token');
+        const userToken = JSON.parse(tokenString);
+        return userToken
+    }
+    var [records, setRecords] = useState([]);
+    useEffect(() => {
+        const token = getToken();
+        if (token != null) {
+            fetch(variable.API_URL + "AdvertisingPanels/GetAllAdvertisingPanelStatusTrue", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization': `Bearer ${token.value}`,
+                }
+            }).then(response => response.json())
+                .then(data => {
+                    setRecords(data)
+                }).catch(err => console.log(err))
+        }
+    }, [])
     return (
         <>
 
@@ -47,32 +71,34 @@ export default function HomeCRUD() {
                                         <li data-target="#myCarousel" data-slide-to="2"></li>
                                         <li data-target="#myCarousel" data-slide-to="3"></li>
                                     </ol>
-
-
-                                    <div className="carousel-inner">
-                                        <div className="carousel-item active">
-                                            <div className="row">
-                                                <div className="col-sm-2 padding_0">
-                                                    <p className="mens_taital">Phụ kiện thể thao</p>
-                                                    <div className="page_no">0/2</div>
-                                                    <p className="mens_taital_2">Phụ kiện thể thao</p>
-                                                </div>
-                                                <div className="col-sm-5">
-                                                    <div className="banner_taital">
-                                                        <h1 className="banner_text">Mẫu áo bóng đá mới </h1>
-                                                        <h1 className="mens_text"><strong>Hot nhất</strong></h1>
-                                                        <p className="lorem_text">pla pla pla</p>
-                                                        <button className="buy_bt">Mua ngay</button>
-                                                        <button className="more_bt">Xem thêm</button>
+                                    {
+                                        records.map(e => 
+                                            <div className="carousel-inner">
+                                                <div className="carousel-item active">
+                                                    <div className="row">
+                                                        <div className="col-sm-2 padding_0">
+                                                            <p className="mens_taital">Phụ kiện thể thao</p>
+                                                            <div className="page_no">0/2</div>
+                                                            <p className="mens_taital_2">Phụ kiện thể thao</p>
+                                                        </div>
+                                                        <div className="col-sm-5">
+                                                            <div className="banner_taital">
+                                                                <h1 className="banner_text">Mẫu áo bóng đá mới </h1>
+                                                                <h1 className="mens_text"><strong>Hot nhất</strong></h1>
+                                                                <p className="lorem_text">pla pla pla</p>
+                                                                <button className="buy_bt">Mua ngay</button>
+                                                                <button className="more_bt">Xem thêm</button>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-sm-5">
+                                                            <div className="shoes_img"><img src={'https://localhost:7067/wwwroot/image/AdvertisingPanel/'+e.image} alt='' /></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="col-sm-5">
-                                                    <div className="shoes_img"><img src={require('../Assets/images/AoMC2023.png')} alt='' /></div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                    </div>
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </section>
