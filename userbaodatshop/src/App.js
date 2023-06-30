@@ -17,6 +17,7 @@ import Favourites from './Page/Favourites';
 import Register from './Page/Register';
 import CheckoutBuyNow from './Page/CheckoutBuyNow';
 import PayBuyNow from './Page/PayBuyNow';
+import Colection from './Page/Colection';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         <Route path='/register' exact element={<Register/>}/>
         <Route path='/checkoutbuynow' exact element={<CheckoutBuyNow/>}/>
         <Route path='/paybuynow' exact element={<PayBuyNow/>}/>
+        <Route path='/colection' exact element={<Colection/>}/>
       </Routes>
     </BrowserRouter>
 

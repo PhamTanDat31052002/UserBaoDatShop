@@ -1,0 +1,19 @@
+
+.ctnColection{
+    background-color: #d9e2e2;
+   padding: 3%;
+}
+.rowColection{
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.itemRowColection{
+    display: inline-block;
+    width: 20%;
+    height: 400px;
+    background-color: white;
+    margin-right: 10px;
+     padding: 1%;
+}
+

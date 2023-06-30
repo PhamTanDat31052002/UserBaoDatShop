@@ -55,6 +55,7 @@ const Profile = () => {
             {/* ------------------------------------------- */}
             {/* Message Dropdown */}
             {/* ------------------------------------------- */}
+          
             <Menu
                 id="msgs-menu"
                 anchorEl={anchorEl2}
@@ -73,7 +74,7 @@ const Profile = () => {
                     <ListItemIcon>
                         <IconUser width={20} />
                     </ListItemIcon>
-                    <ListItemText>Thông tin tài khoản</ListItemText>
+                    <ListItemText onClick={()=>history("/account")}>Thông tin tài khoản</ListItemText>
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>

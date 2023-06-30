@@ -14,6 +14,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import { message } from "antd";
+
+
 
 export default function ProductCRUD() {
 
@@ -29,6 +34,7 @@ export default function ProductCRUD() {
 	const [itemSize, setItemSize] = useState('');
 	const [isLiked, setIsLiked] = useState(false);
 	const [idStar, setIdStar] = useState(0);
+	const [allLove, setAllLove] = useState([]);
 
 
 	// Yêu thích sp
@@ -36,21 +42,23 @@ export default function ProductCRUD() {
 		setIsLiked(!isLiked);
 	};
 	const [open, setOpen] = React.useState(false);
-
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  
 	const handleClickOpen = () => {
-		setOpen(true);
+	  setOpen(true);
 	};
-
+  
 	const handleClose = () => {
-		setOpen(false);
+	  setOpen(false);
 	};
-
 
 
 	const itemSizeClick = (event) => {
 		setItemSize(event.target.value);
 	};
 	useEffect(() => {
+		var token=getToken();
 		fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
 			.then(response => response.json())
 			.then(data => setRecord(data)).catch(err => console.log(err))
@@ -58,6 +66,18 @@ export default function ProductCRUD() {
 		// fetch(variable.API_URL + "GetAverageStartReview/"+idStar)
 		// 	.then(response => response.json())
 		// 	.then(data => (data)).catch(err => console.log(err))
+		if(token!=null)
+		{
+			fetch(variable.API_URL + "FavoriteProducts/GetAllFavoriteProduct", {
+				method: "GET",
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					'Authorization': `Bearer ${token.value}`,
+				}
+			}).then(response => response.json())
+				.then(data => setAllLove(data)).catch(err => console.log(err))
+		}
 
 	}, [])
 
@@ -124,22 +144,26 @@ export default function ProductCRUD() {
 			})
 	}
 	const LikeProduct = (data) => {
+		console.log(data)
 		const token = getToken();
-
-		fetch(variable.API_URL + "LoveProducts/CreateLoveProducts", {
-			method: "PUT",
+		if(token==null)
+		{
+			return message.error("Bạn cần đăng nhập để yêu thích!")
+		}
+		fetch(variable.API_URL + "FavoriteProducts/CreateFavoriteProduct", {
+			method: "POST",
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
 				'Authorization': `Bearer ${token.value}`
 			},
 			body: JSON.stringify({
-				id: data.id
+				productId: data
 			})
 		})
 			.then(response => response.json())
 			.then(result => {
-				alert("Đã thêm vào danh sách yêu thích")
+				message.success("Đã thêm vào danh sách yêu thích")
 			})
 	}
 	// chuyển trang
@@ -194,11 +218,7 @@ export default function ProductCRUD() {
 	//         })
 	// }
 	//custom select
-	const options = [
-		{ value: 'Option 1', label: 'Option 1' },
-		{ value: 'Option 2', label: 'Option 2' },
-		{ value: 'Option 3', label: 'Option 3' },
-	];
+
 
 
 	const truDi1 = () => {
@@ -209,6 +229,28 @@ export default function ProductCRUD() {
 		number >= tonKho ?
 			setNumber(number + 0) : setNumber(number + 1);
 	}
+
+	// Lọc giá
+	const [tangGiam, setTangGiam] = useState("1"); // Giá trị ban đầu là "1" (Giá tăng dần)
+
+	const handleFilterChangeTangGiam = (e) => {
+		setTangGiam(e.target.value);
+	};
+	const filterDatatangGiam = () => {
+		let filteredData = a;
+	
+		if (tangGiam === "1") {
+		  // Giá tăng dần
+		  filteredData.sort((a, b) => a.price - b.price);
+		} else {
+		  // Giá giảm dần
+		  filteredData.sort((a, b) => b.price - a.price);
+		}
+	
+	  };
+	
+	//   custom select
+	
 	return (
 		<>
 
@@ -216,7 +258,7 @@ export default function ProductCRUD() {
 
 			<div>
 				<div>
-					<select className="selectLoc" onChange={(e) => FilterPrice(e.target.value)}>
+					<select className="selectLoc" onChange={(e) => handleFilterChangeTangGiam(e.target.value)}>
 						<option value={"1"}>Giá tăng dần</option>
 						<option value={"0"}>Giá giảm dần</option>
 
@@ -227,25 +269,24 @@ export default function ProductCRUD() {
 
 					<div className="collection_section layout_padding columnPD1">
 						<div className="container ">
-							{/* <div className="custom-select">
+							<div className="select-wrapper1">
+								<select className="custom-select1" value={selectedType} onChange={(e) => ChangeFilter(e.target.value)}>
 
-								<Dropdown value={selectedType} onChange={(e) => ChangeFilter(e.target.value)} options={ProductType} />
-							</div> */}
-							<select value={selectedType} onChange={(e) => ChangeFilter(e.target.value)}>
+									<option value="0" hidden>Tất cả</option>
 
-								<option value="0" hidden>Tất cả</option>
+									<option value="0">Tất cả</option>
+									{
+										ProductType.map(a =>
+											<>
+												<option className="itemSelectPD" value={a.id}>{a.name}</option>
+											</>
 
-								<option value="0">Tất cả</option>
-								{
-									ProductType.map(a =>
-										<>
-											<option className="itemSelectPD" value={a.id}>{a.name}</option>
-										</>
+										)
+									}
 
-									)
-								}
-
-							</select>
+									</select>
+							</div>
+						
 						</div>
 
 
@@ -287,52 +328,110 @@ export default function ProductCRUD() {
 												</div>
 												<div className="hidden-child2">
 													{/* <i className="fa fa-shopping-cart gioHangPD"></i> */}
-
-													<button
-														className="gioHangPD"
-														onClick={
-															() => {
-																LikeProduct(dep)
-																handleClickLike()
+													{
+																
+																allLove!=null?
+																	allLove.filter((item)=>{
+	
+																		 return item.productId==dep.id ? item:null
+																	
+																	})
+																	.map(maplike=>
+																			<button
+																		className="gioHangPD"
+																		onClick={
+																			() => {
+																				
+																				LikeProduct(dep.id)
+																				handleClickLike()
+																			}
+																		}
+																		style={{
+																			display: 'inline-block',
+																			padding: '4px',
+																			borderRadius: '50%',
+																			backgroundColor: 'white',
+																			border: 'none',
+																			cursor: 'pointer',
+																			outline: 'none',
+				
+																		}}
+																	>
+																		<div
+																			style={{
+																				position: 'relative',
+																				width: '24px',
+																				height: '24px',
+																			}}
+																		>
+																			<div
+																				style={{
+				
+																					position: 'absolute',
+																					top: 0,
+																					left: 0,
+																					width: '100%',
+																					height: '100%',
+				
+																				}}
+																			/>
+																			❤️
+																		
+																		</div>
+																		</button>
+																	
+																	):
+																	<button
+																	className="gioHangPD"
+																	onClick={
+																		() => {
+																			
+																			LikeProduct(dep.id)
+																			handleClickLike()
+																		}
+																	}
+																	style={{
+																		display: 'inline-block',
+																		padding: '4px',
+																		borderRadius: '50%',
+																		backgroundColor: 'white',
+																		border: 'none',
+																		cursor: 'pointer',
+																		outline: 'none',
+			
+																	}}
+																>
+																	<div
+																		style={{
+																			position: 'relative',
+																			width: '24px',
+																			height: '24px',
+																		}}
+																	>
+																		<div
+																			style={{
+			
+																				position: 'absolute',
+																				top: 0,
+																				left: 0,
+																				width: '100%',
+																				height: '100%',
+			
+																			}}
+																		/>
+																		🤍
+																	
+																	</div>
+																	</button>
 															}
-														}
-														style={{
-															display: 'inline-block',
-															padding: '4px',
-															borderRadius: '50%',
-															backgroundColor: 'white',
-															border: 'none',
-															cursor: 'pointer',
-															outline: 'none',
 
-														}}
-													>
-														<div
-															style={{
-																position: 'relative',
-																width: '24px',
-																height: '24px',
-															}}
-														>
-															<div
-																style={{
 
-																	position: 'absolute',
-																	top: 0,
-																	left: 0,
-																	width: '100%',
-																	height: '100%',
 
-																}}
-															/>
-															{isLiked ? '❤️' : '🤍'}
-														</div>
-													</button>
 
 													{/* <button className="btnMua">Mua ngay</button> */}
 
 													{/* btnmua */}
-													<button type="button" class="btnMua" data-toggle="modal" data-target="#exampleModal" onClick={() => setdtProduct(dep.id)}>Mua ngay</button>
+													{/* <button type="button" class="btnMua" data-toggle="modal" data-target="#exampleModal" onClick={() => setdtProduct(dep.id)}>Mua ngay</button>
 													<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 														<div class="modal-dialog" role="document">
 															<div class="modal-content">
@@ -349,8 +448,7 @@ export default function ProductCRUD() {
 																		}
 																		<div>
 																			<p className="tieudeDT" >{records.name}</p>
-																			{/* <p className="phudeDT">Chất liệu:</p>
-                                    <p className="phudeDT">Loại: </p> */}
+																			
 																			<span className="phudeDT">Mã số: {records.sku}</span>
 																		</div>
 																		<div className='hienThiGia'>
@@ -412,34 +510,36 @@ export default function ProductCRUD() {
 																</div>
 															</div>
 														</div>
-													</div>
+													</div> */}
 													{/* btnmua */}
 
-													{/* <Button variant="outlined" onClick={handleClickOpen}>
-														Open alert dialog
-													</Button>
-													<Dialog
-														open={open}
-														onClose={handleClose}
-														aria-labelledby="alert-dialog-title"
-														aria-describedby="alert-dialog-description"
-													>
-														<DialogTitle id="alert-dialog-title">
-															{"Use Google's location service?"}
-														</DialogTitle>
-														<DialogContent>
-															<DialogContentText id="alert-dialog-description">
-																Let Google help apps determine location. This means sending anonymous
-																location data to Google, even when no apps are running.
-															</DialogContentText>
-														</DialogContent>
-														<DialogActions>
-															<Button onClick={handleClose}>Disagree</Button>
-															<Button onClick={handleClose} autoFocus>
-																Agree
-															</Button>
-														</DialogActions>
-													</Dialog> */}
+													<button className="btnMua" onClick={handleClickOpen}>Mua ngay</button>
+															
+															<Dialog
+																fullScreen={fullScreen}
+																open={open}
+																onClose={handleClose}
+																aria-labelledby="responsive-dialog-title"
+															>
+																<DialogTitle id="responsive-dialog-title">
+																{"Use Google's location service?"}
+																</DialogTitle>
+																<DialogContent>
+																<DialogContentText>
+																	Let Google help apps determine location. This means sending anonymous
+																	location data to Google, even when no apps are running.
+																</DialogContentText>
+																</DialogContent>
+																<DialogActions>
+																<Button autoFocus onClick={handleClose}>
+																	Hủy
+																</Button>
+																<Button onClick={handleClose} autoFocus>
+																	Đồng ý
+																</Button>
+																</DialogActions>
+															</Dialog>
+															
 													
 												</div>
 											</div>

@@ -311,7 +311,7 @@ export default function PrimarySearchAppBar() {
             <NavLink to="/product" className="nav-item nav-link itemTask" >Sản phẩm</NavLink>
           </Typography>
           <Typography>
-            <NavLink to="/product" className="nav-item nav-link itemTask" >Bộ sưu tập</NavLink>
+            <NavLink to="/colection" className="nav-item nav-link itemTask" >Bộ sưu tập</NavLink>
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />

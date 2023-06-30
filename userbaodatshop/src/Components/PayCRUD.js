@@ -12,9 +12,10 @@ export default function PayCRUD() {
     var tongTien=location.state[2]
     var dc=location.state[0];
     var sdt=location.state[1];
+    var name=location.state[3];
     var history=useNavigate();
     var [payMedIV, setPayMedIV] = useState(false);
-   
+   console.log(location)
     var payIV=false;
     var [infor, setInfor] = useState();
     var [allCart, setAllCart] = useState();
@@ -73,6 +74,7 @@ export default function PayCRUD() {
                 'Authorization': `Bearer ${token.value}`
             },
             body: JSON.stringify({
+                nameCustomer:name,
                 total:tongTien,
                 shippingAddress: dc,
                 shippingPhone: sdt,

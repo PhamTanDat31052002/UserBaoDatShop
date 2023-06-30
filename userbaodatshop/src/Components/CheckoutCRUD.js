@@ -31,7 +31,7 @@ export default function CheckoutCRUD() {
     var [phiShip,setPhiShip]=useState(20000);
     var [voucher,setVoucher]=useState("");
     var [giaCuoiCung,setGiaCuoiCung]=useState(0);
-
+    var [fullNameNext,setFullNameNext]=useState('');
     var [Disscount,setDisscount]=useState("");
 
     
@@ -228,7 +228,10 @@ export default function CheckoutCRUD() {
 
                                     <div class="mb-3">
                                         <label for="text">Họ và tên <span class="text-muted"></span></label>
-                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={infor.fullName} onChange={(e) => setInfor(e.target.value)} />
+                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={infor.fullName} onChange={(e) => 
+                                           { setInfor(e.target.value)
+                                            setFullNameNext(e.target.value)}
+                                            } />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập họ và tên!
                                         </div>
@@ -393,20 +396,26 @@ export default function CheckoutCRUD() {
                                     <div className="tiepTucThanhToan">
                                         <NavLink to={"/cart"}><p>Giỏ hàng</p></NavLink>
                                        
-                                        {/* {
-                                            infor.fullName==''?
-                                            <button style={{ marginLeft: "20%" }} onClick={()=>message.error("Vui lòng điền đầy đủ thông tin giao")} class="btn btn-primary btn-lg" type="submit"  ></button>
-
-                                            : */}
+                                       {
+                                        
+                                            sdtPay == "" ||sdtPay.length!=10?
+                                            <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit" onClick={()=>message.error("Số điện thoại không hợp lệ!")} >  Tiếp tục đến phương thức thanh toán
+                                            </button>
+                                            :
+                                       
                                             <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit"  >
                                                     
-                                            <NavLink to={'/pay'} state={   [Address1 == '' ?
-                                                   infor.address : Address1,sdtPay == '' ? infor.phone : sdtPay,total+phiShip-voucher]}  >
+                                            <NavLink to={'/pay'} state={   [
+                                                Address1 == '' ? infor.address : Address1,
+                                                   sdtPay == '' ? infor.phone : sdtPay,
+                                                     Disscount==''? total+phiShip: total-(total*Disscount.disscount/100)+phiShip,
+                                                        fullNameNext==''?infor.fullName:fullNameNext
+                                                ]}  >
                                                Tiếp tục đến phương thức thanh toán</NavLink> 
                                        </button>
                                                             
-                                        {/* // } */}
-                                       
+                                  
+                                }
                                         
                                     </div>
 

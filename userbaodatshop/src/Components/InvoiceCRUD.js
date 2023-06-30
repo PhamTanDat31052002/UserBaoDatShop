@@ -101,9 +101,9 @@ export default function InvoiceCRUD() {
 
                 <div className="IF1">
                     <div className="itemIF1_1">
-                        <NavLink to={"/account"}><p>Tài khoản của tôi</p></NavLink>
-                        <NavLink to={'/invoice'}><p>Đơn hàng của tôi</p></NavLink>
-                        <NavLink to={'/favourites'}><p>Danh sách yêu thích</p></NavLink>
+                        <NavLink to={"/account"}><p style={{fontWeight:"bold"}}>Tài khoản của tôi</p></NavLink>
+                        <NavLink to={'/invoice'}><p style={{fontWeight:"bold"}}>Đơn hàng của tôi</p></NavLink>
+                        <NavLink to={'/favourites'}><p style={{fontWeight:"bold"}}>Danh sách yêu thích</p></NavLink>
                         <p>Kho voucher</p>
                         <p>Thông báo</p>
                     </div>
