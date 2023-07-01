@@ -230,11 +230,23 @@
     border: 1px solid;
     width: 10%;
   }
+  .itemSizeDTFalse{
+    text-align: center;
+    margin: 0% 1%;
+    border: 1px solid #ccc;
+    width: 10%;
+  }
   .itemRadioDT{
     /* padding-left: 20%; */
     font-size: 20px;
     height: 100%;
     width: 100%;
+  }
+  .itemRadioDTFalse{
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
+    color: #ccc;
   }
   /* Đánh giá */
   .containerDanhGia{

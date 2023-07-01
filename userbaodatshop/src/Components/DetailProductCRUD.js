@@ -279,8 +279,8 @@ export default function Product2() {
                                                     <label className="itemRadioDT" for={e.name}>{e.name}</label>
 
                                                 </div>
-                                                : <div className='itemSizeDT'>
-                                                    <label className="itemRadioDT" for={e.name}>{e.name}</label>
+                                                : <div className='itemSizeDTFalse'>
+                                                    <label className="itemRadioDTFalse" for={e.name}>{e.name}</label>
 
                                                 </div>
                                         ) : null}
