@@ -13,7 +13,7 @@ import {
 import { useNavigate } from 'react-router-dom';	
 import { IconListCheck, IconMail, IconUser } from '@tabler/icons';
 
-import ProfileImg from '../Assets/images/AoBarca2023.png';
+import ProfileImg from '../Assets/images/AoMU2023.png';
 
 const Profile = () => {
     const [anchorEl2, setAnchorEl2] = useState(null);
@@ -81,7 +81,7 @@ const Profile = () => {
                         <IconMail width={20} />
                     </ListItemIcon>
                  
-                    <ListItemText onClick={()=>history("/account")}> Đơn hàng </ListItemText>
+                    <ListItemText onClick={()=>history("/invoice")}> Đơn hàng </ListItemText>
                    
                     
                 </MenuItem>

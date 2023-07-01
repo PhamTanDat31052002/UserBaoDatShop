@@ -38,9 +38,14 @@ export default function CheckoutBuyNowCRUD() {
     var [dcPay, setDcPay] = useState('');
     var [dataPay, setdatapay] = useState([]);
     var [phiShip, setPhiShip] = useState(20000);
-    var [voucher, setVoucher] = useState(0);
+    var [voucher, setVoucher] = useState("");
     var [giaCuoiCung, setGiaCuoiCung] = useState(0);
-
+    var [Disscount,setDisscount]=useState("");
+   // dữ liệu truyền qua pay
+   var [diachi,setdiachi]=useState("");
+   var [email,seteamal]=useState(0);
+   var [ten,setten]=useState('');
+   var [dt,setdt]=useState("");
 
 
 
@@ -63,7 +68,15 @@ export default function CheckoutBuyNowCRUD() {
                 'Authorization': `Bearer ${token.value}`,
             }
         }).then(response => response.json())
-            .then(data => setInfor(data)).catch(err => console.log(err))
+        .then(data => {
+            setInfor(data)
+            setdiachi(data.address)
+            seteamal(data.email)
+            setten(data.fullName)
+            setdt(data.phone)
+        }
+           
+            ).catch(err => console.log(err))
 
 
         fetch(variable.API_URL + "ProductSizes/GetByid/" + idProductSize)
@@ -82,7 +95,36 @@ export default function CheckoutBuyNowCRUD() {
             .then(data => setAPIDiaChi(data)).catch(err => console.log(err))
 
     }, [])
-
+    const validationVOucher=((e)=>{
+        const token = getToken();
+        fetch(variable.API_URL + "Vouchers/ValidationVoucher", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`,
+            },body: JSON.stringify({
+				name:e
+			})
+        })
+            .then(response => response.json())
+            .then(data => {
+                if(data=="null")
+                {
+                    setDisscount("")
+                    return message.error("Mã không hợp lệ")
+                }
+               
+                else{
+                    message.success("Mã đã được kích hoạt")
+                    setDisscount(data)
+                }
+                
+            }
+               
+                )
+            .catch(err => console.log(err))
+    })
     return (
         <>
             {
@@ -102,7 +144,7 @@ export default function CheckoutBuyNowCRUD() {
                                             <ul class="item-list">
                                                 <li className="itemCheckOut">
                                                     <div className="imgItemCheckOut">
-                                                        <img src={require("../Assets/images/" + itemPr.image)} alt="sp"></img>
+                                                        <img src={"https://localhost:7067/wwwroot/image/product/" + itemPr.image} alt="sp"></img>
                                                     </div>
                                                     <div className="tenItemCheckOut">
                                                         <div>
@@ -125,9 +167,11 @@ export default function CheckoutBuyNowCRUD() {
 
                                 <div class="card p-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Mã giảm giá" />
+                                         <input type="text" class="form-control" onChange={(e)=>setVoucher(e.target.value)} value={voucher} placeholder="Mã giảm giá" />
                                         <div class="input-group-append">
-                                            <button type="submit" class="btn btn-secondary">Sử dụng</button>
+                                            <button onClick={()=>{
+                                               validationVOucher(voucher)
+                                            }}  class="btn btn-secondary">Sử dụng</button>
                                         </div>
                                         <div className="tamTinhCO">
                                             <div className="itemTamTinh1">
@@ -139,6 +183,9 @@ export default function CheckoutBuyNowCRUD() {
                                                 </div>
                                                 <div>
                                                     <span>Giảm giá:</span>
+                                                </div>
+                                                <div>
+                                                    <span>Tiết kiệm:</span>
                                                 </div>
                                                 <div style={{ borderTop: "1px solid" }}>
                                                     <span style={{ fontSize: "23px" }}>Tổng tiền:</span>
@@ -153,14 +200,20 @@ export default function CheckoutBuyNowCRUD() {
                                                     <span>{VND.format(phiShip)}</span>
                                                 </div>
                                                 <div>
-                                                    <span>{VND.format(voucher)}</span>
+                                                    <span>{Disscount.disscount}%</span>
+                                                </div>
+                                                <div>
+                                                <span>{
+                                                        Disscount==""?0:
+                                                    VND.format(total*Disscount.disscount/100)
+                                                    }</span>
                                                 </div>
 
                                                 <div style={{ paddingTop: "2%", borderTop: "1px solid" }}>
                                                     <span style={{ fontSize: "23px" }}>
-                                                        {
-
-                                                            VND.format(total + phiShip - voucher)
+                                                    {
+                                                        Disscount==""?
+                                                        VND.format(total+phiShip): VND.format(total-(total*Disscount.disscount/100)+phiShip)
                                                         }
                                                     </span>
                                                 </div>
@@ -180,14 +233,14 @@ export default function CheckoutBuyNowCRUD() {
 
                                     <div class="mb-3">
                                         <label for="text">Họ và tên <span class="text-muted"></span></label>
-                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={infor.fullName} onChange={(e) => setInfor(e.target.value)} />
+                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={infor.fullName} onChange={(e) => setten(e.target.value)} />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập họ và tên!
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">Email <span class="text-muted"></span></label>
-                                        <input type="email" class="form-control" id="email" placeholder="Email" value={infor.email} onChange={(e) => setInfor(e.target.value)} />
+                                        <input type="email" class="form-control" id="email" placeholder="Email" value={infor.email} onChange={(e) => seteamal(e.target.value)} />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập Email!
                                         </div>
@@ -195,7 +248,7 @@ export default function CheckoutBuyNowCRUD() {
                                     <div class="mb-3">
                                         <label for="email">Số điện thoại <span class="text-muted"></span></label>
                                         <input type="number" class="form-control" id="numberphone" placeholder="Số điện thoại" value={infor.phone} onChange={(e) => {
-                                            setInfor(e.target.value)
+                                            setdt(e.target.value)
                                             setSDTPay(e.target.value)
                                         }} />
                                         <div class="invalid-feedback">
@@ -213,7 +266,7 @@ export default function CheckoutBuyNowCRUD() {
 
                                             }
                                             onChange={(e) => {
-                                                setInfor(e.target.value)
+                                                setdiachi(e.target.value)
                                                 setAddress1(e.target.value)
                                             }} />
                                         <div class="invalid-feedback">
@@ -344,15 +397,21 @@ export default function CheckoutBuyNowCRUD() {
                                         <NavLink to={"/cart"}><p>Giỏ hàng</p></NavLink>
                                         {/* <NavLink to={"/pay"}> */}
                                         {
-                                            sdtPay == "" ||sdtPay.length!=10?
-                                                <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit" onClick={()=>message.error("Số điện thoại không hợp lệ!")} >  Tiếp tục đến phương thức thanh toán
-                                                </button>
-                                                :
+                                            // sdtPay == "" ||sdtPay.length!=10?
+                                            //     <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit" onClick={()=>message.error("Số điện thoại không hợp lệ!")} >  Tiếp tục đến phương thức thanh toán
+                                            //     </button>
+                                            //     :
 
                                                 <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit"  >
 
-                                                    <NavLink to={'/paybuynow'} state={[Address1 == '' ?
-                                                        infor.address : Address1, sdtPay == 0 ? infor.phone : sdtPay, total + phiShip - voucher, idProductSize, idProduct, number]}  >
+                                                    <NavLink to={'/paybuynow'} state={[Address1 == '' ?diachi : Address1,
+                                                     sdtPay == 0 ? dt : sdtPay,
+                                                     Disscount==''? total+phiShip: total-(total*Disscount.disscount/100)+phiShip,
+                                                       idProductSize,
+                                                        idProduct,
+                                                         number,
+                                                         ten
+                                                         ]}  >
                                                         Tiếp tục đến phương thức thanh toán</NavLink>
                                                 </button>
                                         }

@@ -8,11 +8,18 @@ import { message } from "antd";
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 export default function InvoiceCRUD() {
     var [invoice, setInvoice] = useState([]);
     var [filter, setFilter] = useState([]);
     var [invoiceDT, setInvoiceDT] = useState([]);
     var history=useNavigate();
+    var [id,setId]=useState();
+    var [open1, setopen] = useState(false);
     const VND = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
@@ -64,9 +71,11 @@ export default function InvoiceCRUD() {
             .then(response => response.json())
             .then(result => {
                 if (result == "Thành công") {
+                    setopen(false)
                     message.success("Bạn đã hủy đơn hàng!")
                 }
                 else{
+                    setopen(false)
                     message.error("Bạn không thể hủy đơn!")
                 }
             }).catch(err => console.log(err))
@@ -97,6 +106,30 @@ export default function InvoiceCRUD() {
 
     return (
         <>
+        {/* hủy đơn hàng */}
+        <Dialog
+                open={open1}
+                keepMounted
+                onClose={() => {
+                    setopen(false)
+                }}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Bạn có chắc muốn hủy đơn hàng?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                            Những vouvher bạn áp dụng vào đơn hàng này sẽ không được hoàn lại!
+                        </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        deleteInvoice(id)
+                    }}>Xác nhận</Button>
+                    <Button onClick={() => {
+                        setopen(false)
+                    }}>Thoát</Button>
+                </DialogActions>
+            </Dialog>
             <div className="containerIF">
 
                 <div className="IF1">
@@ -155,7 +188,7 @@ export default function InvoiceCRUD() {
                                                     <div className="itemDonHang">
                                                         <div className="sanPhamIV">
                                                             <div className="imgsanPhamIV">
-                                                                <img style={{ border: "1px solid rgb(215, 215, 199)" }} src={require("../Assets/images/" + data.productSize.product.image)} width={"100px"} alt="sp"></img>
+                                                                <img style={{ border: "1px solid rgb(215, 215, 199)" }} src={"https://localhost:7067/wwwroot/image/product/" + data.productSize.product.image} width={"100px"} alt="sp"></img>
                                                             </div>
                                                             <div className="chiTietsanPhamIV">
                                                                 <div><span>{data.productSize.product.name}</span></div>
@@ -206,8 +239,8 @@ export default function InvoiceCRUD() {
                                                         {/* modal */}
                                                 <button className="btnHuyDonIV" onClick={() => {
                                                     if (dep.orderStatus == 1 || dep.orderStatus == 2) {
-                                                        console.log(dep.orderStatus)
-                                                        deleteInvoice(dep.id)
+                                                       setopen(true)
+                                                       setId(dep.id)
 
                                                     }
                                                     else {

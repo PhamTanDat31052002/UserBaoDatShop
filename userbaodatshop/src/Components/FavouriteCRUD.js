@@ -80,7 +80,7 @@ export default function FavouriteCRUD(){
                                                     <div className="itemDonHang">
                                                         <div className="sanPhamIV">
                                                             <div className="imgsanPhamIV">
-                                                                <img style={{ border: "1px solid rgb(215, 215, 199)" }} src={require("../Assets/images/" + data.product.image)} width={"100px"} alt="sp"></img>
+                                                                <img style={{ border: "1px solid rgb(215, 215, 199)" }} src={"https://localhost:7067/wwwroot/image/product/" + data.product.image} width={"100px"} alt="sp"></img>
                                                             </div>
                                                             <div className="chiTietsanPhamIV">
                                                                 <div><span> {data.product.name}</span></div>

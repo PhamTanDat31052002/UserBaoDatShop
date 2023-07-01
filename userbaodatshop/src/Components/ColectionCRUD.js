@@ -76,7 +76,7 @@ export default function ColectionCRUD() {
                             product.map(pr =>
                                 <NavLink to="/detail" state={pr.id}><div className="itemRowColection">
                                     <div>
-                                        <img src={require('../Assets/images/' + pr.image)} alt=""></img>
+                                        <img src={"https://localhost:7067/wwwroot/image/product/" + pr.image} alt=""></img>
                                     </div>
                                     <div style={{ width: "100%", padding: "1%", textAlign: "center", fontWeight: "bold" }}>
                                         <p>{pr.name}</p>
@@ -96,7 +96,7 @@ export default function ColectionCRUD() {
                             product.map(pr =>
                                 <NavLink to="/detail" state={pr.id}><div className="itemRowColection">
                                     <div>
-                                        <img src={require('../Assets/images/' + pr.image)} alt=""></img>
+                                        <img src={"https://localhost:7067/wwwroot/image/product/" + pr.image} alt=""></img>
                                     </div>
                                     <div style={{ width: "100%", padding: "1%", textAlign: "center", fontWeight: "bold" }}>
                                         <p>{pr.name}</p>

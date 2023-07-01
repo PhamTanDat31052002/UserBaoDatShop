@@ -91,6 +91,7 @@ export default function HomeCRUD() {
                                                             </div>
                                                         </div>
                                                         <div className="col-sm-5">
+                                                            {console.log(e.image)}
                                                             <div className="shoes_img"><img src={'https://localhost:7067/wwwroot/image/AdvertisingPanel/'+e.image} alt='' /></div>
                                                         </div>
                                                     </div>
@@ -132,7 +133,7 @@ export default function HomeCRUD() {
                             </div>
                             <div className="col-md-6">
                                 <div className="about-img2">
-                                    <div className="shoes-img2"><img src={require('../Assets/images/AoBarca2023.png')} alt='' /></div>
+                                    <div className="shoes-img2"><img src={require('../Assets/images/AoMU2023.png')} alt='' /></div>
                                     <p className="sport_text">Men Sports</p>
                                     <div className="dolar_text">$<strong style={{ color: "#f12a47" }}>90</strong> </div>
                                     <div className="star_icon">
@@ -163,7 +164,7 @@ export default function HomeCRUD() {
                     <div className="racing_shoes">
                         <div className="row">
                             <div className="col-md-8">
-                                <div className="shoes-img3"><img src={require("../Assets/images/AoBarca2023.png")} alt='' /></div>
+                                <div className="shoes-img3"><img src={require("../Assets/images/AoMU2023.png")} alt='' /></div>
                             </div>
                             <div className="col-md-4">
                                 <div className="sale_text">

@@ -36,7 +36,7 @@ export default function ProductCRUD() {
 	const [idStar, setIdStar] = useState(0);
 	const [allLove, setAllLove] = useState([]);
 
-
+	const [tam, seta] = useState("");
 	// Yêu thích sp
 	const handleClickLike = () => {
 		setIsLiked(!isLiked);
@@ -44,13 +44,13 @@ export default function ProductCRUD() {
 	const [open, setOpen] = React.useState(false);
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  
+
 	const handleClickOpen = () => {
-	  setOpen(true);
+		setOpen(true);
 	};
-  
+
 	const handleClose = () => {
-	  setOpen(false);
+		setOpen(false);
 	};
 
 
@@ -58,7 +58,7 @@ export default function ProductCRUD() {
 		setItemSize(event.target.value);
 	};
 	useEffect(() => {
-		var token=getToken();
+		var token = getToken();
 		fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
 			.then(response => response.json())
 			.then(data => setRecord(data)).catch(err => console.log(err))
@@ -66,8 +66,7 @@ export default function ProductCRUD() {
 		// fetch(variable.API_URL + "GetAverageStartReview/"+idStar)
 		// 	.then(response => response.json())
 		// 	.then(data => (data)).catch(err => console.log(err))
-		if(token!=null)
-		{
+		if (token != null) {
 			fetch(variable.API_URL + "FavoriteProducts/GetAllFavoriteProduct", {
 				method: "GET",
 				headers: {
@@ -146,8 +145,7 @@ export default function ProductCRUD() {
 	const LikeProduct = (data) => {
 		console.log(data)
 		const token = getToken();
-		if(token==null)
-		{
+		if (token == null) {
 			return message.error("Bạn cần đăng nhập để yêu thích!")
 		}
 		fetch(variable.API_URL + "FavoriteProducts/CreateFavoriteProduct", {
@@ -238,19 +236,19 @@ export default function ProductCRUD() {
 	};
 	const filterDatatangGiam = () => {
 		let filteredData = a;
-	
+
 		if (tangGiam === "1") {
-		  // Giá tăng dần
-		  filteredData.sort((a, b) => a.price - b.price);
+			// Giá tăng dần
+			filteredData.sort((a, b) => a.price - b.price);
 		} else {
-		  // Giá giảm dần
-		  filteredData.sort((a, b) => b.price - a.price);
+			// Giá giảm dần
+			filteredData.sort((a, b) => b.price - a.price);
 		}
-	
-	  };
-	
+
+	};
+
 	//   custom select
-	
+
 	return (
 		<>
 
@@ -284,9 +282,9 @@ export default function ProductCRUD() {
 										)
 									}
 
-									</select>
+								</select>
 							</div>
-						
+
 						</div>
 
 
@@ -302,7 +300,7 @@ export default function ProductCRUD() {
 
 												<NavLink to="/detail" state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
 
-												<NavLink to="/detail" state={dep.id}><div className="shoes_icon "><a href="a"><img src={require("../Assets/images/" + dep.image)} alt='a' /></a></div></NavLink>
+												<NavLink to="/detail" state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
 
 												<div className="star_text " >
 													<NavLink to="/detail" state={dep.id}>
@@ -328,102 +326,241 @@ export default function ProductCRUD() {
 												</div>
 												<div className="hidden-child2">
 													{/* <i className="fa fa-shopping-cart gioHangPD"></i> */}
+
 													{
-																
-																allLove!=null?
-																	allLove.filter((item)=>{
-	
-																		 return item.productId==dep.id ? item:null
-																	
-																	})
-																	.map(maplike=>
-																			<button
-																		className="gioHangPD"
-																		onClick={
-																			() => {
-																				
-																				LikeProduct(dep.id)
-																				handleClickLike()
-																			}
-																		}
-																		style={{
-																			display: 'inline-block',
-																			padding: '4px',
-																			borderRadius: '50%',
-																			backgroundColor: 'white',
-																			border: 'none',
-																			cursor: 'pointer',
-																			outline: 'none',
-				
-																		}}
-																	>
-																		<div
-																			style={{
-																				position: 'relative',
-																				width: '24px',
-																				height: '24px',
-																			}}
-																		>
-																			<div
-																				style={{
-				
-																					position: 'absolute',
-																					top: 0,
-																					left: 0,
-																					width: '100%',
-																					height: '100%',
-				
-																				}}
-																			/>
-																			❤️
-																		
-																		</div>
-																		</button>
-																	
-																	):
-																	<button
-																	className="gioHangPD"
-																	onClick={
-																		() => {
-																			
-																			LikeProduct(dep.id)
-																			handleClickLike()
-																		}
+
+														allLove.filter((item) => {
+															// console.log(item.productId)
+															// console.log(dep.id)
+															return item.productId == dep.id ? item : null
+														}) == null ?
+															<button
+																className="gioHangPD"
+																onClick={
+																	() => {
+
+																		LikeProduct(dep.id)
+																		handleClickLike()
 																	}
+																}
+																style={{
+																	display: 'inline-block',
+																	padding: '4px',
+																	borderRadius: '50%',
+																	backgroundColor: 'white',
+																	border: 'none',
+																	cursor: 'pointer',
+																	outline: 'none',
+
+																}}
+															>
+																<div
 																	style={{
-																		display: 'inline-block',
-																		padding: '4px',
-																		borderRadius: '50%',
-																		backgroundColor: 'white',
-																		border: 'none',
-																		cursor: 'pointer',
-																		outline: 'none',
-			
+																		position: 'relative',
+																		width: '24px',
+																		height: '24px',
 																	}}
 																>
 																	<div
 																		style={{
-																			position: 'relative',
-																			width: '24px',
-																			height: '24px',
+
+																			position: 'absolute',
+																			top: 0,
+																			left: 0,
+																			width: '100%',
+																			height: '100%',
+
 																		}}
-																	>
-																		<div
-																			style={{
-			
-																				position: 'absolute',
-																				top: 0,
-																				left: 0,
-																				width: '100%',
-																				height: '100%',
-			
-																			}}
-																		/>
-																		🤍
-																	
-																	</div>
-																	</button>
-															}
+																	/>
+																	🤍
+
+																</div>
+															</button>
+															: <button
+																className="gioHangPD"
+																onClick={
+																	() => {
+
+																		LikeProduct(dep.id)
+																		handleClickLike()
+																	}
+																}
+																style={{
+																	display: 'inline-block',
+																	padding: '4px',
+																	borderRadius: '50%',
+																	backgroundColor: 'white',
+																	border: 'none',
+																	cursor: 'pointer',
+																	outline: 'none',
+
+																}}
+															>
+																<div
+																	style={{
+																		position: 'relative',
+																		width: '24px',
+																		height: '24px',
+																	}}
+																>
+																	<div
+																		style={{
+
+																			position: 'absolute',
+																			top: 0,
+																			left: 0,
+																			width: '100%',
+																			height: '100%',
+
+																		}}
+																	/>
+																	❤️
+
+																</div>
+															</button>
+
+
+
+														// allLove != null ?
+														// 	allLove.filter((item) => {
+
+														// 		return item.productId == dep.id ? item : null
+
+														// 	})
+														// 		.map(
+
+														// 			maplike =>
+
+														// 				maplike != null ?
+														// 					<button
+														// 						className="gioHangPD"
+														// 						onClick={
+														// 							() => {
+
+														// 								LikeProduct(dep.id)
+														// 								handleClickLike()
+														// 							}
+														// 						}
+														// 						style={{
+														// 							display: 'inline-block',
+														// 							padding: '4px',
+														// 							borderRadius: '50%',
+														// 							backgroundColor: 'white',
+														// 							border: 'none',
+														// 							cursor: 'pointer',
+														// 							outline: 'none',
+
+														// 						}}
+														// 					>
+														// 						<div
+														// 							style={{
+														// 								position: 'relative',
+														// 								width: '24px',
+														// 								height: '24px',
+														// 							}}
+														// 						>
+														// 							<div
+														// 								style={{
+
+														// 									position: 'absolute',
+														// 									top: 0,
+														// 									left: 0,
+														// 									width: '100%',
+														// 									height: '100%',
+
+														// 								}}
+														// 							/>
+														// 							❤️
+
+														// 						</div>
+														// 					</button> :
+														// 					<button
+														// 						className="gioHangPD"
+														// 						onClick={
+														// 							() => {
+
+														// 								LikeProduct(dep.id)
+														// 								handleClickLike()
+														// 							}
+														// 						}
+														// 						style={{
+														// 							display: 'inline-block',
+														// 							padding: '4px',
+														// 							borderRadius: '50%',
+														// 							backgroundColor: 'white',
+														// 							border: 'none',
+														// 							cursor: 'pointer',
+														// 							outline: 'none',
+
+														// 						}}
+														// 					>
+														// 						<div
+														// 							style={{
+														// 								position: 'relative',
+														// 								width: '24px',
+														// 								height: '24px',
+														// 							}}
+														// 						>
+														// 							<div
+														// 								style={{
+
+														// 									position: 'absolute',
+														// 									top: 0,
+														// 									left: 0,
+														// 									width: '100%',
+														// 									height: '100%',
+
+														// 								}}
+														// 							/>
+														// 							🤍
+
+														// 						</div>
+														// 					</button>
+
+														// 		) :
+														// <button
+														// 	className="gioHangPD"
+														// 	onClick={
+														// 		() => {
+
+														// 			LikeProduct(dep.id)
+														// 			handleClickLike()
+														// 		}
+														// 	}
+														// 	style={{
+														// 		display: 'inline-block',
+														// 		padding: '4px',
+														// 		borderRadius: '50%',
+														// 		backgroundColor: 'white',
+														// 		border: 'none',
+														// 		cursor: 'pointer',
+														// 		outline: 'none',
+
+														// 	}}
+														// >
+														// 	<div
+														// 		style={{
+														// 			position: 'relative',
+														// 			width: '24px',
+														// 			height: '24px',
+														// 		}}
+														// 	>
+														// 		<div
+														// 			style={{
+
+														// 				position: 'absolute',
+														// 				top: 0,
+														// 				left: 0,
+														// 				width: '100%',
+														// 				height: '100%',
+
+														// 			}}
+														// 		/>
+														// 		🤍
+
+														// 	</div>
+														// </button>
+													}
 
 
 
@@ -514,33 +651,33 @@ export default function ProductCRUD() {
 													{/* btnmua */}
 
 													<button className="btnMua" onClick={handleClickOpen}>Mua ngay</button>
-															
-															<Dialog
-																fullScreen={fullScreen}
-																open={open}
-																onClose={handleClose}
-																aria-labelledby="responsive-dialog-title"
-															>
-																<DialogTitle id="responsive-dialog-title">
-																{"Use Google's location service?"}
-																</DialogTitle>
-																<DialogContent>
-																<DialogContentText>
-																	Let Google help apps determine location. This means sending anonymous
-																	location data to Google, even when no apps are running.
-																</DialogContentText>
-																</DialogContent>
-																<DialogActions>
-																<Button autoFocus onClick={handleClose}>
-																	Hủy
-																</Button>
-																<Button onClick={handleClose} autoFocus>
-																	Đồng ý
-																</Button>
-																</DialogActions>
-															</Dialog>
-															
-													
+
+													<Dialog
+														fullScreen={fullScreen}
+														open={open}
+														onClose={handleClose}
+														aria-labelledby="responsive-dialog-title"
+													>
+														<DialogTitle id="responsive-dialog-title">
+															{"Use Google's location service?"}
+														</DialogTitle>
+														<DialogContent>
+															<DialogContentText>
+																Let Google help apps determine location. This means sending anonymous
+																location data to Google, even when no apps are running.
+															</DialogContentText>
+														</DialogContent>
+														<DialogActions>
+															<Button autoFocus onClick={handleClose}>
+																Hủy
+															</Button>
+															<Button onClick={handleClose} autoFocus>
+																Đồng ý
+															</Button>
+														</DialogActions>
+													</Dialog>
+
+
 												</div>
 											</div>
 										</div>

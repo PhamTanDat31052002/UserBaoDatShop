@@ -7,6 +7,13 @@ import "../Assets/css/stylepay.css"
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Alert, Space, message } from 'antd';
+
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 export default function PayBuyNowCRUD() {
 
     var location = useLocation();
@@ -16,10 +23,11 @@ export default function PayBuyNowCRUD() {
     var idProductSize=location.state[3];
     var idProduct=location.state[4];
     var number=location.state[5];
+    var name=location.state[6];
 
     var [productSize, setProductSize] = useState();
     var [itemPr, setitemPr] = useState();
-
+    var [open1, setopen] = useState(false);
 
     var history=useNavigate();
     var [payMedIV, setPayMedIV] = useState(false);
@@ -75,6 +83,7 @@ export default function PayBuyNowCRUD() {
                 'Authorization': `Bearer ${token.value}`
             },
             body: JSON.stringify({
+                nameCustomer:name,
                 quantity:number,
                 productSizeID: idProductSize,
                 paymentMethods: payMedIV,
@@ -87,7 +96,9 @@ export default function PayBuyNowCRUD() {
         .then(response => response.json())
         .then(result => {
             if(result==true)
-            { message.success("Đặt hàng thành công!")
+            {
+                setopen(false)
+                 message.success("Đặt hàng thành công!")
             history("/invoice")}
            
         }, (error) => {
@@ -99,6 +110,29 @@ export default function PayBuyNowCRUD() {
         <>
 
             <>
+            <Dialog
+                open={open1}
+                keepMounted
+                onClose={() => {
+                    setopen(false)
+                }}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Bạn chắc chắn muốn đặt đơn hàng?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                            Kiểm tra kĩ thông tin giao nhận hàng trước khi xác nhận
+                        </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        AddInvoiceBuyNow()
+                    }}>Xác nhận</Button>
+                    <Button onClick={() => {
+                        setopen(false)
+                    }}>Hủy</Button>
+                </DialogActions>
+            </Dialog>
                 {
                     infor != null ?
                         <div class="container">
@@ -116,7 +150,7 @@ export default function PayBuyNowCRUD() {
                                             <ul class="item-list">
                                             <li className="itemCheckOut">
                                                 <div className="imgItemCheckOut">
-                                                    <img src={require("../Assets/images/" + itemPr.image)} alt="sp"></img>
+                                                    <img src={"https://localhost:7067/wwwroot/image/product/" + itemPr.image} alt="sp"></img>
                                                 </div>
                                                 <div className="tenItemCheckOut">
                                                     <div>
@@ -189,7 +223,7 @@ export default function PayBuyNowCRUD() {
                                             </div>
                                         </div>
                                             <div>
-                                                <button  className='hoanTatDonHang' onClick={()=>AddInvoiceBuyNow()}>Hoàn tất đơn hàng</button>
+                                                <button  className='hoanTatDonHang' onClick={()=>setopen(true)}>Hoàn tất đơn hàng</button>
                                             </div>
                                     </div>
                                 </div>

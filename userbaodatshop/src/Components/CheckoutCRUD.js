@@ -21,7 +21,7 @@ export default function CheckoutCRUD() {
     var [Quan, setQuan] = useState("");
     var [Tinh, setTinh] = useState("");
     var [Xa, setXa] = useState("");
-    var [Address1, setAddress1] = useState("");
+    var [Address1, setAddress1] = useState('');
     const [show, setShow] = useState(false);
     const history = useNavigate();
     const handleClose = () => setShow(false);
@@ -30,12 +30,16 @@ export default function CheckoutCRUD() {
     var [dataPay, setdatapay] = useState([]);
     var [phiShip,setPhiShip]=useState(20000);
     var [voucher,setVoucher]=useState("");
-    var [giaCuoiCung,setGiaCuoiCung]=useState(0);
-    var [fullNameNext,setFullNameNext]=useState('');
+
     var [Disscount,setDisscount]=useState("");
 
     
+    var [diachi,setdiachi]=useState("");
+    var [email,seteamal]=useState(0);
+    var [ten,setten]=useState('');
+    var [dt,setdt]=useState("");
 
+    
 
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
@@ -56,7 +60,15 @@ export default function CheckoutCRUD() {
                 'Authorization': `Bearer ${token.value}`,
             }
         }).then(response => response.json())
-            .then(data => setInfor(data)).catch(err => console.log(err))
+            .then(data => {
+                setInfor(data)
+                setdiachi(data.address)
+                seteamal(data.email)
+                setten(data.fullName)
+                setdt(data.phone)
+            }
+               
+                ).catch(err => console.log(err))
 
         fetch(variable.API_URL + "Carts/GetAllCart", {
             method: "GET",
@@ -120,6 +132,7 @@ export default function CheckoutCRUD() {
                 )
             .catch(err => console.log(err))
     })
+  
     return (
         <>
             {
@@ -143,7 +156,7 @@ export default function CheckoutCRUD() {
                                             ).map(data => <ul class="item-list">
                                                 <li className="itemCheckOut">
                                                     <div className="imgItemCheckOut">
-                                                        <img src={require("../Assets/images/" + data.image)} alt="sp"></img>
+                                                        <img src={"https://localhost:7067/wwwroot/image/product/" + data.image} alt="sp"></img>
                                                     </div>
                                                     <div className="tenItemCheckOut">
                                                         <div>
@@ -185,6 +198,9 @@ export default function CheckoutCRUD() {
                                                 <div>
                                                     <span>Giảm giá:</span>
                                                 </div>
+                                                <div>
+                                                    <span>Tiết kiệm:</span>
+                                                </div>
                                                 <div style={{ borderTop: "1px solid" }}>
                                                     <span style={{ fontSize: "23px" }}>Tổng tiền:</span>
                                                 </div>
@@ -198,8 +214,11 @@ export default function CheckoutCRUD() {
                                                     <span>{VND.format(phiShip)}</span>
                                                 </div>
                                                 <div>
-                                                    <span>{
-                                                        Disscount==""?0:
+                                                    <span>{Disscount.disscount}%</span>
+                                                </div>
+                                                <div>
+                                                    <span>-{
+                                                        Disscount==""?VND.format(0):
                                                     VND.format(total*Disscount.disscount/100)
                                                     }</span>
                                                 </div>
@@ -225,8 +244,54 @@ export default function CheckoutCRUD() {
                                     <div class="row">
 
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="text">Họ và tên <span class="text-muted"></span></label>
+                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={ten} onChange={(e) => 
+                                           { 
+                                            setten(e.target.value)
+                                           }
+                                            } />
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập họ và tên!
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email">Email <span class="text-muted"></span></label>
+                                        <input type="email" class="form-control" id="email" placeholder="Email" value={email} onChange={(e) => seteamal(e.target.value)} />
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập Email!
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email">Số điện thoại <span class="text-muted"></span></label>
+                                        <input type="number" class="form-control" id="numberphone" placeholder="Số điện thoại" value={dt} onChange={(e) => {
+                                           setdt(e.target.value)
+                                        }} />
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập số điện thoại nhận hàng!
+                                        </div>
+                                    </div>
 
                                     <div class="mb-3">
+
+                                        <label for="address">Địa chỉ </label>
+                                        <input readOnly type="text" class="form-control" id="address" placeholder="Số nhà, tên đường" required value=
+                                            {
+                                                Address1 == "" ?
+                                                    diachi : Address1
+
+                                            }
+                                            onChange={(e) => {
+                                               setdiachi(e.target.value)
+                                                setAddress1(e.target.value)
+                                            }} />
+                                        <div class="invalid-feedback">
+                                            Vui lòng nhập địa chỉ cụ thể!
+                                        </div>
+                                    </div>
+
+
+                                    {/* <div class="mb-3">
                                         <label for="text">Họ và tên <span class="text-muted"></span></label>
                                         <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={infor.fullName} onChange={(e) => 
                                            { setInfor(e.target.value)
@@ -270,7 +335,7 @@ export default function CheckoutCRUD() {
                                         <div class="invalid-feedback">
                                             Vui lòng nhập địa chỉ cụ thể!
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                         Thay đổi địa chỉ
                                     </button>
@@ -398,18 +463,25 @@ export default function CheckoutCRUD() {
                                        
                                        {
                                         
-                                            sdtPay == "" ||sdtPay.length!=10?
-                                            <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit" onClick={()=>message.error("Số điện thoại không hợp lệ!")} >  Tiếp tục đến phương thức thanh toán
-                                            </button>
-                                            :
+                                        // infor.phone.length  !=10 ||sdtPay.length!=10?
+                                        //     <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit" onClick={()=>message.error("Số điện thoại không hợp lệ!")} >  Tiếp tục đến phương thức thanh toán
+                                        //     </button>
+                                        //     :
                                        
                                             <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit"  >
                                                     
-                                            <NavLink to={'/pay'} state={   [
+                                            {/* <NavLink to={'/pay'} state={   [
                                                 Address1 == '' ? infor.address : Address1,
                                                    sdtPay == '' ? infor.phone : sdtPay,
                                                      Disscount==''? total+phiShip: total-(total*Disscount.disscount/100)+phiShip,
                                                         fullNameNext==''?infor.fullName:fullNameNext
+                                                ]}  >
+                                               Tiếp tục đến phương thức thanh toán</NavLink>  */}
+                                                <NavLink to={'/pay'} state={   [
+                                                Address1 == '' ? diachi : Address1,
+                                                   sdtPay == '' ? dt : sdtPay,
+                                                     Disscount==''? total+phiShip: total-(total*Disscount.disscount/100)+phiShip,
+                                                        ten
                                                 ]}  >
                                                Tiếp tục đến phương thức thanh toán</NavLink> 
                                        </button>

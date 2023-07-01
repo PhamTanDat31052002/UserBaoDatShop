@@ -72,10 +72,12 @@ export default function Product2() {
                 setReview(data)
 
             }).catch(err => console.log(err))
-
+        fetch(variable.API_URL + "Reviews/GetAverageStartReview/" + id)
+            .then(response => response.json())
+            .then(data => setStarTB(data)).catch(err => console.log(err))
 
     }, [load])
-
+   
     const truDi1 = () => {
         number >= 2 ?
             setNumber(number - 1) : setNumber(number - 0);
@@ -214,7 +216,7 @@ export default function Product2() {
                                         <div classname='maxImgDT'>
                                             {/* <img id="imgDT" src={require("../Assets/images/" + records.image)} alt="sp" /> */}
                                             <div>
-                                                <img id="imgDT" src={require("../Assets/images/" + selectedImage)} alt="Ảnh lớn" />
+                                                <img id="imgDT" src={"https://localhost:7067/wwwroot/image/product/" + selectedImage} alt="Ảnh lớn" />
 
                                             </div>
 
@@ -225,16 +227,16 @@ export default function Product2() {
 
                                 </div>  <div className="thumbnail-gallery">
                                     <img
-                                        src={require("../Assets/images/" + records.image)}
+                                        src={"https://localhost:7067/wwwroot/image/product/" + records.image}
                                         alt="Ảnh nhỏ 1"
                                         className={selectedImage == records.image ? 'selected' : null}
                                         onClick={() => handleClick(records.image)}
                                     />
                                     <img
-                                        src={require("../Assets/images/AoTot2023.png")}
+                                        src={require("../Assets/images/AoMU2023.png")}
                                         alt="Ảnh nhỏ 1"
-                                        className={selectedImage == 'AoTot2023.png' ? 'selected' : null}
-                                        onClick={() => handleClick('AoTot2023.png')}
+                                        className={selectedImage == 'AoMU2023.png' ? 'selected' : null}
+                                        onClick={() => handleClick('AoMU2023.png')}
                                     />
                                     <img
                                         src={require("../Assets/images/AoMU2023.png")}
@@ -381,16 +383,21 @@ export default function Product2() {
                             <div>
                                 <div>
 
-                                    <span>4.9</span>
+                                    <span>{starTB.toFixed(1)}</span>
                                     <span> trên</span>
                                     <span> 5</span>
                                     <span> ({tongComment} đánh giá)</span>
                                     <div className="starReview ">
-                                        <i class="fas fa-star itemStar"></i>
-                                        <i class="fas fa-star itemStar"></i>
-                                        <i class="fas fa-star itemStar"></i>
-                                        <i class="fas fa-star itemStar"></i>
-                                        <i class="fas fa-star itemStar"></i>
+                                    {
+
+                                    starTB == 5  ? <div><span className='starRVHienThi'>★★★★★</span></div> :
+                                    starTB >= 4 && starTB <5 ? <div><span className='starRVHienThi'>★★★★</span><span>★</span></div> :
+                                    starTB >= 3 && starTB <4? <div><span className='starRVHienThi'>★★★</span><span>★★</span></div> :
+                                    starTB >= 2 && starTB <3? <div><span className='starRVHienThi'>★★</span><span>★★★</span></div> :
+                                    starTB >= 1 && starTB <2? <div><span className='starRVHienThi'>★</span><span>★★★★</span></div> :
+                                    starTB <= 1 && starTB >=0? <div><span>★★★★★</span></div>: null
+
+}
 
                                     </div>
                                 </div>
@@ -401,7 +408,7 @@ export default function Product2() {
                                             <div className='cacDanhGia'>
                                                 <div className='itemCacDanhGia1'>
                                                     <div className="imgReview">
-                                                        <img src={require("../Assets/images/AoBarca2023.png")} alt="ac"></img>
+                                                        <img src={require("../Assets/images/AoMU2023.png")} alt="ac"></img>
                                                     </div>
                                                 </div>
                                                 <div className='itemCacDanhGia2'>
