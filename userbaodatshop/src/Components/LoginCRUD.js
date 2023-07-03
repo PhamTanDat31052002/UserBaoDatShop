@@ -94,7 +94,7 @@ const Auth = () => {
     </form>
 	<div>
 		<span>Bạn chưa có tài khoản? </span>
-		<span><button className="btnDangKyNgay" onClick={()=>history('/register')}>Đăng ký ngay</button></span>
+		<span><button className="btnDangKyNgay" style={{background:"none"}} onClick={()=>history('/register')}>Đăng ký ngay</button></span>
 	</div>
   </div>
 

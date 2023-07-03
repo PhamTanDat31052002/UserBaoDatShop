@@ -161,7 +161,7 @@ export default function PayBuyNowCRUD() {
                                                     </div>
                                                 </div>
                                                 <div className="giaItemCheckOut">
-                                                    <span>{VND.format(itemPr.price * number)}</span>
+                                                    <span>{VND.format(itemPr.priceSales * number)}</span>
                                                 </div>
                                             </li>
                                         </ul>:null

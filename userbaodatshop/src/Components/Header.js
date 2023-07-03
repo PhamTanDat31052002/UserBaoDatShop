@@ -71,6 +71,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const token = getToken();
   var [records, setRecords] = useState([]);
+  var [infor, setInfor] = useState();
   const history = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -116,8 +117,11 @@ export default function PrimarySearchAppBar() {
           setCountCart(a)
         }).catch(err => console.log(err))
 
+        
+  
     }
   }, [])
+  
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu

@@ -167,7 +167,7 @@ export default function CheckoutCRUD() {
                                                         </div>
                                                     </div>
                                                     <div className="giaItemCheckOut">
-                                                        <span>{VND.format(dep.quantity * data.price)}</span>
+                                                        <span>{VND.format(dep.quantity * data.priceSales)}</span>
                                                     </div>
                                                 </li>
                                             </ul>)

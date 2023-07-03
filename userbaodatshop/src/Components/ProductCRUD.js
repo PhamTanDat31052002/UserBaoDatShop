@@ -4,7 +4,7 @@ import { variable } from "../Variable"
 import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-
+import "../Assets/css/styledetailproduct.css"
 import Dropdown from 'react-dropdown-select';
 import "../Assets/css/style.css"
 
@@ -26,7 +26,7 @@ export default function ProductCRUD() {
 	var [ProductType, setProductType] = useState([]);
 	const [selectedType, setSelectedType] = useState('Tất cả');
 	const [filteredProducts, setFilteredProducts] = useState([]);
-	var [dtProduct, setdtProduct] = useState([]);
+	var [dtProduct, setdtProduct] = useState();
 	var [sizePr, setSizePr] = useState();
 	var [idProduct, setidProduct] = useState();
 	const [number, setNumber] = useState(1);
@@ -35,7 +35,8 @@ export default function ProductCRUD() {
 	const [isLiked, setIsLiked] = useState(false);
 	const [idStar, setIdStar] = useState(0);
 	const [allLove, setAllLove] = useState([]);
-
+	const [idMuaNgay, setIdMuaNgay] = useState();
+	var [idPrSize, setIdPrSize] = useState('');
 	const [tam, seta] = useState("");
 	// Yêu thích sp
 	const handleClickLike = () => {
@@ -102,17 +103,37 @@ export default function ProductCRUD() {
 				.then(response => response.json())
 				.then(data => setRecord(data)).catch(err => console.log(err))
 		}
-		fetch(variable.API_URL + "Products/GetProductById/" + idProduct)
+		// if(idMuaNgay!=null)
+		// {
+		// 	fetch(variable.API_URL + "Products/GetProductById/" + idMuaNgay)
+		// 	.then(response => response.json())
+		// 	.then(data => {
+		// 		setdtProduct(data)
+
+		// 	}).catch(err => console.log(err))
+
+		// fetch(variable.API_URL + "ProductSizes/GetProductSizeByProductId/" + idMuaNgay)
+		// 	.then(response => response.json())
+		// 	.then(data => setSizePr(data)).catch(err => console.log(err))
+		// }
+		
+	};
+	const muaNgay=((id)=>{
+		
+	
+			fetch(variable.API_URL + "Products/GetProductById/" + id)
 			.then(response => response.json())
 			.then(data => {
 				setdtProduct(data)
 
 			}).catch(err => console.log(err))
 
-		fetch(variable.API_URL + "ProductSizes/GetProductSizeByProductId/" + idProduct)
+		fetch(variable.API_URL + "ProductSizes/GetProductSizeByProductId/" + id)
 			.then(response => response.json())
 			.then(data => setSizePr(data)).catch(err => console.log(err))
-	};
+		
+		
+	})
 	const getToken = (() => {
 		const tokenString = localStorage.getItem('token');
 		const userToken = JSON.parse(tokenString);
@@ -316,7 +337,7 @@ export default function ProductCRUD() {
 													</NavLink>
 
 													<NavLink to="/detail" state={dep.id}><div className="right_part hidden-child">
-														<div className="shoes_price "><span >{VND.format(dep.price)}</span></div>
+														<div className="shoes_price "><span >{VND.format(dep.priceSales)}</span></div>
 
 
 
@@ -568,30 +589,51 @@ export default function ProductCRUD() {
 													{/* <button className="btnMua">Mua ngay</button> */}
 
 													{/* btnmua */}
-													{/* <button type="button" class="btnMua" data-toggle="modal" data-target="#exampleModal" onClick={() => setdtProduct(dep.id)}>Mua ngay</button>
-													<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-														<div class="modal-dialog" role="document">
-															<div class="modal-content">
-																<div class="modal-header">
-																	<h5 class="modal-title" id="exampleModalLabel">Thông tin địa chỉ</h5>
-																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																		<span aria-hidden="true">&times;</span>
-																	</button>
-																</div>
-																<div class="modal-body">
-																	<div class="mb-3">
-																		{
+											
+													{/* btnmua */}
 
-																		}
-																		<div>
-																			<p className="tieudeDT" >{records.name}</p>
-																			
-																			<span className="phudeDT">Mã số: {records.sku}</span>
+													<button className="btnMua" onClick={()=>{
+													
+														muaNgay(dep.id)
+														handleClickOpen()
+														
+														}}>Mua ngay</button>
+													
+													{
+														dtProduct!=null?
+														<Dialog
+														fullScreen={fullScreen}
+														open={open}
+														onClose={handleClose}
+														aria-labelledby="responsive-dialog-title"
+													>
+														<DialogTitle id="responsive-dialog-title">
+														{dtProduct.name}
+														</DialogTitle>
+														<DialogContent>
+															{/* <DialogContentText>
+																Let Google help apps determine location. This means sending anonymous
+																location data to Google, even when no apps are running.
+															</DialogContentText> */}
+															<DialogContentText>
+
+															
+															{
+
+																dtProduct!=null?
+																<div>
+																			<div>
+	
+																			<span className="phudeDT">Mã số: {dtProduct.sku}</span>
 																		</div>
 																		<div className='hienThiGia'>
-																			<p className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(records.price)}</span> </p>
-
-																			<p className="giaDT">Giá Sale: {VND.format(records.price)}</p>
+																	
+																			<div>
+																					<span className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(dtProduct.price)}</span> </span>
+																				</div>
+																				<div>
+																					<span className="giaDT">Giá Sale: {VND.format(dtProduct.priceSales)}</span>
+																				</div>
 
 																		</div>
 																		<div className='kichThuoc'>
@@ -603,6 +645,7 @@ export default function ProductCRUD() {
 																							<input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} onClick={() => {
 																								setNumber(1)
 																								setTonKho(e.stock)
+																								setIdPrSize(e.id)
 																							}} />
 																							<label className="itemRadioDT" for={e.name}>{e.name}</label>
 
@@ -617,65 +660,28 @@ export default function ProductCRUD() {
 																		<div className='tonKho'>
 																			<span>Tồn kho: {tonKho}</span>
 																		</div>
-
-																		<div className='divcongtru'>
-
-																			<div>
-																				<span style={{ marginLeft: "1%" }}>Số lượng:</span>
-																			</div>
-																			<button className='congTru' onClick={truDi1}>-</button>
-
-																			<input type="text" className='textCongTru' value={number}></input>
-
-																			<button className='congTru' onClick={congThem1}>+</button>
-
-
-																		</div>
-
-																		<div>
-																			<button className='muaNgayDT'>Mua ngay</button>
-																		</div>
-																	</div>
-
-
-																</div>
-																<div class="modal-footer">
-																	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-																	<button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => { }
-
-																	}>Lưu</button>
-																</div>
-															</div>
-														</div>
-													</div> */}
-													{/* btnmua */}
-
-													<button className="btnMua" onClick={handleClickOpen}>Mua ngay</button>
-
-													<Dialog
-														fullScreen={fullScreen}
-														open={open}
-														onClose={handleClose}
-														aria-labelledby="responsive-dialog-title"
-													>
-														<DialogTitle id="responsive-dialog-title">
-															{"Use Google's location service?"}
-														</DialogTitle>
-														<DialogContent>
-															<DialogContentText>
-																Let Google help apps determine location. This means sending anonymous
-																location data to Google, even when no apps are running.
-															</DialogContentText>
+																</div>:null
+															}</DialogContentText>
+															
 														</DialogContent>
 														<DialogActions>
-															<Button autoFocus onClick={handleClose}>
+															{
+																idPrSize==''?
+																<Button autoFocus onClick={()=>message.error("Bạn chưa chọn size")}>
+																		Mua ngay
+																	</Button>:
+																	<Button autoFocus onClick={handleClose}>
+																	Mua ngay
+																</Button>
+															}
+															
+															<Button onClick={handleClose} autoFocus>
 																Hủy
 															</Button>
-															<Button onClick={handleClose} autoFocus>
-																Đồng ý
-															</Button>
 														</DialogActions>
-													</Dialog>
+													</Dialog>:null
+													}
+													
 
 
 												</div>

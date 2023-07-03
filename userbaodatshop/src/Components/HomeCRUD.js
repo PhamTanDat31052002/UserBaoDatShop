@@ -4,61 +4,43 @@ import "../Assets/css/style.css"
 import { useEffect } from 'react';
 import { variable } from "../Variable"
 import { useState } from 'react';
-// import "../Assets/css/font-awesome.min.css"
+import "../Assets/scrip/slide.js"
+import { NavLink, useLocation } from 'react-router-dom';
 export default function HomeCRUD() {
+    var [product, setProduct] = useState([]);
+    var [records, setRecords] = useState([]);
     function getToken() {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
         return userToken
     }
-    var [records, setRecords] = useState([]);
+    
     useEffect(() => {
-        const token = getToken();
-        if (token != null) {
-            fetch(variable.API_URL + "AdvertisingPanels/GetAllAdvertisingPanelStatusTrue", {
+       
+         fetch(variable.API_URL + "AdvertisingPanels/GetAllAdvertisingPanelStatusTrue", {
                 method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token.value}`,
-                }
+               
             }).then(response => response.json())
                 .then(data => {
                     setRecords(data)
                 }).catch(err => console.log(err))
-        }
+        
+         fetch(variable.API_URL + "Products/GetTop10BestSeller")
+                .then(response => response.json())
+                .then(data => setProduct(data)).catch(err => console.log(err))
+                
     }, [])
+    const VND = new Intl.NumberFormat('vi-VN', {
+		style: 'currency',
+		currency: 'VND',
+	});
+
     return (
         <>
-
+             
 
             <div className="header_section">
-                {/* <div classNameName="container">
-                    <div className="row">
-                        <div className="col-sm-3">
-                            <div className="logo"><a href="a"><img src={require('../Assets/images/logo.png')} alt=''/></a></div>
-                        </div>
-                        <div className="col-sm-9">
-                            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span className="navbar-toggler-icon"></span>
-                                </button>
-                                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                                    <div className="navbar-nav">
-                                        <a className="nav-item nav-link" href="index.html">Trang chủ</a>
-                                        <a className="nav-item nav-link" href="collection.html">Bộ sưu tập</a>
-                                        <a className="nav-item nav-link" href="shoes.html">Áo đá banh</a>
-                                        <a className="nav-item nav-link" href="racing boots.html">Giày đá banh</a>
-                                        <a className="nav-item nav-link" href="contact.html">Liên hệ</a>
-                                        
-                           <a className="nav-item nav-link last" href="s"><img src={require('../Assets/images/search_icon.png')} alt=''/></a>
-                           <a className="nav-item nav-link last" href="contact.html"><img src={require('../Assets/images/shop_icon.png')} alt=''/></a>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                </div> */}
+               
                 <div className="banner_section">
                     <div className="container-fluid">
                         <section className="slide-wrapper">
@@ -71,35 +53,50 @@ export default function HomeCRUD() {
                                         <li data-target="#myCarousel" data-slide-to="2"></li>
                                         <li data-target="#myCarousel" data-slide-to="3"></li>
                                     </ol>
-                                    {
-                                        records.map(e => 
-                                            <div className="carousel-inner">
-                                                <div className="carousel-item active">
-                                                    <div className="row">
-                                                        <div className="col-sm-2 padding_0">
-                                                            <p className="mens_taital">Phụ kiện thể thao</p>
-                                                            <div className="page_no">0/2</div>
-                                                            <p className="mens_taital_2">Phụ kiện thể thao</p>
-                                                        </div>
-                                                        <div className="col-sm-5">
-                                                            <div className="banner_taital">
-                                                                <h1 className="banner_text">Mẫu áo bóng đá mới </h1>
-                                                                <h1 className="mens_text"><strong>Hot nhất</strong></h1>
-                                                                <p className="lorem_text">pla pla pla</p>
-                                                                <button className="buy_bt">Mua ngay</button>
-                                                                <button className="more_bt">Xem thêm</button>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-sm-5">
-                                                            {console.log(e.image)}
-                                                            <div className="shoes_img"><img src={'https://localhost:7067/wwwroot/image/AdvertisingPanel/'+e.image} alt='' /></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        )
-                                    }
+                                    <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                    <div class="row">
+					<div class="col-sm-2 padding_0">
+						<p class="mens_taital">Phụ kiện thể thao</p>
+						<div class="page_no">0/2</div>
+						<p class="mens_taital_2">Phụ kiện thể thao</p>
+					</div>
+					<div class="col-sm-5">
+						<div class="banner_taital">
+							<h1 class="banner_text">Mẫu áo bóng đá mới </h1>
+							<h1 class="mens_text"><strong>Hot nhất</strong></h1>
+							<p class="lorem_text">pla pla pla</p>
+							<button class="buy_bt">Mua ngay</button>
+							<button class="more_bt">Xem thêm</button>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<div class="shoes_img"><img src={"https://localhost:7067/wwwroot/image/product/6.png"} alt=''/></div>
+					</div>
+				</div>
+                </div>
+                <div class="carousel-item ">
+                    <div class="row">
+					<div class="col-sm-2 padding_0">
+						<p class="mens_taital">Phụ kiện thể thao</p>
+						<div class="page_no">0/2</div>
+						<p class="mens_taital_2">Phụ kiện thể thao</p>
+					</div>
+					<div class="col-sm-5">
+						<div class="banner_taital">
+							<h1 class="banner_text">Giày đá bóng </h1>
+							<h1 class="mens_text"><strong>Men's Like Plex</strong></h1>
+							<p class="lorem_text">ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<button class="buy_bt">Buy Now</button>
+							<button class="more_bt">See More</button>
+						</div>
+					</div>
+					<div class="col-sm-5">
+                    <div class="shoes_img"><img src={"https://localhost:7067/wwwroot/image/product/7.png"} alt=''/></div>
+					</div>
+				</div>
+                </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -184,7 +181,7 @@ export default function HomeCRUD() {
             </div>
             <div className="collection_section layout_padding">
                 <div className="container">
-                    <h1 className="new_text"><strong>New Arrivals Products</strong></h1>
+                    <h1 className="new_text" style={{marginTop:"2%"}}><strong>Top 10 sản phẩm bán chạy nhất</strong></h1>
                     <p className="consectetur_text">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
                 </div>
             </div>
@@ -199,90 +196,43 @@ export default function HomeCRUD() {
             <div class="layout_padding gallery_section">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-4">
-                            <div class="best_shoes">
-                                <p class="best_text">Best Shoes </p>
-                                <div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt='' /></div>
-                                <div class="star_text">
-                                    <div class="left_part">
-                                        <ul>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="right_part">
-                                        <div class="shoes_price">$ <span style={{ color: "#ff4e5b" }}>60</span></div>
+                        {
+                            product!=null?
+                                product.map(pr=>
+                                    <div class="col-sm-3 itemPR">
+                                    <div class="best_shoes parent">
+                                     <NavLink to="/detail" state={pr.id}><p className="best_text "><a href="a">{pr.name}</a>  </p></NavLink>
+                                      
+                                        <NavLink to="/detail" state={pr.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + pr.image} alt='a' /></a></div></NavLink>
 
+                                  
+                                        <div className="star_text " >
+													<NavLink to="/detail" state={pr.id}>
+														<div className="left_part ">
+															<ul>
+																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
+																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
+																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
+																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
+																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
+															</ul>
+														</div>
+													</NavLink>
+
+													<NavLink to="/detail" state={pr.id}><div className="right_part hidden-child">
+														<div className="shoes_price "><span >{VND.format(pr.priceSales)}</span></div>
+
+
+
+													</div></NavLink>
+
+
+												</div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="best_shoes">
-                                <p class="best_text">Best Shoes </p>
-                                <div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt='' /></div>
-                                <div class="star_text">
-                                    <div class="left_part">
-                                        <ul>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="right_part">
-                                        <div class="shoes_price">$ <span style={{ color: "#ff4e5b" }}>60</span></div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="best_shoes">
-                                <p class="best_text">Best Shoes </p>
-                                <div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt='' /></div>
-                                <div class="star_text">
-                                    <div class="left_part">
-                                        <ul>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="right_part">
-                                        <div class="shoes_price">$ <span style={{ color: "#ff4e5b" }}>60</span></div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="best_shoes">
-                                <p class="best_text">Best Shoes </p>
-                                <div class="shoes_icon"><img src={require("../Assets/images/shoes-img4.png")} alt='' /></div>
-                                <div class="star_text">
-                                    <div class="left_part">
-                                        <ul>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                            <li><a href="a"><img src={require("../Assets/images/star-icon.png")} alt='' /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="right_part">
-                                        <div class="shoes_price">$ <span style={{ color: "#ff4e5b" }}>60</span></div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    ) :null
+                        }
+                      
 
                     </div>
                 </div>

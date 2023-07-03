@@ -107,7 +107,7 @@ export default function InvoiceCRUD() {
     return (
         <>
         {/* hủy đơn hàng */}
-        <Dialog
+             <Dialog
                 open={open1}
                 keepMounted
                 onClose={() => {
@@ -149,7 +149,8 @@ export default function InvoiceCRUD() {
                             <Button onClick={()=>filterTinhTrang(0)}>Tất cả</Button>
                             <Button onClick={()=>filterTinhTrang(1)}>Chưa xác nhận</Button>
                             <Button onClick={()=>filterTinhTrang(2)}>Đang chuẩn bị</Button>
-                            <Button onClick={()=>filterTinhTrang(3)}>Đang vận chuyển</Button>
+                            <Button onClick={()=>filterTinhTrang(3)}>Đang vận chuyển</Button>  
+                            <Button onClick={()=>filterTinhTrang(6)}>Đã Giao</Button>
                             <Button onClick={()=>filterTinhTrang(5)}>Hoàn tất</Button>
                             <Button onClick={()=>filterTinhTrang(4)}>Đã hủy</Button>
                             </ButtonGroup>
@@ -175,7 +176,9 @@ export default function InvoiceCRUD() {
                                                         dep.orderStatus == 2 ? <span>Đang chuẩn bị</span> :
                                                             dep.orderStatus == 3 ? <span>Đang vận chuyển</span> :
                                                                 dep.orderStatus == 4 ? <span>Đã hủy</span> :
-                                                                    dep.orderStatus == 5 ? <span>Hoàn tất</span> : null
+                                                                    dep.orderStatus == 5 ? <span>Hoàn tất</span> :
+                                                                      dep.orderStatus == 6 ? <span>Đã giao</span>:null
+                                                                     
 
                                                 }
                                             </div>
@@ -230,6 +233,13 @@ export default function InvoiceCRUD() {
                                             <button className="btnHuyDonIV" onClick={() => history('/')  
                                             } >Đánh giá</button>
                                         </div>:
+                                            dep.orderStatus==6?
+                                            <div className="huyDonIV">
+
+                                            <button className="btnHuyDonIV" onClick={() => history('/')  
+                                            } >Đánh giá</button>
+                                        </div>
+                                            :
                                             <div className="huyDonIV">
                                                     {/* modal */}
                                                   

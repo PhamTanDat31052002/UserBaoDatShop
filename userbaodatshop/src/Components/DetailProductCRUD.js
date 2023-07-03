@@ -18,7 +18,7 @@ export default function Product2() {
     const [number, setNumber] = useState(1);
     var [records, setRecords] = useState()
     var [sizePr, setSizePr] = useState();
-    var [idPrSize, setIdPrSize] = useState(0);
+    var [idPrSize, setIdPrSize] = useState('');
     const [itemSize, setItemSize] = useState('');
     var [tonKho, setTonKho] = useState(0);
     const [stars, setStars] = useState([false, false, false, false, false]);
@@ -249,17 +249,17 @@ export default function Product2() {
                             </div>
                             <div className="columnDT2">
                                 <div>
-                                    <p className="tieudeDT" >{records.name}</p>
-                                    {/* <p className="phudeDT">Chất liệu:</p>
-                                    <p className="phudeDT">Loại: </p> */}
-                                    <span className="phudeDT">Mã số: {records.sku}</span>
+                                    <p className="tieudeDT" style={{fontWeight:"400"}} >{records.name}</p>
+                                   
+                                    <span className="phudeDT" style={{fontWeight:"500"}}>Mã số: <span style={{fontWeight:"100"}}>{records.sku}</span> </span>
+                                    <span className="phudeDT" style={{fontWeight:"500"}}>Thương hiệu: <span style={{fontWeight:"100"}}>{records.brandProduct.name}</span></span>
                                 </div>
                                 <div className='hienThiGia'>
                                     <div>
                                         <span className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(records.price)}</span> </span>
                                     </div>
                                     <div>
-                                        <span className="giaDT">Giá Sale: {VND.format(records.price)}</span>
+                                        <span className="giaDT">Giá Sale: {VND.format(records.priceSales)}</span>
                                     </div>
 
 
@@ -315,7 +315,7 @@ export default function Product2() {
 
 
                                             : <NavLink to={'/checkoutbuynow'}
-                                                state={[number, idPrSize, records.price * number, id]}>
+                                                state={[number, idPrSize, records.priceSales * number, id]}>
                                                 <button className='muaNgayDT'>
                                                     Mua ngay
                                                 </button>
@@ -408,7 +408,7 @@ export default function Product2() {
                                             <div className='cacDanhGia'>
                                                 <div className='itemCacDanhGia1'>
                                                     <div className="imgReview">
-                                                        <img src={require("../Assets/images/AoMU2023.png")} alt="ac"></img>
+                                                        <img src={"https://localhost:7067/wwwroot/image/Avatar/" + rv.account.avatar} alt="ac"></img>
                                                     </div>
                                                 </div>
                                                 <div className='itemCacDanhGia2'>

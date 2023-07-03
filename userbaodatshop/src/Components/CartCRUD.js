@@ -265,7 +265,7 @@ export default function CartCRUD() {
                                                 </div>
                                             </div>
                                             <div className='itemDetailCart3'>
-                                                <p style={{ marginTop: "2%" }}>{data.price}đ </p>
+                                                <p style={{ marginTop: "2%" }}>{data.priceSales}đ </p>
                                             </div>
                                             <div className='itemDetailCart3'>
                                                 <div className='divcongtruCart'>
@@ -288,7 +288,7 @@ export default function CartCRUD() {
                                             </div>
                                             <div className='itemDetailCart4'>
 
-                                                {VND.format(dep.quantity * data.price)}
+                                                {VND.format(dep.quantity * data.priceSales)}
                                             </div>
 
                                         </div>)

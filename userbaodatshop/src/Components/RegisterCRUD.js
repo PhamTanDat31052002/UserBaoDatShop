@@ -36,8 +36,11 @@ const RegisterCRUD = () => {
 		setFullName(value)
 	}
 	const ChangeAvatar = (value) => {
-		setAvatar(value.target.files[0])
-		setNameAvatar(value.target.files[0].name)
+		if (value.target.files[0] != null) {
+			setAvatar(value.target.files[0])
+			setNameAvatar(value.target.files[0].name)
+		}
+
 	}
 
 	function setToken(userToken) {
@@ -49,15 +52,42 @@ const RegisterCRUD = () => {
 
 		localStorage.setItem('token', JSON.stringify(item));
 	}
-	const Register = () => {
 
+	const Register = () => {
+		//tên tài khoản
 		if (username == "") return message.error("Bạn chưa nhập tên tài khoản!")
+		const usernameRegex = /^(?=.*[A-Z])[a-zA-Z0-9]{5,}$/;
+		if (!usernameRegex.test(username)) {
+		  return message.error(" Vui lòng nhập tên tài khoản có ít nhất 5 ký tự (không dùng tiếng việt có dấu) và ít nhất 1 chữ viết hoa.")
+		}
+		//email
 		if (email == "") return message.error("Bạn chưa nhập Email!")
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)) {
+		return message.error('Địa chỉ email không hợp lệ! Vui lòng nhập một địa chỉ email hợp lệ.');
+		}
+		//password
+		const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()])[a-zA-Z0-9!@#$%^&*()]{8,}$/;
 		if (password == "") return message.error("Bạn chưa nhập mật khẩu!")
-		if (phone == ""||phone.length!=10) return message.error("Số điện thoại không hợp lệ!")
+		if (!passwordRegex.test(password)) {
+		  return message.error('Mật khẩu không hợp lệ! Vui lòng nhập mật khẩu có ít nhất 1 ký tự hoa, 1 ký tự đặc biệt và độ dài tối thiểu 8 ký tự.')
+		}
+		//số điện thoại
+	    const phoneRegex = /^0\d{9}$/;
+		if (phone == "") return message.error("Số điện thoại không được để trống")
+
+		if (!phoneRegex.test(phone)) {
+			return message.error("Số điện thoại không hợp lệ! Vui lòng nhập đúng định dạng.");
+		}
+		
+		//họ và tên	
 		if (fullName == "") return message.error("Bạn chưa nhập họ và tên!")
+	
+		
 		if (address == "") return message.error("Bạn chưa nhập địa chỉ!")
 		if (avatar == "") return message.error("Bạn chưa chọn ảnh đại diện!")
+
+
 
 		fetch(variable.API_URL + "Account/register-Customer", {
 			method: "POST",
@@ -76,7 +106,7 @@ const RegisterCRUD = () => {
 			})
 		}).then(res => res.json())
 			.then(result => {
-				if (result == true) {
+				if (result == "Thành công") {
 					const formData = new FormData()
 					var imagelName = username
 					formData.append("model", avatar, imagelName)
@@ -86,17 +116,30 @@ const RegisterCRUD = () => {
 					}).then(res => res.json()).then(result => {
 						if (result == true) {
 							history("/login")
-							message.success("Đăng ký thành công, mời bạn đăng nhập!")
+							return	message.success("Đăng ký thành công, mời bạn đăng nhập!")
 						}
+						// if (result == 1)
+						// 	return message.error("Tên đăng nhập này đã được sử dụng")
+						// if (result == 2)
+						// 	return message.error("Số điện thoại này đã được sử dụng")
+						// else if (result == 3)
+						// 	return message.error("Email này đã được sử dụng")
+							
 					})
 				}
-				else {
-					message.error(result)
-				}
+				if (result == 1)
+					return message.error("Tên đăng nhập này đã được sử dụng")
+				if (result == 2)
+					return message.error("Số điện thoại này đã được sử dụng")
+				if (result == 3)
+					return message.error("Email này đã được sử dụng")
 
+				// message.error("Đăng ký thất bại!")
+			
 			}, (error) => {
 				setTimeout(() => {
-					message.error("Đăng ký thất bại!")
+				
+					return message.error("Đăng ký thất bại!")
 				}, 0);
 			}
 			)
@@ -105,7 +148,7 @@ const RegisterCRUD = () => {
 		<>
 			<body className="registerCNT">
 				<div className="register-box">
-					<h2 style={{ color: 'black' }}>Đăng nhập</h2>
+					<h2 style={{ color: 'black' }}>Đăng ký</h2>
 					<form>
 						<div className="user-box">
 							<input type="text" className="form-style" placeholder="Username" onChange={(e) => ChangeName(e.target.value)} required="" />

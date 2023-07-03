@@ -14,8 +14,12 @@ import { useNavigate } from 'react-router-dom';
 import { IconListCheck, IconMail, IconUser } from '@tabler/icons';
 
 import ProfileImg from '../Assets/images/AoMU2023.png';
+import { useEffect } from 'react';
+import { variable } from "../Variable"
+
 
 const Profile = () => {
+    var [records, setRecords] = useState();
     const [anchorEl2, setAnchorEl2] = useState(null);
     const handleClick2 = (event) => {
         setAnchorEl2(event.currentTarget);
@@ -28,6 +32,30 @@ const Profile = () => {
         localStorage.clear();
         history("/")
     };
+    function getToken() {
+        const tokenString = localStorage.getItem('token');
+        const userToken = JSON.parse(tokenString);
+        return userToken
+      }
+    useEffect(() => {
+        const token = getToken();
+        if(token!=null)
+
+        {
+          
+            fetch(variable.API_URL + "Account/GetDetailAccount", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization': `Bearer ${token.value}`,
+                }
+            }).then(response => response.json())
+                .then(data => setRecords(data)).catch(err => console.log(err))
+        }
+       
+    }, [])
+ 
     return (
         <Box>
             <IconButton
@@ -43,14 +71,19 @@ const Profile = () => {
                 }}
                 onClick={handleClick2}
             >
-                <Avatar
-                    src={ProfileImg}
+                {
+                    records!=null?
+                    <Avatar
+            
+                    src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar}
                     alt={ProfileImg}
                     sx={{
                         width: 50,
                         height: 50,
                     }}
-                />
+                />:null
+                }
+               
             </IconButton>
             {/* ------------------------------------------- */}
             {/* Message Dropdown */}
