@@ -39,9 +39,7 @@ export default function ProductCRUD() {
 	var [idPrSize, setIdPrSize] = useState('');
 	const [tam, seta] = useState("");
 	// Yêu thích sp
-	const handleClickLike = () => {
-		setIsLiked(!isLiked);
-	};
+
 	const [open, setOpen] = React.useState(false);
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -269,7 +267,15 @@ export default function ProductCRUD() {
 	};
 
 	//   custom select
-
+	const isFavorite = ((id) =>{
+		for(var i=0;i<allLove.length;i++)
+		{
+			if(allLove[i].productId==id)
+			return true
+		}
+		return false;
+	});
+	
 	return (
 		<>
 
@@ -326,7 +332,7 @@ export default function ProductCRUD() {
 												<div className="star_text " >
 													<NavLink to="/detail" state={dep.id}>
 														<div className="left_part ">
-															<ul>
+															<ul style={{visibility:"hidden"}}>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
@@ -347,63 +353,15 @@ export default function ProductCRUD() {
 												</div>
 												<div className="hidden-child2">
 													{/* <i className="fa fa-shopping-cart gioHangPD"></i> */}
-
 													{
-
-														allLove.filter((item) => {
-															// console.log(item.productId)
-															// console.log(dep.id)
-															return item.productId == dep.id ? item : null
-														}) == null ?
+														isFavorite(dep.id)==true ? 
 															<button
 																className="gioHangPD"
 																onClick={
 																	() => {
 
 																		LikeProduct(dep.id)
-																		handleClickLike()
-																	}
-																}
-																style={{
-																	display: 'inline-block',
-																	padding: '4px',
-																	borderRadius: '50%',
-																	backgroundColor: 'white',
-																	border: 'none',
-																	cursor: 'pointer',
-																	outline: 'none',
-
-																}}
-															>
-																<div
-																	style={{
-																		position: 'relative',
-																		width: '24px',
-																		height: '24px',
-																	}}
-																>
-																	<div
-																		style={{
-
-																			position: 'absolute',
-																			top: 0,
-																			left: 0,
-																			width: '100%',
-																			height: '100%',
-
-																		}}
-																	/>
-																	🤍
-
-																</div>
-															</button>
-															: <button
-																className="gioHangPD"
-																onClick={
-																	() => {
-
-																		LikeProduct(dep.id)
-																		handleClickLike()
+																		
 																	}
 																}
 																style={{
@@ -438,150 +396,52 @@ export default function ProductCRUD() {
 																	❤️
 
 																</div>
-															</button>
-
-
-
-														// allLove != null ?
-														// 	allLove.filter((item) => {
-
-														// 		return item.productId == dep.id ? item : null
-
-														// 	})
-														// 		.map(
-
-														// 			maplike =>
-
-														// 				maplike != null ?
-														// 					<button
-														// 						className="gioHangPD"
-														// 						onClick={
-														// 							() => {
-
-														// 								LikeProduct(dep.id)
-														// 								handleClickLike()
-														// 							}
-														// 						}
-														// 						style={{
-														// 							display: 'inline-block',
-														// 							padding: '4px',
-														// 							borderRadius: '50%',
-														// 							backgroundColor: 'white',
-														// 							border: 'none',
-														// 							cursor: 'pointer',
-														// 							outline: 'none',
-
-														// 						}}
-														// 					>
-														// 						<div
-														// 							style={{
-														// 								position: 'relative',
-														// 								width: '24px',
-														// 								height: '24px',
-														// 							}}
-														// 						>
-														// 							<div
-														// 								style={{
-
-														// 									position: 'absolute',
-														// 									top: 0,
-														// 									left: 0,
-														// 									width: '100%',
-														// 									height: '100%',
-
-														// 								}}
-														// 							/>
-														// 							❤️
-
-														// 						</div>
-														// 					</button> :
-														// 					<button
-														// 						className="gioHangPD"
-														// 						onClick={
-														// 							() => {
-
-														// 								LikeProduct(dep.id)
-														// 								handleClickLike()
-														// 							}
-														// 						}
-														// 						style={{
-														// 							display: 'inline-block',
-														// 							padding: '4px',
-														// 							borderRadius: '50%',
-														// 							backgroundColor: 'white',
-														// 							border: 'none',
-														// 							cursor: 'pointer',
-														// 							outline: 'none',
-
-														// 						}}
-														// 					>
-														// 						<div
-														// 							style={{
-														// 								position: 'relative',
-														// 								width: '24px',
-														// 								height: '24px',
-														// 							}}
-														// 						>
-														// 							<div
-														// 								style={{
-
-														// 									position: 'absolute',
-														// 									top: 0,
-														// 									left: 0,
-														// 									width: '100%',
-														// 									height: '100%',
-
-														// 								}}
-														// 							/>
-														// 							🤍
-
-														// 						</div>
-														// 					</button>
-
-														// 		) :
-														// <button
-														// 	className="gioHangPD"
-														// 	onClick={
-														// 		() => {
-
-														// 			LikeProduct(dep.id)
-														// 			handleClickLike()
-														// 		}
-														// 	}
-														// 	style={{
-														// 		display: 'inline-block',
-														// 		padding: '4px',
-														// 		borderRadius: '50%',
-														// 		backgroundColor: 'white',
-														// 		border: 'none',
-														// 		cursor: 'pointer',
-														// 		outline: 'none',
-
-														// 	}}
-														// >
-														// 	<div
-														// 		style={{
-														// 			position: 'relative',
-														// 			width: '24px',
-														// 			height: '24px',
-														// 		}}
-														// 	>
-														// 		<div
-														// 			style={{
-
-														// 				position: 'absolute',
-														// 				top: 0,
-														// 				left: 0,
-														// 				width: '100%',
-														// 				height: '100%',
-
-														// 			}}
-														// 		/>
-														// 		🤍
-
-														// 	</div>
-														// </button>
+														 	</button>:
+															<button
+																	className="gioHangPD"
+																	onClick={
+																		() => {
+	
+																			LikeProduct(dep.id)
+																		
+																		}
+																	}
+																	style={{
+																		display: 'inline-block',
+																		padding: '4px',
+																		borderRadius: '50%',
+																		backgroundColor: 'white',
+																		border: 'none',
+																		cursor: 'pointer',
+																		outline: 'none',
+	
+																	}}
+																>
+																	<div
+																		style={{
+																			position: 'relative',
+																			width: '24px',
+																			height: '24px',
+																		}}
+																	>
+																		<div
+																			style={{
+	
+																				position: 'absolute',
+																				top: 0,
+																				left: 0,
+																				width: '100%',
+																				height: '100%',
+	
+																			}}
+																		/>
+																		🤍
+	
+																	</div>
+																</button>
 													}
+													{/* <span style={{ color: isFavorite(dep.id) ? 'red' : 'white' }}>❤️</span> */}
+													
 
 
 

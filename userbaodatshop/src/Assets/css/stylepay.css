@@ -82,3 +82,27 @@
  transform: scaleX(1.4) scaleY(1.5);
  opacity: 0;
 }
+/* Custom radio thanh toán */
+.radio-root {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.radio-checked .MuiSvgIcon-root {
+  fill: #000;
+}
+
+.radio-label {
+  color: #000;
+}
+.ctnPTTT{
+  padding: 1%;
+}
+.content {
+  font-size: 16px;
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+

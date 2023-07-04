@@ -209,7 +209,7 @@ export default function HomeCRUD() {
                                         <div className="star_text " >
 													<NavLink to="/detail" state={pr.id}>
 														<div className="left_part ">
-															<ul>
+															<ul  style={{visibility:"hidden"}}>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>

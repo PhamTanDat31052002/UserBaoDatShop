@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,8 +18,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import Profile from "./Profile";
-import { useState } from 'react';
-import { useEffect } from 'react';
+
+
 import { variable } from "../Variable"
 
 const Search = styled('div')(({ theme }) => ({
@@ -95,7 +95,7 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  var [dem,setDem]=useState(0);
+  var [dem, setDem] = useState(0);
   useEffect(() => {
     const token = getToken();
     if (token != null) {
@@ -110,18 +110,18 @@ export default function PrimarySearchAppBar() {
         .then(data => {
           // setDem(dem+1)
           setRecords(data)
-          var a=0
+          var a = 0
           data.forEach(element => {
-            a=a+1
+            a = a + 1
           })
           setCountCart(a)
         }).catch(err => console.log(err))
 
-        
-  
+
+
     }
   }, [])
-  
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -163,57 +163,75 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
 
-      {/* <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem> */}
-      {/* <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem> */}
-      {/* <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem> */}
+    
     </Menu>
   );
   //search
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [suggestionsVisible, setSuggestionsVisible] = useState(false);
-
-  const products = ['Product 1', 'Product 2', 'Product 3', 'Product 4', 'Product 5'];
-
+  const searchBoxRef = useRef();
+  const [allProduct, setAllProduct] = useState([]);
   const handleSearch = (event) => {
-    const { value } = event.target;
-    setSearchTerm(value);
-
-    const filteredSuggestions = products.filter((product) =>
-      product.toLowerCase().includes(value.toLowerCase())
-    );
-    setSuggestions(filteredSuggestions);
-    setSuggestionsVisible(true);
+    setSearchTerm(event.target.value);
   };
+  var count=0;
+  useEffect(() => {
+		
+		fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
+			.then(response => response.json())
+			.then(data => setAllProduct(data)).catch(err => console.log(err))
+  },[count])
+
+  useEffect(() => {
+
+    const searchProducts = () => {
+      // if(allProduct!=null)
+      // {
+        if (searchTerm.trim() !== '') {
+         
+          var filteredProducts = allProduct.filter((product) =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          
+          setSuggestions(filteredProducts);
+  
+        } else {
+  
+          setSuggestions([]);
+        }
+      }
+      
+    
+   // };
+
+    // Gọi hàm tìm kiếm sau khi searchTerm thay đổi
+    searchProducts();
+  }, [searchTerm]);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Điều chỉnh kích thước của danh sách gợi ý dựa trên kích thước của thanh tìm kiếm
+    const searchBoxWidth = searchBoxRef.current.offsetWidth;
+    const suggestionsElement = document.querySelector('.suggestions');
+
+    if (suggestionsElement) {
+      suggestionsElement.style.width = `${windowWidth*50/100}px`;
+   
+    }
+  }, [suggestions]);
 
 
   return (
@@ -277,7 +295,7 @@ export default function PrimarySearchAppBar() {
           <Typography>
             <div className="itemHeader3">
               <div className="searchBody">
-                <div className="search-box">
+                <div className="search-box" ref={searchBoxRef}>
                   <button className="btn-search searchColor">
                     <i className="fas fa-search"></i>
                   </button>
@@ -289,11 +307,24 @@ export default function PrimarySearchAppBar() {
                     onChange={handleSearch}
                   />
                 </div>
-                {searchTerm && suggestions.length > 0 && suggestionsVisible && (
+                {/* Hiển thị gợi ý sản phẩm nếu có */}
+                {suggestions.length > 0 && (
                   <ul className="suggestions">
-                    {suggestions.map((product, index) => (
-                      <li key={index}>{product}</li>
-                    ))}
+                    {
+                      suggestions.map(search=>
+                        <NavLink to={"/detail"} state={search.id}>
+                              <div className='cntGoiY'>
+                          <div className='imgGoiY'>
+                            <img  src={"https://localhost:7067/wwwroot/image/product/" + search.image} alt='' width="50px"></img>
+                          </div>
+                          <div className='contentGoiY'>
+                              <p>{search.name}</p>
+                          </div>
+                        </div>
+                        </NavLink>
+                        )
+                    }
+                    
                   </ul>
                 )}
               </div>

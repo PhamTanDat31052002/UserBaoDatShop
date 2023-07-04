@@ -5,15 +5,30 @@
 }
 .rowColection{
     width: 100%;
-    overflow-x: auto;
+    animation: scroll 5s linear infinite; 
     white-space: nowrap;
+    margin-bottom: 2%;
+    /* border-bottom: 1px solid rgb(20, 20, 19); */
+    overflow-y: auto;
 }
 .itemRowColection{
     display: inline-block;
     width: 20%;
-    height: 400px;
+  
+    height: 100%;
+    padding-top: 0%;
     background-color: white;
     margin-right: 10px;
-     padding: 1%;
+
+     /* padding: 1%; */
+}
+.khungChuaThuongHieu{
+    animation: scrollRight 5s linear infinite;
+}
+
+.imgThuongHieu{
+    padding: 2%;
+    width: 400px;
+    height: 400px;
 }
 

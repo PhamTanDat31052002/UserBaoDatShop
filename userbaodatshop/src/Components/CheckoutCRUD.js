@@ -30,7 +30,8 @@ export default function CheckoutCRUD() {
     var [dataPay, setdatapay] = useState([]);
     var [phiShip,setPhiShip]=useState(20000);
     var [voucher,setVoucher]=useState("");
-
+    var [countCart,setCountCart]=useState(0);
+    
     var [Disscount,setDisscount]=useState("");
 
     
@@ -79,7 +80,14 @@ export default function CheckoutCRUD() {
             }
         })
             .then(response => response.json())
-            .then(data => setAllCart(data)).catch(err => console.log(err))
+            .then(data => {
+                setAllCart(data)
+                var a=0
+                data.forEach(element => {
+                  a=a+1
+                })
+                setCountCart(a)
+            }).catch(err => console.log(err))
         fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
             .then(respone => respone.json())
             .then(result => {
@@ -143,7 +151,7 @@ export default function CheckoutCRUD() {
                             <div class="col-md-4 order-md-2 mb-4">
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="text-muted">Giỏ hàng</span>
-                                    <span class="badge badge-secondary badge-pill">3</span>
+                                    <span class="badge badge-secondary badge-pill">{countCart}</span>
                                 </h4>
 
                                 <div class="scroll-container">

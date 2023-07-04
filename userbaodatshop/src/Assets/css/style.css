@@ -1464,26 +1464,26 @@ body{
     top: 100%;
     left: 0;
     z-index: 1;
-    width: 100%;
+    /* width: 100%; */
     max-height: 200px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
+  
     background-color: #fff;
     color: #000;
     list-style: none;
     padding: 10px;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
   }
-  
-  .suggestions li {
-    cursor: pointer;
-    padding: 5px;
-   width: 200px;
-  }
-  
-  .suggestions li:hover {
-    background-color: #f2f2f2;
-  }
+.suggestions nav:hover{
+    background-color: black;
+    background: black;
+    color: yellow;
+}
+
+
   
 
   /* header mới */
@@ -1501,4 +1501,15 @@ body{
     color: white;
   }
 
- 
+ .cntGoiY{
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid rgb(216, 215, 214);
+    padding: 1%;
+ }
+ .imgGoiY{
+    width: 30%;
+ }
+ .contentGoiY{
+    width: 68%;
+ }

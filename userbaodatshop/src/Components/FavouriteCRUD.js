@@ -53,6 +53,7 @@ export default function FavouriteCRUD(){
             }).then(response => response.json())
             .then(data => setRecords(data)).catch(err => console.log(err))
     })
+    
     return(
         <>
         {
