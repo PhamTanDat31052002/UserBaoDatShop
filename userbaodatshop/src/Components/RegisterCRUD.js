@@ -182,8 +182,8 @@ const RegisterCRUD = () => {
 						</div>
 						<div className="user-box user-box-btn">
 						<input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) => ChangeAvatar(e)} required="" />
-  <label htmlFor="avatar" className="custom-button">
-    <span>Select Avatar</span>
+							<label htmlFor="avatar" className="custom-button">
+						<span>Select Avatar</span>
     <i className="input-icon uil uil-at"></i>
   </label>
 								

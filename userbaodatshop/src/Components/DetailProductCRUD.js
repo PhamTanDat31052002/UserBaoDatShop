@@ -17,8 +17,8 @@ import { Alert, Space, message } from 'antd';
 
 export default function Product2() {
     var location = useLocation();
-  
-    const  id  = location.pathname.split('/').pop();
+
+    const id = location.pathname.split('/').pop();
 
     const [number, setNumber] = useState(1);
     var [records, setRecords] = useState()
@@ -49,7 +49,7 @@ export default function Product2() {
     const loading = (() =>
         <Loading />
     )
-  
+
 
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
@@ -83,7 +83,7 @@ export default function Product2() {
             .then(data => setStarTB(data)).catch(err => console.log(err))
 
     }, [load])
-   
+
     const truDi1 = () => {
         number >= 2 ?
             setNumber(number - 1) : setNumber(number - 0);
@@ -124,6 +124,15 @@ export default function Product2() {
                 console.log(error);
             })
     }
+    const [imageRV, setImageRV] = useState("")
+    const [nameImageRV, setNameImageRV] = useState("")
+    const ChangeImageRV = (value) => {
+        if (value.target.files[0] != null) {
+            setImageRV(value.target.files[0])
+            setNameImageRV(value.target.files[0].name)
+        }
+
+    }
     const Addreview = () => {
         const token = getToken();
 
@@ -142,16 +151,21 @@ export default function Product2() {
                 productId: id,
                 content: contentAddRV,
                 star: starAddRV,
-                image:"",
+                image: "",
             })
         })
             .then(response => response.json())
             .then(result => {
-                if (result == true) {
-                    message.success("Đã đánh giá")
-                    setLoad(load + 1)
-                }
-
+                message.success("Đã đánh giá")
+                setLoad(load + 1)
+                const formData = new FormData()
+                var imagelName = nameImageRV
+                formData.append("model", imageRV, result.reviewId)
+                fetch(variable.API_URL + "Reviews/CreateImageReview", {
+                    method: "POST",
+                    body: formData
+                }).then(res => res.json()).then(result => {
+                })
             }, (error) => {
                 console.log(error);
             })
@@ -166,7 +180,6 @@ export default function Product2() {
         setZoomPosition({ x, y });
     };
     //   đánh giá
-
 
 
     const clickStar = ((index) => {
@@ -196,14 +209,13 @@ export default function Product2() {
     });
     // show đánh giá
     const [showAllComments, setShowAllComments] = useState(false);
-    if(id==null)
-    {
-     return <ER404/>
+    if (id == null) {
+        return <ER404 />
     }
     const handleToggleComments = () => {
         setShowAllComments(!showAllComments);
     };
-    
+
     // if(review!=null)
     // {
 
@@ -216,17 +228,17 @@ export default function Product2() {
     };
 
     // const handleClickChiaSe = () => {
-	// 	const url = window.location.href;
+    // 	const url = window.location.href;
     //     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-	// 	window.open(facebookUrl, '_blank');
-	//   };
+    // 	window.open(facebookUrl, '_blank');
+    //   };
     return (
         <>
             {
                 records != null ?
                     <div>
                         <div className="containerDT">
-                        {/* <button onClick={handleClickChiaSe}>Share on Facebook</button> */}
+                            {/* <button onClick={handleClickChiaSe}>Share on Facebook</button> */}
                             <div className="columnDT1">
                                 <div className='gallery'>
 
@@ -268,10 +280,10 @@ export default function Product2() {
                             </div>
                             <div className="columnDT2">
                                 <div>
-                                    <p className="tieudeDT" style={{fontWeight:"400"}} >{records.name}</p>
-                                   
-                                    <span className="phudeDT" style={{fontWeight:"500"}}>Mã số: <span style={{fontWeight:"100"}}>{records.sku}</span> </span>
-                                    <span className="phudeDT" style={{fontWeight:"500"}}>Thương hiệu: <span style={{fontWeight:"100"}}>{records.brandProduct.name}</span></span>
+                                    <p className="tieudeDT" style={{ fontWeight: "400" }} >{records.name}</p>
+
+                                    <span className="phudeDT" style={{ fontWeight: "500" }}>Mã số: <span style={{ fontWeight: "100" }}>{records.sku}</span> </span>
+                                    <span className="phudeDT" style={{ fontWeight: "500" }}>Thương hiệu: <span style={{ fontWeight: "100" }}>{records.brandProduct.name}</span></span>
                                 </div>
                                 <div className='hienThiGia'>
                                     <div>
@@ -407,16 +419,16 @@ export default function Product2() {
                                     <span> 5</span>
                                     <span> ({tongComment} đánh giá)</span>
                                     <div className="starReview ">
-                                    {
+                                        {
 
-                                    starTB == 5  ? <div><span className='starRVHienThi'>★★★★★</span></div> :
-                                    starTB >= 4 && starTB <5 ? <div><span className='starRVHienThi'>★★★★</span><span>★</span></div> :
-                                    starTB >= 3 && starTB <4? <div><span className='starRVHienThi'>★★★</span><span>★★</span></div> :
-                                    starTB >= 2 && starTB <3? <div><span className='starRVHienThi'>★★</span><span>★★★</span></div> :
-                                    starTB >= 1 && starTB <2? <div><span className='starRVHienThi'>★</span><span>★★★★</span></div> :
-                                    starTB <= 1 && starTB >=0? <div><span>★★★★★</span></div>: null
+                                            starTB == 5 ? <div><span className='starRVHienThi'>★★★★★</span></div> :
+                                                starTB >= 4 && starTB < 5 ? <div><span className='starRVHienThi'>★★★★</span><span>★</span></div> :
+                                                    starTB >= 3 && starTB < 4 ? <div><span className='starRVHienThi'>★★★</span><span>★★</span></div> :
+                                                        starTB >= 2 && starTB < 3 ? <div><span className='starRVHienThi'>★★</span><span>★★★</span></div> :
+                                                            starTB >= 1 && starTB < 2 ? <div><span className='starRVHienThi'>★</span><span>★★★★</span></div> :
+                                                                starTB <= 1 && starTB >= 0 ? <div><span>★★★★★</span></div> : null
 
-}
+                                        }
 
                                     </div>
                                 </div>
@@ -427,17 +439,17 @@ export default function Product2() {
                                             <div className='cacDanhGia'>
                                                 <div className='itemCacDanhGia1'>
                                                     <div className="imgReview">
-                                                    <Avatar
-            
-            src={"https://localhost:7067/wwwroot/image/Avatar/" + rv.account.avatar}
-            alt={""}
-            sx={{
-              
-            //    ml:10,
-                width: 50,
-                height: 50,
-            }}
-        />
+                                                        <Avatar
+
+                                                            src={"https://localhost:7067/wwwroot/image/Avatar/" + rv.account.avatar}
+                                                            alt={""}
+                                                            sx={{
+
+                                                                //    ml:10,
+                                                                width: 50,
+                                                                height: 50,
+                                                            }}
+                                                        />
                                                         {/* <img src={"https://localhost:7067/wwwroot/image/Avatar/" + rv.account.avatar} alt="ac"></img> */}
                                                     </div>
                                                 </div>
@@ -458,9 +470,16 @@ export default function Product2() {
 
                                                     </div>
                                                     <div className='noiDungDanhGia'>
-                                                        <div>
+                                                         <div>
                                                             <span>{rv.content}</span>
                                                         </div>
+                                                        <div >
+                                                            {
+                                                                rv.image!=null?
+                                                                <img style={{border:"1px solid rgb(0, 238, 255)"}} src={"https://localhost:7067/wwwroot/image/reviewimage/" + rv.image} alt='' width="50px"></img>:null
+                                                            }
+                                                        </div>
+                                                       
 
                                                         <div className='ngayDanhGia'><span>Ngày đánh giá: {DatetimeFormat(rv.dateTime)} </span></div>
                                                     </div>
@@ -509,7 +528,9 @@ export default function Product2() {
                                                             </span>
                                                         ))}
                                                     </div>
-
+                                                    <div>
+                                                        <input type="file" id="imageRV" className="form-style" onChange={(e) => ChangeImageRV(e)} required="" />
+                                                    </div>
                                                     <div class="row">
 
                                                         <textarea

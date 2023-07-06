@@ -33,7 +33,7 @@ export default function PayCRUD() {
     var [open1, setopen] = useState(false);
     var [countCart, setCountCart] = useState(0);
     var [KTpttt, setKTpttt] = useState(null);
-    var [truPhiShip,setTruPhiShip]=useState(0)
+    var [truPhiShip, setTruPhiShip] = useState(0)
     const redirectToNewURL = (e) => {
         const newURL = e;
         window.location.href = newURL;
@@ -97,7 +97,7 @@ export default function PayCRUD() {
             },
             body: JSON.stringify({
                 nameCustomer: name,
-                total: tongTien-truPhiShip,
+                total: tongTien - truPhiShip,
                 shippingAddress: dc,
                 shippingPhone: sdt,
                 paymentMethods: payMedIV,
@@ -141,10 +141,10 @@ export default function PayCRUD() {
             },
             body: JSON.stringify({
                 nameCustomer: name,
-                total: tongTien-truPhiShip,
+                total: tongTien - truPhiShip,
                 shippingAddress: dc,
                 shippingPhone: sdt,
-                paymentMethods: payMedIV, 
+                paymentMethods: payMedIV,
                 pay: true
             })
         })
@@ -155,7 +155,7 @@ export default function PayCRUD() {
                 console.log(error);
             })
     })
-   // paymentmethod: true là giao hàng tận nơi/ false là lấy tại cửa hàng
+    // paymentmethod: true là giao hàng tận nơi/ false là lấy tại cửa hàng
     return (
         <>
 
@@ -241,7 +241,7 @@ export default function PayCRUD() {
                                             </div>
                                             <div className="itemTamTinh2">
                                                 <div>
-                                                    <span>{VND.format(tongTien-truPhiShip)}</span>
+                                                    <span>{VND.format(tongTien - truPhiShip)}</span>
                                                 </div>
 
                                             </div>
@@ -264,35 +264,35 @@ export default function PayCRUD() {
                                     <div className="itemGHTanNoi2">
                                         <span>20000</span>
                                     </div> */}
-                                     <RadioGroup value={selectedValueShip} onChange={handleRadioChangeShip}>
-                                                    <FormControlLabel
-                                                        value="option1"
-                                                        control={<Radio className={selectedValueShip === 'option1' ? 'radio-checked' : ''} />}
-                                                        label="Giao hàng tận nơi: 20.000đ"
-                                                        classes={{
-                                                            root: 'radio-root',
-                                                            label: 'radio-label',
-                                                        }}
-                                                        onClick={() => {
-                                                            setTruPhiShip(0)
-                                                            setPayMedIV(true)
-                                                        }}
-                                                    />
-                                                  
-                                                    <FormControlLabel
-                                                        value="option2"
-                                                        control={<Radio className={selectedValueShip === 'option2' ? 'radio-checked' : ''} />}
-                                                        label="Đến lấy tại cửa hàng: 0đ"
-                                                        classes={{
-                                                            root: 'radio-root',
-                                                            label: 'radio-label',
-                                                        }}
-                                                        onClick={() => {
-                                                            setTruPhiShip(20000)
-                                                            setPayMedIV(false)
-                                                        }}
-                                                    />
-                                                </RadioGroup>
+                                    <RadioGroup value={selectedValueShip} onChange={handleRadioChangeShip}>
+                                        <FormControlLabel
+                                            value="option1"
+                                            control={<Radio className={selectedValueShip === 'option1' ? 'radio-checked' : ''} />}
+                                            label="Giao hàng tận nơi: 20.000đ"
+                                            classes={{
+                                                root: 'radio-root',
+                                                label: 'radio-label',
+                                            }}
+                                            onClick={() => {
+                                                setTruPhiShip(0)
+                                                setPayMedIV(true)
+                                            }}
+                                        />
+
+                                        <FormControlLabel
+                                            value="option2"
+                                            control={<Radio className={selectedValueShip === 'option2' ? 'radio-checked' : ''} />}
+                                            label="Đến lấy tại cửa hàng: 0đ"
+                                            classes={{
+                                                root: 'radio-root',
+                                                label: 'radio-label',
+                                            }}
+                                            onClick={() => {
+                                                setTruPhiShip(20000)
+                                                setPayMedIV(false)
+                                            }}
+                                        />
+                                    </RadioGroup>
                                 </div>
                                 <div className="phuongThucThanhToan">
                                     <div>
@@ -315,7 +315,7 @@ export default function PayCRUD() {
                                                             setKTpttt(true)
                                                         }}
                                                     />
-                                                  
+
                                                     <FormControlLabel
                                                         value="option3"
                                                         control={<Radio className={selectedValue === 'option3' ? 'radio-checked' : ''} />}
@@ -339,13 +339,14 @@ export default function PayCRUD() {
                                                     </div>
                                                 )}
 
-                                              
+
                                                 {selectedValue === 'option3' && (
                                                     <div className="content">
                                                         <p style={{ textAlign: "center" }}>Thanh toán trực tiếp bằng ứng dụng VNPay</p>
                                                         <button className='hoanTatDonHang' onClick={() => {
-
-                                                            VNPAY()
+                                                            payMedIV == null ?
+                                                                message.warning("Vui lòng chọn phương thức vận chuyển") : 
+                                                                VNPAY()
 
                                                         }}>Thanh toán</button>
                                                     </div>
@@ -364,9 +365,9 @@ export default function PayCRUD() {
 
                                                     payMedIV == null ?
                                                         message.warning("Vui lòng chọn phương thức vận chuyển") :
-                                                            KTpttt==null?
-                                                              message.warning("Vui lòng chọn phương thức thanh toán"):
-                                                               setopen(true)
+                                                        KTpttt == null ?
+                                                            message.warning("Vui lòng chọn phương thức thanh toán") :
+                                                            setopen(true)
                                                 }}>Hoàn tất đơn hàng</button> : null
                                         }
 
