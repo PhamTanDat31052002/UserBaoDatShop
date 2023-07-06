@@ -18,6 +18,9 @@ import Register from './Page/Register';
 import CheckoutBuyNow from './Page/CheckoutBuyNow';
 import PayBuyNow from './Page/PayBuyNow';
 import Colection from './Page/Colection';
+import ForgotPassword from './Page/ForgotPassword';
+import ER404 from './Page/ER404';
+import ResultPay from './Page/ResultPay';
 
 
 function App() {
@@ -32,7 +35,7 @@ function App() {
         <Route path='/checkout' exact element={<Checkout />} />
         <Route path='/contact' exact element={<Contact />} />
         <Route path='/product' exact element={<Product />} />
-        <Route path='/detail' exact element={<DetailProduct />}/>
+        <Route path='/detail/:id' exact element={<DetailProduct />}/>
         <Route path='/login' exact element={<Login />} />
         <Route path='/account' exact element={<IFAccount/>}/>
         <Route path='/pay' exact element={<Pay/>}/>
@@ -43,6 +46,10 @@ function App() {
         <Route path='/checkoutbuynow' exact element={<CheckoutBuyNow/>}/>
         <Route path='/paybuynow' exact element={<PayBuyNow/>}/>
         <Route path='/colection' exact element={<Colection/>}/>
+        <Route path='/forgotpass' exact element={<ForgotPassword/>}/>
+        <Route path='/error' exact element={<ER404/>}/>
+        <Route path='/resultpay' exact element={<ResultPay/>}/>
+        <Route path="*" exact element={<ER404 />} />
       </Routes>
     </BrowserRouter>
 

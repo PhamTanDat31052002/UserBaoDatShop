@@ -93,7 +93,7 @@ export default function ColectionCRUD() {
                                             return item.brandProductId == brand.id ? item : null
                                         }).map(pr =>
                                             
-                                            <NavLink to="/detail" state={pr.id}><div className="itemRowColection">
+                                            <NavLink to={`/detail/${pr.id}`} state={pr.id}><div className="itemRowColection">
                                                 <div className="imgThuongHieu">
                                                     <img src={"https://localhost:7067/wwwroot/image/product/" + pr.image} alt="" width="80%" ></img>
                                                 </div>

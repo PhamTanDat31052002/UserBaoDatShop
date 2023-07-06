@@ -187,7 +187,7 @@ export default function InvoiceCRUD() {
                                             invoiceDT.filter((item) => {
                                                 return item.invoiceId == dep.id ? item : null
                                             }).map(data =>
-                                                <NavLink to={'/detail'} state={data.productSize.product.id}>
+                                                <NavLink to={`/detail/${data.productSize.product.id}`} state={data.productSize.product.id}>
                                                     <div className="itemDonHang">
                                                         <div className="sanPhamIV">
                                                             <div className="imgsanPhamIV">

@@ -11,7 +11,7 @@ import {
     ListItemText
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';	
-import { IconListCheck, IconMail, IconUser } from '@tabler/icons';
+import { IconListCheck, IconMail, IconUser,IconHeart ,IconBasket} from '@tabler/icons';
 
 import ProfileImg from '../Assets/images/AoMU2023.png';
 import { useEffect } from 'react';
@@ -59,7 +59,8 @@ const Profile = () => {
     return (
         <Box>
             <IconButton
-                size="large"
+                style={{outline:"none"}}
+                size="small"
                 aria-label="show 11 new notifications"
                 color="inherit"
                 aria-controls="msgs-menu"
@@ -78,8 +79,10 @@ const Profile = () => {
                     src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar}
                     alt={ProfileImg}
                     sx={{
-                        width: 50,
-                        height: 50,
+                        border: 0,
+                        mt:2,
+                        width: 35,
+                        height: 35,
                     }}
                 />:null
                 }
@@ -111,7 +114,7 @@ const Profile = () => {
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>
-                        <IconMail width={20} />
+                        <IconBasket width={20} />
                     </ListItemIcon>
                  
                     <ListItemText onClick={()=>history("/invoice")}> Đơn hàng </ListItemText>
@@ -120,9 +123,9 @@ const Profile = () => {
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>
-                        <IconListCheck width={20} />
+                        <IconHeart width={20} />
                     </ListItemIcon>
-                    <ListItemText>My Tasks</ListItemText>
+                    <ListItemText  onClick={()=>history("/favourites")}>Yêu thích</ListItemText>
                 </MenuItem>
                 <Box mt={1} py={1} px={2}>
                     <Button to="/" variant="outlined" color="primary" component={Link} fullWidth onClick={handleSignOut}>

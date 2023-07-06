@@ -312,7 +312,7 @@ export default function PrimarySearchAppBar() {
                   <ul className="suggestions">
                     {
                       suggestions.map(search=>
-                        <NavLink to={"/detail"} state={search.id}>
+                        <NavLink to={`/detail/${search.id}`} state={search.id}>
                               <div className='cntGoiY'>
                           <div className='imgGoiY'>
                             <img  src={"https://localhost:7067/wwwroot/image/product/" + search.image} alt='' width="50px"></img>
@@ -346,7 +346,7 @@ export default function PrimarySearchAppBar() {
             <NavLink to="/product" className="nav-item nav-link itemTask" >Sản phẩm</NavLink>
           </Typography>
           <Typography>
-            <NavLink to="/colection" className="nav-item nav-link itemTask" >Bộ sưu tập</NavLink>
+            <NavLink to="/colection" className="nav-item nav-link itemTask" >Thương hiệu</NavLink>
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
@@ -355,7 +355,7 @@ export default function PrimarySearchAppBar() {
             {
               token == null ? null
 
-                : <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                : <IconButton  style={{outline:"none"}} size="large" aria-label="show 4 new mails" color="inherit">
                   <Badge badgeContent={CountCart} color="error">
                     <NavLink to="/cart" className="fas fa-shopping-cart nav-item nav-link itemHeadernew" ></NavLink>
                   </Badge>

@@ -106,7 +106,7 @@ const RegisterCRUD = () => {
 			})
 		}).then(res => res.json())
 			.then(result => {
-				if (result == "Thành công") {
+				if (result == "Thanh cong") {
 					const formData = new FormData()
 					var imagelName = username
 					formData.append("model", avatar, imagelName)
@@ -116,7 +116,7 @@ const RegisterCRUD = () => {
 					}).then(res => res.json()).then(result => {
 						if (result == true) {
 							history("/login")
-							return	message.success("Đăng ký thành công, mời bạn đăng nhập!")
+							return	message.success("Đăng ký thành công. Truy cập link đã gửi vào email của bạn để tiến hành xác minh tài khoản!")
 						}
 						// if (result == 1)
 						// 	return message.error("Tên đăng nhập này đã được sử dụng")
@@ -180,10 +180,16 @@ const RegisterCRUD = () => {
 							<i className="input-icon uil uil-at"></i>
 							<label>Địa chỉ</label>
 						</div>
-						<div className="user-box">
-							<input type="file" className="form-style" placeholder="Address" onChange={(e) => ChangeAvatar(e)} required="" />
-							<i className="input-icon uil uil-at"></i>
-							<label>Hình</label>
+						<div className="user-box user-box-btn">
+						<input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) => ChangeAvatar(e)} required="" />
+  <label htmlFor="avatar" className="custom-button">
+    <span>Select Avatar</span>
+    <i className="input-icon uil uil-at"></i>
+  </label>
+								
+						</div>
+						<div  className="user-box">
+							<span style={{fontStyle:"italic"}}>Lưu ý: Link xác thực sẽ được gửi vào email bạn đăng ký. Truy cập email để xác thực ngay sau khi đăng ký để có thể đăng nhập.</span>
 						</div>
 						<a onClick={() => Register()}>
 							<span></span>

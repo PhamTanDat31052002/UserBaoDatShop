@@ -56,15 +56,15 @@ export default function ProductCRUD() {
 	const itemSizeClick = (event) => {
 		setItemSize(event.target.value);
 	};
+	var [count,setCount]=useState(0);
+
 	useEffect(() => {
 		var token = getToken();
 		fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
 			.then(response => response.json())
 			.then(data => setRecord(data)).catch(err => console.log(err))
 
-		// fetch(variable.API_URL + "GetAverageStartReview/"+idStar)
-		// 	.then(response => response.json())
-		// 	.then(data => (data)).catch(err => console.log(err))
+		
 		if (token != null) {
 			fetch(variable.API_URL + "FavoriteProducts/GetAllFavoriteProduct", {
 				method: "GET",
@@ -77,7 +77,7 @@ export default function ProductCRUD() {
 				.then(data => setAllLove(data)).catch(err => console.log(err))
 		}
 
-	}, [])
+	}, [count])
 
 	useEffect(() => {
 		fetch(variable.API_URL + "ProductTypes/GetAllProductTypeStatusTrue")
@@ -162,7 +162,7 @@ export default function ProductCRUD() {
 			})
 	}
 	const LikeProduct = (data) => {
-		console.log(data)
+	
 		const token = getToken();
 		if (token == null) {
 			return message.error("Bạn cần đăng nhập để yêu thích!")
@@ -181,8 +181,29 @@ export default function ProductCRUD() {
 			.then(response => response.json())
 			.then(result => {
 				message.success("Đã thêm vào danh sách yêu thích")
+				setCount(count+=1)
 			})
 	}
+	const DontLikeProduct = (data) => {
+	
+		const token = getToken();
+	
+		fetch(variable.API_URL + "FavoriteProducts/DeleteFavoriteProduct?id="+ data, {
+			method: "DELETE",
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				'Authorization': `Bearer ${token.value}`
+			},
+		
+		})
+			.then(response => response.json())
+			.then(result => {
+				message.success("Đã bỏ sản phẩm khỏi danh sách yêu thích!")
+				setCount(count+=1)
+			})
+	}
+	
 	// chuyển trang
 	const [currentPage, setcurrenPage] = useState(1);
 	const recordsPerPage = 12;
@@ -207,34 +228,7 @@ export default function ProductCRUD() {
 	const FilterPrice = (productTypeId) => {
 
 	};
-	// const AddCart = (data) => {
-	//     if(itemSize=="")
-	//     return <div class="modal-dialog modal-sm">{alert("a")}</div>
-
-
-	//     const token = getToken();
-
-	//     fetch(variable.API_URL + "Carts/CreateCart", {
-	//         method: "POST",
-	//         headers: {
-	//             'Content-Type': 'application/json',
-	//             Accept: 'application/json',
-	//             'Authorization': `Bearer ${token.value}`
-	//         },
-	//         body: JSON.stringify({
-	//             productSizeId: itemSize,
-	//             quantity: number,
-	//         })
-	//     })
-	//         .then(response => response.json())
-	//         .then(result => {
-	//             if(result=="Thành công")
-	//             alert("Thêm giỏ hàng thành công!")
-	//         }, (error) => {
-	//             console.log(error);
-	//         })
-	// }
-	//custom select
+		//custom select
 
 
 
@@ -276,6 +270,7 @@ export default function ProductCRUD() {
 		return false;
 	});
 	
+
 	return (
 		<>
 
@@ -325,12 +320,12 @@ export default function ProductCRUD() {
 										<div className="col-sm-3 itemPR ">
 											<div className="best_shoes parent ">
 
-												<NavLink to="/detail" state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
+												<NavLink to={`/detail/${dep.id}`} state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
 
-												<NavLink to="/detail" state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
+												<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
 
 												<div className="star_text " >
-													<NavLink to="/detail" state={dep.id}>
+													<NavLink to={`/detail/${dep.id}`} state={dep.id}>
 														<div className="left_part ">
 															<ul style={{visibility:"hidden"}}>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
@@ -342,7 +337,7 @@ export default function ProductCRUD() {
 														</div>
 													</NavLink>
 
-													<NavLink to="/detail" state={dep.id}><div className="right_part hidden-child">
+													<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="right_part hidden-child">
 														<div className="shoes_price "><span >{VND.format(dep.priceSales)}</span></div>
 
 
@@ -359,8 +354,9 @@ export default function ProductCRUD() {
 																className="gioHangPD"
 																onClick={
 																	() => {
-
-																		LikeProduct(dep.id)
+																		DontLikeProduct(dep.id)
+														
+																		
 																		
 																	}
 																}
@@ -372,6 +368,7 @@ export default function ProductCRUD() {
 																	border: 'none',
 																	cursor: 'pointer',
 																	outline: 'none',
+																	width:'13%'
 
 																}}
 															>
@@ -390,6 +387,7 @@ export default function ProductCRUD() {
 																			left: 0,
 																			width: '100%',
 																			height: '100%',
+																		
 
 																		}}
 																	/>
@@ -414,7 +412,8 @@ export default function ProductCRUD() {
 																		border: 'none',
 																		cursor: 'pointer',
 																		outline: 'none',
-	
+																	
+																		width:'13%'
 																	}}
 																>
 																	<div
@@ -422,6 +421,7 @@ export default function ProductCRUD() {
 																			position: 'relative',
 																			width: '24px',
 																			height: '24px',
+																			
 																		}}
 																	>
 																		<div
@@ -432,7 +432,7 @@ export default function ProductCRUD() {
 																				left: 0,
 																				width: '100%',
 																				height: '100%',
-	
+																				
 																			}}
 																		/>
 																		🤍

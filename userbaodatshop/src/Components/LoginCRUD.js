@@ -43,6 +43,10 @@ const Auth = () => {
 		}).then(res => res.json())
 			.then(result => {
 				if (result == "Failed") message.error("Sai tài khoản hoặc mật khẩu");
+				if(result=="Chưa xác minh Email")
+				{
+					return message.error("Email chưa được xác minh")
+				}
                 if (result != "Failed") {
                     setToken(result);
 					const tokenString = localStorage.getItem('token');
@@ -55,11 +59,8 @@ const Auth = () => {
 							history("/")
                         }, 50);
                     }
-					else
-					setTimeout(() => {
-						message.error("Đăng nhập thất bại!")
-					}, 0);
                 }
+			
 
 			}, (error) => {
 				setTimeout(() => {
@@ -95,6 +96,9 @@ const Auth = () => {
 	<div>
 		<span>Bạn chưa có tài khoản? </span>
 		<span><button className="btnDangKyNgay" style={{background:"none"}} onClick={()=>history('/register')}>Đăng ký ngay</button></span>
+	</div>
+	<div>
+	<span><button className="btnDangKyNgay" style={{background:"none",marginTop:"1%"}}  onClick={()=>history('/forgotpass')}>Quên mật khẩu?</button></span>
 	</div>
   </div>
 

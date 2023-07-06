@@ -5,7 +5,10 @@ import { variable } from "../Variable"
 import { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import { Email, Phone } from "@mui/icons-material";
+import {
+    Avatar,
 
+} from '@mui/material';
 export default function IFAccountCRUD() {
     var [records, setRecords] = useState();
     var [name, setName] = useState("");
@@ -32,6 +35,7 @@ export default function IFAccountCRUD() {
         }).then(response => response.json())
             .then(data => setRecords(data)).catch(err => console.log(err))
     }, [])
+
     const Update = (() => {
         const token = getToken();
         fetch(variable.API_URL + "Account/UpdateAccount", {
@@ -43,9 +47,9 @@ export default function IFAccountCRUD() {
             }
             , body: JSON.stringify({
                 email: email,
-                Phone: phone,
+                phone: phone,
                 Address: address,
-                FullName: name,
+                fullName: name,
             })
         }).then(response => response.json())
             .then(data => setRecords(data)).catch(err => console.log(err))
@@ -101,9 +105,22 @@ export default function IFAccountCRUD() {
                                     <button className="btnLuuIF" onClick={() => Update()}>Lưu</button>
                                 </div>
                                 <div className="item3_itemIF2_2">
-                                    <div className="imgIF">
-                                        <img src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar} alt="ac"></img>
-                                    </div>
+                                <div className="imgIF">
+                                    <Avatar
+            
+                                            src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar}
+                                            alt={""}
+                                            sx={{
+                                              
+                                            //    ml:10,
+                                                width: 100,
+                                                height: 100,
+                                            }}
+                                        />
+                                        </div>
+                                    {/* <div>
+                                        <img  className="imgIF" src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar} alt="ac"></img>
+                                    </div> */}
                                     <div>
                                         <input type="file"></input>
                                         <button className="btnChonAnh">Chọn ảnh</button>

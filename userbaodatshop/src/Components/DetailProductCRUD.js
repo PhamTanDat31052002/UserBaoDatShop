@@ -5,16 +5,21 @@ import "../Assets/css/styledetailproduct.css"
 import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-
+import ER404 from '../Page/ER404';
 import Loading from "../Page/Loading";
+import {
+    Avatar,
 
+} from '@mui/material';
 // import "../Assets/scrip/zoomScrip"
 
 import { Alert, Space, message } from 'antd';
 
 export default function Product2() {
     var location = useLocation();
-    var id = location.state;
+  
+    const  id  = location.pathname.split('/').pop();
+
     const [number, setNumber] = useState(1);
     var [records, setRecords] = useState()
     var [sizePr, setSizePr] = useState();
@@ -44,6 +49,7 @@ export default function Product2() {
     const loading = (() =>
         <Loading />
     )
+  
 
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
@@ -135,7 +141,8 @@ export default function Product2() {
             body: JSON.stringify({
                 productId: id,
                 content: contentAddRV,
-                star: starAddRV
+                star: starAddRV,
+                image:"",
             })
         })
             .then(response => response.json())
@@ -189,10 +196,18 @@ export default function Product2() {
     });
     // show đánh giá
     const [showAllComments, setShowAllComments] = useState(false);
-
+    if(id==null)
+    {
+     return <ER404/>
+    }
     const handleToggleComments = () => {
         setShowAllComments(!showAllComments);
     };
+    
+    // if(review!=null)
+    // {
+
+    // }
     const displayedComments = showAllComments ? review : review.slice(0, 5);
     // ẩn đánh giá
     const handleResetComments = () => {
@@ -200,14 +215,18 @@ export default function Product2() {
         setShowAllComments(false);
     };
 
-
-
+    // const handleClickChiaSe = () => {
+	// 	const url = window.location.href;
+    //     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+	// 	window.open(facebookUrl, '_blank');
+	//   };
     return (
         <>
             {
                 records != null ?
                     <div>
                         <div className="containerDT">
+                        {/* <button onClick={handleClickChiaSe}>Share on Facebook</button> */}
                             <div className="columnDT1">
                                 <div className='gallery'>
 
@@ -408,7 +427,18 @@ export default function Product2() {
                                             <div className='cacDanhGia'>
                                                 <div className='itemCacDanhGia1'>
                                                     <div className="imgReview">
-                                                        <img src={"https://localhost:7067/wwwroot/image/Avatar/" + rv.account.avatar} alt="ac"></img>
+                                                    <Avatar
+            
+            src={"https://localhost:7067/wwwroot/image/Avatar/" + rv.account.avatar}
+            alt={""}
+            sx={{
+              
+            //    ml:10,
+                width: 50,
+                height: 50,
+            }}
+        />
+                                                        {/* <img src={"https://localhost:7067/wwwroot/image/Avatar/" + rv.account.avatar} alt="ac"></img> */}
                                                     </div>
                                                 </div>
                                                 <div className='itemCacDanhGia2'>
