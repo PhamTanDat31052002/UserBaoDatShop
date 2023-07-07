@@ -57,6 +57,14 @@ export default function Product2() {
         return userToken
     })
 
+    const [footer,setFooter]=useState()
+	
+	useEffect(() => {
+	
+		fetch(variable.API_URL + "Footer/GetFooter")
+			.then(response => response.json())
+			.then(data => setFooter(data)).catch(err => console.log(err))
+	}, [])
 
     useEffect(() => {
 
@@ -245,9 +253,9 @@ export default function Product2() {
 
 
                                     <div className="cntimgDT ">
-                                        <div classname='maxImgDT'>
+                                        <div >
                                             {/* <img id="imgDT" src={require("../Assets/images/" + records.image)} alt="sp" /> */}
-                                            <div>
+                                            <div classname='maxImgDT'>
                                                 <img id="imgDT" src={"https://localhost:7067/wwwroot/image/product/" + selectedImage} alt="Ảnh lớn" />
 
                                             </div>
@@ -357,15 +365,16 @@ export default function Product2() {
                                 </div>
                                 <div className='ChiCoTai'>
 
-                                    <span className='fas fa-store' style={{ fontSize: "21px" }}><b> Có tại 2 cửa hàng:</b></span>
-                                    <div>
+                                    <span className='fas fa-store' style={{ fontSize: "21px" }}><b> Có tại cửa hàng:</b></span>
+                                    {
+                                        footer!=null?
+                                        <div>
 
-                                        <span className='fas fa-map-marker-alt' style={{ fontSize: "17px" }}> <b>638/26/21 Lê Trọng Tấn, P.Bình Hưng Hòa, Q.Bình Tân, TP.HCM</b></span>
-                                    </div>
-                                    <div>
-
-                                        <span className='fas fa-map-marker-alt' style={{ fontSize: "17px" }}><b> 638/26/21 Lê Trọng Tấn, P.Bình Hưng Hòa, Q.Bình Tân, TP.HCM</b></span>
-                                    </div>
+                                        <span className='fas fa-map-marker-alt' style={{ fontSize: "17px" }}> <b>{footer.adress}</b></span>
+                                    </div>:null
+                                    }
+                                    
+                                    
                                 </div>
                             </div>
                             <div className="columnDT3">

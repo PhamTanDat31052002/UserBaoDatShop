@@ -30,9 +30,9 @@ export default function Footer()
 							<div style={{ width:"70%" }}><a href="/"><img src={require('../Assets/images/logo.png')} alt=""/></a></div>
 						</div>
 						<div class="col-sm-6 col-lg-2">
-							<div class="footer-logo"><img src={require('../Assets/images/phone-icon.png')} alt=""/><span class="map_text"><br></br> {footer.phone}</span></div>
+							<div class="footer-logo"><img src={require('../Assets/images/phone-icon.png')} alt=""/><span class="map_text"> {footer.phone}</span></div>
 						</div>
-						<div class="col-sm-6 col-lg-3">
+						<div class="col-sm-6 col-lg-3 ">
 							<div class="footer-logo"><img src={require('../Assets/images/email-icon.png')} alt=""/><span class="map_text">{footer.email}</span></div>
 						</div>
 						<div class="col-sm-6 col-lg-3">
@@ -58,7 +58,7 @@ export default function Footer()
 							<div class="image-icon"><img src={require("../Assets/images/map-icon.png")} alt=""/><span class="pet_text">{footer.adress}</span></div>
 						</div>
 						<div class="col-sm-4 col-md-6 col-lg-3">
-							<h2 class="shop_text">Our Company </h2>
+							<h2 class="shop_text">Cửa hàng </h2>
 							<div class="delivery_text">
 								<ul>
 									<li>Vận chuyển</li>

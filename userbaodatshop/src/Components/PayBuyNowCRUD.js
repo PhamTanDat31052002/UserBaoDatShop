@@ -24,14 +24,14 @@ export default function PayBuyNowCRUD() {
     var idProduct = location.state[4];
     var number = location.state[5];
     var name = location.state[6];
-
+    var [truPhiShip, setTruPhiShip] = useState(0)
     var [productSize, setProductSize] = useState();
     var [itemPr, setitemPr] = useState();
     var [open1, setopen] = useState(false);
-
+    var [hienThiBtnHoanThanh, setHienThiBtnHoanThanh] = useState(true);
     var history = useNavigate();
     var [payMedIV, setPayMedIV] = useState(null);
-
+    var [KTpttt, setKTpttt] = useState(null);
     var payIV = false;
     var [infor, setInfor] = useState();
 
@@ -40,7 +40,10 @@ export default function PayBuyNowCRUD() {
     const handleRadioChange = (event) => {
         setSelectedValue(event.target.value);
     };
-
+    const redirectToNewURL = (e) => {
+        const newURL = e;
+        window.location.href = newURL;
+    };
 
 
     const getToken = (() => {
@@ -110,7 +113,39 @@ export default function PayBuyNowCRUD() {
                 console.log(error);
             })
     })
+     //custom phương thức vận chuyển
+     const [selectedValueShip, setSelectedValueShip] = useState('');
 
+     const handleRadioChangeShip = (event) => {
+         setSelectedValueShip(event.target.value);
+     };
+    const VNPAY = (() => {
+        const token = getToken();
+        fetch(variable.API_URL + "APIPayment/CreateVNPAYURLBuyNow", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            },
+            body: JSON.stringify({
+                nameCustomer: name,
+                total: tongTien - truPhiShip,
+                shippingAddress: dc,
+                shippingPhone: sdt,
+                paymentMethods: payMedIV,
+                pay: true,
+                quantity:number,
+                productSizeID:idProductSize,
+            })
+        })
+            .then(response => response.json())
+            .then(result => {
+                redirectToNewURL(result)
+            }, (error) => {
+                console.log(error);
+            })
+    })
     return (
         <>
 
@@ -192,7 +227,7 @@ export default function PayBuyNowCRUD() {
                                                 </div>
                                                 <div className="itemTamTinh2">
                                                     <div>
-                                                        <span>{VND.format(tongTien)}</span>
+                                                        <span>{VND.format(tongTien - truPhiShip)}</span>
                                                     </div>
 
                                                 </div>
@@ -208,12 +243,35 @@ export default function PayBuyNowCRUD() {
                                         <span>Phương thức vận chuyển</span>
                                     </div>
                                     <div className="GHTanNoi">
-                                        <div className="itemGHTanNoi1">
-                                            <span>Giao hàng tận nơi</span>
-                                        </div>
-                                        <div className="itemGHTanNoi2">
-                                            <span>20000</span>
-                                        </div>
+                                    <RadioGroup value={selectedValueShip} onChange={handleRadioChangeShip}>
+                                        <FormControlLabel
+                                            value="option1"
+                                            control={<Radio className={selectedValueShip === 'option1' ? 'radio-checked' : ''} />}
+                                            label="Giao hàng tận nơi: 20.000đ"
+                                            classes={{
+                                                root: 'radio-root',
+                                                label: 'radio-label',
+                                            }}
+                                            onClick={() => {
+                                                setTruPhiShip(0)
+                                                setPayMedIV(true)
+                                            }}
+                                        />
+
+                                        <FormControlLabel
+                                            value="option2"
+                                            control={<Radio className={selectedValueShip === 'option2' ? 'radio-checked' : ''} />}
+                                            label="Đến lấy tại cửa hàng: 0đ"
+                                            classes={{
+                                                root: 'radio-root',
+                                                label: 'radio-label',
+                                            }}
+                                            onClick={() => {
+                                                setTruPhiShip(20000)
+                                                setPayMedIV(false)
+                                            }}
+                                        />
+                                    </RadioGroup>
                                     </div>
                                     <div className="phuongThucThanhToan">
                                         <div>
@@ -231,17 +289,23 @@ export default function PayBuyNowCRUD() {
                                                                 root: 'radio-root',
                                                                 label: 'radio-label',
                                                             }}
-                                                            onClick={() => setPayMedIV(false)}
+                                                            onClick={() => {
+                                                                setHienThiBtnHoanThanh(true)
+                                                                setKTpttt(true)
+                                                            }}
                                                         />
                                                         <FormControlLabel
                                                             value="option2"
                                                             control={<Radio className={selectedValue === 'option2' ? 'radio-checked' : ''} />}
-                                                            label="Thanh toán ngân hàng"
+                                                            label="Thanh toán VNPay"
                                                             classes={{
                                                                 root: 'radio-root',
                                                                 label: 'radio-label',
                                                             }}
-                                                            onClick={() => setPayMedIV(true)}
+                                                            onClick={() => {
+                                                                setKTpttt(false)
+                                                                setHienThiBtnHoanThanh(false)
+                                                            }}
                                                         />
                                                     </RadioGroup>
 
@@ -254,24 +318,31 @@ export default function PayBuyNowCRUD() {
                                                     )}
 
                                                     {selectedValue === 'option2' && (
-                                                        <div className="content">
-                                                            <p style={{ textAlign: "center" }}>Quý khách vui lòng chuyển khoản tới một trong những ngân hàng dưới đây theo cú pháp nội dung: (SĐT mua hàng) ck đơn hàng (Mã đơn hàng)</p>
-                                                            <p style={{ textAlign: "center" }}>MB BANK</p>
-                                                            <p style={{ textAlign: "center" }}>Số TK: 0000031052002</p>
-                                                            <p style={{ textAlign: "center" }}>Chủ TK: PHAM TAN DAT</p>
-                                                        </div>
+                                                         <div className="content">
+                                                         <p style={{ textAlign: "center" }}>Thanh toán trực tiếp bằng ứng dụng VNPay</p>
+                                                         <button className='hoanTatDonHang' onClick={() => {
+                                                             payMedIV == null ?
+                                                                 message.warning("Vui lòng chọn phương thức vận chuyển") : 
+                                                                 VNPAY()
+ 
+                                                         }}>Thanh toán</button>
+                                                     </div>
                                                     )}
                                                 </div>
                                             </div>
                                         </div>
                                         <div>
+                                           {
+                                            hienThiBtnHoanThanh == true ?
                                             <button className='hoanTatDonHang' onClick={() => {
 
                                                 payMedIV == null ?
-                                                    message.warning("Vui lòng chọn phương thức thanh toán") :
-                                                    setopen(true)
-                                            }
-                                            }>Hoàn tất đơn hàng</button>
+                                                    message.warning("Vui lòng chọn phương thức vận chuyển") :
+                                                    KTpttt == null ?
+                                                        message.warning("Vui lòng chọn phương thức thanh toán") :
+                                                        setopen(true)
+                                            }}>Hoàn tất đơn hàng</button> : null
+                                           }
                                         </div>
                                     </div>
                                 </div>

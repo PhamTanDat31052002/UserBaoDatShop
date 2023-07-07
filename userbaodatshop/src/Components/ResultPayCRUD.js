@@ -33,7 +33,6 @@ export default function ResultPayCRUD() {
             .then(data => setKetQua(data)).catch(err => console.log(err))
     }, [])
 
-console.log(ketQua)
     const AddInvoice = (() => {
         const token = getToken();
         if (result != null) {
@@ -70,7 +69,9 @@ console.log(ketQua)
     return (
         <>
             <div className="login-box">
-                <h2 style={{ color: 'black' }}>Xác nhận thanh toán</h2>
+            {
+                     ketQua.vnPayResponseCode == "00" ? <h2 style={{ color: 'black' }}>Xác nhận thanh toán</h2>:<h2 style={{ color: 'black' }}>Thanh toán thất bại</h2>
+                }
                 <form>
                     {
                         ketQua.vnPayResponseCode=="00"?
@@ -98,7 +99,9 @@ console.log(ketQua)
 
                 </form>
                 <div>
-                    <span style={{ fontStyle: "italic" }}>*Lưu ý: Vui lòng bấm hoàn tất đơn hàng để xác nhận thanh toán và đặt đơn hàng! </span>
+                {
+                          ketQua.vnPayResponseCode == "00" ?<span style={{ fontStyle: "italic" }}>*Lưu ý: Vui lòng bấm hoàn tất đơn hàng để xác nhận thanh toán và đặt đơn hàng! </span>:null
+                    }
 
                 </div>
 

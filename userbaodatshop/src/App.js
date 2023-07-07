@@ -21,6 +21,8 @@ import Colection from './Page/Colection';
 import ForgotPassword from './Page/ForgotPassword';
 import ER404 from './Page/ER404';
 import ResultPay from './Page/ResultPay';
+import ResultPayBuyNow from './Page/ResultPayBuyNow';
+import DoiMatKhau from './Page/DoiMatKhau';
 
 
 function App() {
@@ -49,6 +51,8 @@ function App() {
         <Route path='/forgotpass' exact element={<ForgotPassword/>}/>
         <Route path='/error' exact element={<ER404/>}/>
         <Route path='/resultpay' exact element={<ResultPay/>}/>
+        <Route path='/resultpaybuynow' exact element={<ResultPayBuyNow/>}/>
+        <Route path='/doimatkhau' exact element={<DoiMatKhau/>}/>
         <Route path="*" exact element={<ER404 />} />
       </Routes>
     </BrowserRouter>

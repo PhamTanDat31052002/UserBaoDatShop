@@ -4,10 +4,10 @@ import { variable } from "../Variable"
 import "../Assets/css/styleLogin.css"
 import PropTypes from 'prop-types';import jwt_decode from "jwt-decode";
 import { message } from "antd";
-
+import { NavLink, useNavigate } from 'react-router-dom';
 export default function ForgotPasswordCRUD(){
     var [email,setEmail]=useState('');
-  
+    const history = useNavigate()
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
@@ -16,11 +16,11 @@ export default function ForgotPasswordCRUD(){
     const ChangeEmail = (value) => {
 		setEmail(value)
 	}
-   
+    const [isLoading, setIsLoading] = useState(false);
 
     const guiMailXacThuc=(()=>{
         
-        console.log(email)
+        setIsLoading(true)
         fetch(variable.API_URL + "Account/ForgotPasswordCustomer", {
             method: "POST",
             headers: {
@@ -34,7 +34,10 @@ export default function ForgotPasswordCRUD(){
         }).then(response => response.json())
             .then(data => {
                 if(data=="Thành công")
+                {
+                    setIsLoading(false)
                     return message.success("Đã gửi link đổi lại mật khẩu vào Email của bạn")
+                }  
             }).catch(err => console.log(err))
     })
     return(
@@ -69,10 +72,16 @@ export default function ForgotPasswordCRUD(){
         <span></span>
         <span></span>
         <span></span>
-       Tiếp tục
+       Gửi Link đổi mật khẩu
       </a>
     </form>
+    <div>
 	
+		<span><button className="btnDangKyNgay" style={{background:"none"}} onClick={()=>history('/login')}>Quay lại</button></span>
+	</div>
+	{
+        isLoading==true?<span>Loading...</span>:null
+    }
 
 	
   </div>

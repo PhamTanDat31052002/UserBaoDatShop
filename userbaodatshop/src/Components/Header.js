@@ -95,6 +95,14 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const [footer,setFooter]=useState()
+	
+	useEffect(() => {
+	
+		fetch(variable.API_URL + "Footer/GetFooter")
+			.then(response => response.json())
+			.then(data => setFooter(data)).catch(err => console.log(err))
+	}, [])
   var [dem, setDem] = useState(0);
   useEffect(() => {
     const token = getToken();
@@ -244,24 +252,28 @@ export default function PrimarySearchAppBar() {
           <i class="icon-cps-fab-menu"></i>
           {/* <!-- <i class="icon-cps-close"></i> --> */}
         </label>
-        <div class="fab-wheel">
+        {
+          footer!=null?
+          <div class="fab-wheel">
           <a className="fab-action fab-action-1" href="https://www.google.com/maps/place/638+L%C3%AA+Tr%E1%BB%8Dng+T%E1%BA%A5n,+B%C3%ACnh+H%C6%B0ng+Ho%C3%A0,+T%C3%A2n+Ph%C3%BA,+Th%C3%A0nh+ph%E1%BB%91+H%E1%BB%93+Ch%C3%AD+Minh,+Vi%E1%BB%87t+Nam/@10.8137324,106.6041641,17z/data=!3m1!4b1!4m6!3m5!1s0x31752beadc166d1b:0xfa60a6bb4dcd07a1!8m2!3d10.8137324!4d106.606739!16s%2Fg%2F11c5nwzjgz?hl=vi-VN&entry=ttu" target="_blank">
             <span class="fab-title">Tìm cửa hàng</span>
             <div class="fab-button fab-button-1"><i class="icon-cps-local"></i></div>
           </a>
-          <a class="fab-action fab-action-2" href="tel:0362047571" rel="nofollow " target="_blank">
-            <span class="fab-title">Gọi trực tiếp</span>
-            <div class="fab-button fab-button-2"><i class="icon-cps-phone"></i></div>
+          <a class="fab-action fab-action-2" href={footer.linkInstagram} rel="nofollow " target="_blank">
+            <span class="fab-title">Instagram</span>
+            <div class="fab-button fab-button-4"><i style={{width:"30px",height:"30px"}} class="fab fa-instagram"></i></div>
           </a>
-          <a class="fab-action fab-action-3" href="https://www.facebook.com/phamtandat2002" target="_blank" >
+          <a class="fab-action fab-action-3" href={footer.linkFacebook} target="_blank" >
             <span class="fab-title">Chat ngay</span>
             <div class="fab-button fab-button-3"><i class="icon-cps-chat"></i></div>
           </a>
-          <a class="fab-action fab-action-4" href="https://zalo.me/0362047571" target="_blank">
+          <a class="fab-action fab-action-4" href={footer.linkZalo} target="_blank">
             <span class="fab-title">Chat trên Zalo</span>
             <div class="fab-button fab-button-4"><i class="icon-cps-chat-zalo"></i></div>
           </a>
-        </div>
+        </div>:null
+        }
+        
         <div class="suggestions-chat-box hidden" style={{ display: "none" }}>
           <div class="box-content d-flex justify-content-around align-items-center">
             <i class="fa fa-times-circle" aria-hidden="true" id="btnClose" onclick="jQuery('.suggestions-chat-box').hide()"></i>

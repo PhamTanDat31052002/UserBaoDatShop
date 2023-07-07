@@ -28,8 +28,15 @@
     margin-left: 9%;
 }
 #imgDT:hover{
-    width: 120%;
+    width: 100%;
     margin-left: 0%;
+}
+.maxImgDT{
+  position: relative;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  border: 10px solid yellow;
 }
 .tieudeDT{
     margin-top:2% ;
@@ -189,21 +196,18 @@
 
   
   /* zoom ảnh */
-  .maxImgDT{
-    position: relative;
-    width: 400px; /* Đặt kích thước container */
-    height: 400px;
-    overflow: hidden;
-    
-  }
-  #imgDT {
-    /* position: absolute; */
+
+  /* #imgDT {
+   
     top: 0;
     left: 0;
-    width: 100%; /* 100% kích thước ban đầu */
+    width: 100%; 
     height: 100%;
     transition: transform 0.3s ease-in-out;
   }
+  #imgDT:hover{
+width: 120%;
+  } */
 
   .zoomed {
     transform: scale(2); /* Phóng to hình ảnh */

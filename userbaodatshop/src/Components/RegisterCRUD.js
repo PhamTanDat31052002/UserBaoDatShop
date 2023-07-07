@@ -52,43 +52,46 @@ const RegisterCRUD = () => {
 
 		localStorage.setItem('token', JSON.stringify(item));
 	}
+	const [messageApi, contextHolder] = message.useMessage();
+
+	const [isLoading, setIsLoading] = useState(false);
 
 	const Register = () => {
+
 		//tên tài khoản
 		if (username == "") return message.error("Bạn chưa nhập tên tài khoản!")
 		const usernameRegex = /^(?=.*[A-Z])[a-zA-Z0-9]{5,}$/;
 		if (!usernameRegex.test(username)) {
-		  return message.error(" Vui lòng nhập tên tài khoản có ít nhất 5 ký tự (không dùng tiếng việt có dấu) và ít nhất 1 chữ viết hoa.")
+			return message.error(" Vui lòng nhập tên tài khoản có ít nhất 5 ký tự (không dùng tiếng việt có dấu) và ít nhất 1 chữ viết hoa.")
 		}
 		//email
 		if (email == "") return message.error("Bạn chưa nhập Email!")
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
-		return message.error('Địa chỉ email không hợp lệ! Vui lòng nhập một địa chỉ email hợp lệ.');
+			return message.error('Địa chỉ email không hợp lệ! Vui lòng nhập một địa chỉ email hợp lệ.');
 		}
 		//password
 		const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()])[a-zA-Z0-9!@#$%^&*()]{8,}$/;
 		if (password == "") return message.error("Bạn chưa nhập mật khẩu!")
 		if (!passwordRegex.test(password)) {
-		  return message.error('Mật khẩu không hợp lệ! Vui lòng nhập mật khẩu có ít nhất 1 ký tự hoa, 1 ký tự đặc biệt và độ dài tối thiểu 8 ký tự.')
+			return message.error('Mật khẩu không hợp lệ! Vui lòng nhập mật khẩu có ít nhất 1 ký tự hoa, 1 ký tự đặc biệt và độ dài tối thiểu 8 ký tự.')
 		}
 		//số điện thoại
-	    const phoneRegex = /^0\d{9}$/;
+		const phoneRegex = /^0\d{9}$/;
 		if (phone == "") return message.error("Số điện thoại không được để trống")
 
 		if (!phoneRegex.test(phone)) {
 			return message.error("Số điện thoại không hợp lệ! Vui lòng nhập đúng định dạng.");
 		}
-		
+
 		//họ và tên	
 		if (fullName == "") return message.error("Bạn chưa nhập họ và tên!")
-	
-		
+
+
 		if (address == "") return message.error("Bạn chưa nhập địa chỉ!")
 		if (avatar == "") return message.error("Bạn chưa chọn ảnh đại diện!")
 
-
-
+		setIsLoading(true)
 		fetch(variable.API_URL + "Account/register-Customer", {
 			method: "POST",
 			headers: {
@@ -116,7 +119,8 @@ const RegisterCRUD = () => {
 					}).then(res => res.json()).then(result => {
 						if (result == true) {
 							history("/login")
-							return	message.success("Đăng ký thành công. Truy cập link đã gửi vào email của bạn để tiến hành xác minh tài khoản!")
+							setIsLoading(false)
+							return message.success("Đăng ký thành công. Truy cập link đã gửi vào email của bạn để tiến hành xác minh tài khoản!")
 						}
 						// if (result == 1)
 						// 	return message.error("Tên đăng nhập này đã được sử dụng")
@@ -124,7 +128,7 @@ const RegisterCRUD = () => {
 						// 	return message.error("Số điện thoại này đã được sử dụng")
 						// else if (result == 3)
 						// 	return message.error("Email này đã được sử dụng")
-							
+
 					})
 				}
 				if (result == 1)
@@ -132,17 +136,19 @@ const RegisterCRUD = () => {
 				if (result == 2)
 					return message.error("Số điện thoại này đã được sử dụng")
 				if (result == 3)
+
 					return message.error("Email này đã được sử dụng")
 
 				// message.error("Đăng ký thất bại!")
-			
+
 			}, (error) => {
 				setTimeout(() => {
-				
+					setIsLoading(false)
 					return message.error("Đăng ký thất bại!")
 				}, 0);
 			}
 			)
+		messageApi.destroy()
 	}
 	return (
 		<>
@@ -181,15 +187,15 @@ const RegisterCRUD = () => {
 							<label>Địa chỉ</label>
 						</div>
 						<div className="user-box user-box-btn">
-						<input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) => ChangeAvatar(e)} required="" />
+							<input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) => ChangeAvatar(e)} required="" />
 							<label htmlFor="avatar" className="custom-button">
-						<span>Select Avatar</span>
-    <i className="input-icon uil uil-at"></i>
-  </label>
-								
+								<span>Select Avatar</span>
+								<i className="input-icon uil uil-at"></i>
+							</label>
+
 						</div>
-						<div  className="user-box">
-							<span style={{fontStyle:"italic"}}>Lưu ý: Link xác thực sẽ được gửi vào email bạn đăng ký. Truy cập email để xác thực ngay sau khi đăng ký để có thể đăng nhập.</span>
+						<div className="user-box">
+							<span style={{ fontStyle: "italic" }}>Lưu ý: Link xác thực sẽ được gửi vào email bạn đăng ký. Truy cập email để xác thực ngay sau khi đăng ký để có thể đăng nhập.</span>
 						</div>
 						<a onClick={() => Register()}>
 							<span></span>
@@ -199,6 +205,10 @@ const RegisterCRUD = () => {
 							Đăng ký
 						</a>
 					</form>
+					{
+						isLoading == true ?
+							<span>Loading...</span> : null
+					}
 				</div>
 
 			</body>
