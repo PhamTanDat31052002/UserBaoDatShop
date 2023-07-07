@@ -200,7 +200,9 @@ export default function InvoiceCRUD() {
                                                                
                                                             </div>
                                                             <div className="giasanPhamIV">
-                                                                {VND.format(data.productSize.product.price * data.quantity)}
+                                                                
+                                                                <span> {VND.format(data.productSize.product.priceSales * data.quantity)}</span>
+                                                               
                                                             </div>
                                                         </div>
                                                     </div>

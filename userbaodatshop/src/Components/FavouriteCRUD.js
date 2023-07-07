@@ -89,7 +89,7 @@ export default function FavouriteCRUD() {
 
                                                
                                                     <div className="ctnFavourite">
-                                                         <NavLink to={`/detail/${data.id}`} className="itemFavourite1" state={data.productId}>
+                                                         <NavLink to={`/detail/${data.productId}`} className="itemFavourite1" state={data.productId}>
                                                         <div >
                                                             <img style={{ border: "1px solid rgb(215, 215, 199)" }} src={"https://localhost:7067/wwwroot/image/product/" + data.product.image} width={"100px"} alt="sp"></img>
                                                         </div>
@@ -97,7 +97,7 @@ export default function FavouriteCRUD() {
                                                         <NavLink to={`/detail/${data.id}`}   className="itemFavourite2" state={data.productId}>
                                                         <div>
                                                             <div><span> {data.product.name}</span></div>
-                                                            <div><span>Giá: {VND.format(data.product.price)}</span></div>
+                                                            <div><span>Giá: {VND.format(data.product.priceSales)}</span></div>
 
                                                         </div>
                                                         </NavLink>

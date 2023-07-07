@@ -446,6 +446,7 @@ body{
 	text-align:center;
 	color: #000;
 	font-size: 20pt;
+    margin-bottom: 5%;
 }
 .star_icon{ width: 25%; margin: 0 auto; text-align: center; }
 .star_icon ul{ margin: 0px; padding: 0px;} 
@@ -510,7 +511,7 @@ body{
 .sale_text{
 	width: 100%;
 	float: left;
-	font-size: 45pt;
+	font-size: 30pt;
 	color: #ed2540;
 	line-height: 75px;
 }
@@ -521,14 +522,19 @@ body{
 	font-size: 45pt;
 	color: #ed2540;
 	line-height: 75px;
-
+    margin-bottom: 5%;
 }
-
+.nayChiCon{
+    font-size: 20px;
+    font-weight: 700;
+}
 .seemore{
 	width: 50%;
 	height: 50px;
 	color: #ffffff;
-	background-color: #ff4e5b;
+    padding: 2%;
+  
+	background-color:black;
 	color: #ffffff;
 	font-size: 16pt;	
 	margin-top: 35px;

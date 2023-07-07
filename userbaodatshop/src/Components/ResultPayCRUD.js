@@ -12,68 +12,97 @@ export default function ResultPayCRUD() {
     const count = 0;
     const url = new URL(window.location.href);
     const result = url.toString().replace('http://localhost:3000/resultpay', '');
-    const [dataPay, setDataPay] = useState('')
-    useEffect(() => {
+    const [dataRe, setDataRe] = useState('')
+    const [ketQua, setKetQua] = useState('')
 
+    const getToken = (() => {
+        const tokenString = localStorage.getItem('token');
+        const userToken = JSON.parse(tokenString);
+        return userToken
+    })
+    useEffect(() => {
+        const token = getToken();
+        fetch(variable.API_URL + "APIPayment/CheckReuslt"+result, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization': `Bearer ${token.value}`,
+            }
+        }).then(response => response.json())
+            .then(data => setKetQua(data)).catch(err => console.log(err))
+    }, [])
+
+console.log(ketQua)
+    const AddInvoice = (() => {
+        const token = getToken();
         if (result != null) {
             fetch(variable.API_URL + "APIPayment/GeDATaURL" + result, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
+                    'Authorization': `Bearer ${token.value}`
                 },
             })
                 .then(response => response.json())
                 .then(result => {
-                    setDataPay(result)
-                }, (error) => {
-                    console.log(error);
-                })
-        }
-
-        if (dataPay.success == true) {
-            console.log(dataPay)
-            const token = dataPay.token;
-            var orderDescription = dataPay.orderDescription.split('/')
-            const paymentmethod = orderDescription[0];
-            const pay = orderDescription[1];
-            const total = orderDescription[2];
-            const address = orderDescription[3];
-            const phone = orderDescription[4];
-            const name = orderDescription[5];
-            fetch(variable.API_URL + "Inovices/CreateInvoice", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${token.value}`
-                },
-                body: JSON.stringify({
-                    nameCustomer: name,
-                    total: total,
-                    shippingAddress: address,
-                    shippingPhone: phone,
-                    paymentMethods: paymentmethod,
-                    pay: pay
-                })
-            })
-                .then(response => response.json())
-                .then(re => {
-                    if (re == true) {
-
-                        message.success("Đặt hàng thành công!")
+                    
+                    if (result.vnPayResponseCode == "00") {
+                        message.success("Đã hoàn tất đơn hàng")
                         history("/invoice")
                     }
-
+                    else if(result.vnPayResponseCode == "24"){
+                        message.error("Không thể hoàn tất do khách hàng hủy giao dịch")
+                        history("/cart")
+                    }               
+                    else
+                    {
+                        message.error("Không thể hoàn tất đơn")
+                        history("/cart")
+                    }
                 }, (error) => {
                     console.log(error);
                 })
+
         }
-
-    }, [count])
-
+    })
     return (
         <>
+            <div className="login-box">
+                <h2 style={{ color: 'black' }}>Xác nhận thanh toán</h2>
+                <form>
+                    {
+                        ketQua.vnPayResponseCode=="00"?
+                       <a style={{ marginLeft: "20%", marginBottom: "4%" }} onClick={() => {
+
+                                AddInvoice()
+                            }}>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Hoàn tất đơn hàng
+                            </a>: 
+                              <a style={{ marginLeft: "20%", marginBottom: "4%" }} onClick={() => {
+
+                               history("/cart")
+                            }}>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Quay lại giỏ hàng
+                            </a>
+                    }
+
+                </form>
+                <div>
+                    <span style={{ fontStyle: "italic" }}>*Lưu ý: Vui lòng bấm hoàn tất đơn hàng để xác nhận thanh toán và đặt đơn hàng! </span>
+
+                </div>
+
+            </div>
 
         </>
     )

@@ -156,8 +156,7 @@ export default function Product2() {
         })
             .then(response => response.json())
             .then(result => {
-                message.success("Đã đánh giá")
-                setLoad(load + 1)
+                
                 const formData = new FormData()
                 var imagelName = nameImageRV
                 formData.append("model", imageRV, result.reviewId)
@@ -165,6 +164,8 @@ export default function Product2() {
                     method: "POST",
                     body: formData
                 }).then(res => res.json()).then(result => {
+                    message.success("Đã đánh giá")
+                setLoad(load + 1)
                 })
             }, (error) => {
                 console.log(error);

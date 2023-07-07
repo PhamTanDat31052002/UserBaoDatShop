@@ -89,8 +89,8 @@ export default function PayBuyNowCRUD() {
             },
             body: JSON.stringify({
                 nameCustomer: name,
-                quantity: number,
-                productSizeID: idProductSize,
+                quantity:number,
+                productSizeID:idProductSize,
                 paymentMethods: payMedIV,
                 pay: payIV,
                 total: tongTien,

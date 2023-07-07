@@ -8,7 +8,7 @@ export default function ResultPay(){
         <>
             <Header/>
             <ResultPayCRUD/>
-            <Footer/>
+            
         </>
     )
 }
