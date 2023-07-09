@@ -9,6 +9,7 @@ import {
     Avatar,
 
 } from '@mui/material';
+import { Alert, Space, message } from 'antd';
 export default function IFAccountCRUD() {
     var [records, setRecords] = useState();
     var [name, setName] = useState("");
@@ -16,13 +17,21 @@ export default function IFAccountCRUD() {
     var [phone, setPhone] = useState("");
     var [address, setAddress] = useState("");
     var [avatar, setAvatar] = useState();
-    var [NameAvatar, setNameAvatar] = useState();
-
+    var [NameAvatar, setNameAvatar] = useState('');
+    var [count,setCount]=useState(0);
+    var [tamp,setTamp]=useState(0);
     const getToken = (() => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
         return userToken
     })
+    const ChangeAvatar = (value) => {
+		if (value.target.files[0] != null) {
+			setAvatar(value.target.files[0])
+			setNameAvatar(value.target.files[0].name)
+		}
+
+	}
     useEffect(() => {
         const token = getToken();
         fetch(variable.API_URL + "Account/GetDetailAccount", {
@@ -33,12 +42,25 @@ export default function IFAccountCRUD() {
                 'Authorization': `Bearer ${token.value}`,
             }
         }).then(response => response.json())
-            .then(data => setRecords(data)).catch(err => console.log(err))
-    }, [])
+            .then(data =>{
+                setRecords(data)
+                setPhone(data.phone)
+                setName(data.fullName)
+                setAddress(data.address)
+            }).catch(err => console.log(err))
+    }, [count])
 
     const Update = (() => {
         const token = getToken();
-        fetch(variable.API_URL + "Account/UpdateAccount", {
+        if (name == "") return message.error("Số điện thoại không được để trống")
+        const phoneRegex = /^0\d{9}$/;
+		if (phone == "") return message.error("Số điện thoại không được để trống")
+       
+            if (!phoneRegex.test(phone)) {
+                return message.error("Số điện thoại không hợp lệ! Vui lòng nhập đúng định dạng.");
+            }
+		if (address == "") return message.error("Địa chỉ không được để rỗng!")
+        fetch(variable.API_URL + "Account/UpdateAccountCustomer", {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -46,15 +68,69 @@ export default function IFAccountCRUD() {
                 'Authorization': `Bearer ${token.value}`,
             }
             , body: JSON.stringify({
-                email: email,
                 phone: phone,
                 Address: address,
                 fullName: name,
             })
         }).then(response => response.json())
-            .then(data => setRecords(data)).catch(err => console.log(err))
+            .then(data =>{
+                if(data=="True")
+                {
+                    setCount(count+1)
+                    message.success("Cập nhật thành công")
+                }
+                else if(data=="SDT"){
+                    message.error("Số điện thoại đã được sử dụng")
+                }
+                else {
+                    message.error("Cập nhật thất bại")
+                }
+            }).catch(err => console.log(err))
     })
+    
+    const UpdateAndImage = (() => {
+        const token = getToken();
 
+        const phoneRegex = /^0\d{9}$/;
+		if (phone == "") return message.error("Số điện thoại không được để trống")
+
+		if (!phoneRegex.test(phone)) {
+			return message.error("Số điện thoại không hợp lệ! Vui lòng nhập đúng định dạng.");
+		}
+        if (name == "") return message.error("Họ tên không được để rỗng!")
+
+
+		if (address == "") return message.error("Địa chỉ không được để rỗng!")
+        const formData = new FormData()
+        
+					formData.append("model", avatar, NameAvatar)
+
+        fetch(variable.API_URL + "Account/UpdateAccountCustomer/" + phone +"&"+address+"&"+name , {
+            method: "POST",
+            headers: {
+                
+                'Authorization': `Bearer ${token.value}`,
+            }
+            , body:  formData
+               
+               
+        
+        }).then(response => response.json())
+            .then(data =>{
+                if(data==true)
+                {
+                    setCount(count+1)
+                    message.success("Cập nhật thành công")
+                }
+                else if(data=="SDT"){
+                    message.error("Số điện thoại đã được sử dụng")
+                }
+                else{
+                    message.error("Cập nhật thất bại")
+                }
+            }).catch(err => console.log(err))
+    })
+   
     return (
         <>
             {
@@ -89,19 +165,39 @@ export default function IFAccountCRUD() {
                                 <div className="item2_itemIF2_2">
                                     
                                     <div>
-                                        <input className="itemIP" type="text" onChange={(e) => { setName(e.target.value) }} value={name == "" ? records.fullName : name} ></input>
+                                        <input className="itemIP" type="text" onChange={(e) => {
+                                              setTamp(tamp+1)
+                                            setName(e.target.value)
+                                             }} value={name} ></input>
                                     </div>
                                     <div>
-                                        <input  className="itemIP" type="text" onChange={(e) => { setEmail(e.target.value) }} value={email == "" ? records.email : email} ></input>
+                                        <input  className="itemIP" type="text" value={records.email} readOnly ></input>
                                     </div>
                                     <div>
-                                        <input  className="itemIP" type="text" onChange={(e) => { setPhone(e.target.value) }} value={records.phone}  ></input>
+                                        <input  className="itemIP" type="number" onChange={(e) => { 
+                                              setTamp(tamp+1)
+                                            setPhone(e.target.value)
+                                             }} value={phone}  ></input>
                                     </div>
                                     <div>
-                                        <input  className="itemIP" type="text" onChange={(e) => { setAddress(e.target.value) }} value={records.address}></input>
+                                        <input  className="itemIP" type="text" onChange={(e) => { 
+                                            setTamp(tamp+1)
+                                            setAddress(e.target.value)
+                                             }} value={address} ></input>
                                     </div>
 
-                                    <button className="btnLuuIF" onClick={() => Update()}>Lưu</button>
+                                             {
+                                                tamp!=0?  <button className="btnLuuIF" onClick={() =>
+                                                    {
+                                                        NameAvatar==''?
+                                                        Update():UpdateAndImage()
+                                                    } }> Lưu</button>:
+                                                    <button className="btnLuuIF" onClick={() =>
+                                                        {
+                                                           message.error("Bạn chưa thay đổi thông tin")
+                                                        } }> Lưu</button>
+                                             }
+                                  
                                 </div>
                                 <div className="item3_itemIF2_2">
                                 <div className="imgIF">
@@ -121,7 +217,11 @@ export default function IFAccountCRUD() {
                                         <img  className="imgIF" src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar} alt="ac"></img>
                                     </div> */}
                                     <div>
-                                        <input type="file"></input>
+                                     
+                                        
+                                        <input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) =>
+                                            { setTamp(tamp+1)
+                                                ChangeAvatar(e)}}  />
                                         <button className="btnChonAnh">Chọn ảnh</button>
                                     </div>
                                 </div>

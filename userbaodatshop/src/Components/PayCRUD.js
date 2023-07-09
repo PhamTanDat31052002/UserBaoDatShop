@@ -129,9 +129,10 @@ export default function PayCRUD() {
         setSelectedValueShip(event.target.value);
     };
     // thanh toán vnpay
-
+    const [isLoading, setIsLoading] = useState(false);
     const VNPAY = (() => {
         const token = getToken();
+        setIsLoading(true)
         fetch(variable.API_URL + "APIPayment/CreateVNPAYURL", {
             method: "POST",
             headers: {
@@ -150,6 +151,7 @@ export default function PayCRUD() {
         })
             .then(response => response.json())
             .then(result => {
+                setIsLoading(false)
                 redirectToNewURL(result)
             }, (error) => {
                 console.log(error);
@@ -371,6 +373,11 @@ export default function PayCRUD() {
                                                 }}>Hoàn tất đơn hàng</button> : null
                                         }
 
+                                    </div>
+                                    <div>
+                                        {
+                                            isLoading==true?<span>Loading...</span>:null
+                                        }
                                     </div>
                                 </div>
                             </div>

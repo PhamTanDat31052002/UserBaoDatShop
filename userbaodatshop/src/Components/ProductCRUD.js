@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import "../Assets/css/styledetailproduct.css"
 import Dropdown from 'react-dropdown-select';
 import "../Assets/css/style.css"
-
+import Slider from 'react-slider';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -17,9 +17,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { message } from "antd";
-
-
-
+import { Search, SearchOutlined } from "@mui/icons-material";
+import triangleTopRight from "../Assets/css/giamgia.svg"
+import Paragraph from "antd/lib/typography/Paragraph"
+import { Radio, RadioGroup, FormControlLabel } from '@mui/material';
 export default function ProductCRUD() {
 
 	var [records, setRecord] = useState([]);
@@ -52,13 +53,14 @@ export default function ProductCRUD() {
 		setOpen(false);
 	};
 
-
+	const [isLoading, setIsLoading] = useState(false);
 	const itemSizeClick = (event) => {
 		setItemSize(event.target.value);
 	};
 	var [count,setCount]=useState(0);
 
 	useEffect(() => {
+		setIsLoading(true)
 		var token = getToken();
 		fetch(variable.API_URL + "Products/GetAllProductStatusTrue")
 			.then(response => response.json())
@@ -76,7 +78,7 @@ export default function ProductCRUD() {
 			}).then(response => response.json())
 				.then(data => setAllLove(data)).catch(err => console.log(err))
 		}
-
+		setIsLoading(false)
 	}, [count])
 
 	useEffect(() => {
@@ -269,29 +271,67 @@ export default function ProductCRUD() {
 		}
 		return false;
 	});
-	
+	const [minPrice, setMinPrice]=useState(0);
+	const [maxPrice, setMaxPrice]=useState(5000000)
+	// const handleSearchPrice = async (minPrice, maxPrice) => {
+    //     try {
+    //         const dataForm = {
+    //             "page": 1,
+    //             "limit": 50,
+    //             "minPrice": minPrice,
+    //             "maxPrice": maxPrice
+    //         }
+    //         await axiosClient.post("/product/searchByPrice", dataForm)
+    //             .then(response => {
+    //                 if (response === undefined) {
+    //                     setLoading(false);
+    //                 }
+    //                 else {
+    //                     setProductDetail(response.data.docs);
+    //                     setLoading(false);
+    //                 }
+    //             }
+    //             );
 
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
 	return (
 		<>
 
 
 
 			<div>
-				<div>
-					<select className="selectLoc" onChange={(e) => handleFilterChangeTangGiam(e.target.value)}>
-						<option value={"1"}>Giá tăng dần</option>
-						<option value={"0"}>Giá giảm dần</option>
-
-					</select>
+				{/* <div>
+					<Slider
+					range
+					min={0}
+					max={5000000}
+					value={[minPrice,maxPrice]}
+					onChange={()=>handleSearchClick()}
+					/>
+					<Button type="primary" icon={<SearchOutlined/>} onClick={()=>handleSearchClick()}>
+						Tìm kiếm 
+					</Button>
 				</div>
+				<div>
+					<a style={{fontWeight:'bold'}}>Phạm vi giá</a>
+					<a style={{color:'red'}}>Từ: {minPrice}VNĐ----Đến: {maxPrice}VNĐ</a>
+				</div> */}
+
 				<div className="ContainerProduct">
 
 
 					<div className="collection_section layout_padding columnPD1">
 						<div className="container ">
 							<div className="select-wrapper1">
-								<select className="custom-select1" value={selectedType} onChange={(e) => ChangeFilter(e.target.value)}>
-
+								{/* <select className="custom-select1" value={selectedType} onChange={(e) =>
+									{
+										setcurrenPage(1)
+										ChangeFilter(e.target.value)
+									}}>
+									
 									<option value="0" hidden>Tất cả</option>
 
 									<option value="0">Tất cả</option>
@@ -300,11 +340,47 @@ export default function ProductCRUD() {
 											<>
 												<option className="itemSelectPD" value={a.id}>{a.name}</option>
 											</>
-
 										)
 									}
 
-								</select>
+								</select> */}
+								
+								<RadioGroup value={selectedType} onChange={(e) =>
+									{
+										setcurrenPage(1)
+										ChangeFilter(e.target.value)
+									}}>
+										
+												<FormControlLabel
+                                            value={0}
+                                            control={<Radio className={ selectedType=== 0 ? 'radio-checked' : ''} />}
+                                            label="Tất cả"
+                                            classes={{
+                                                root: 'radio-root',
+                                                label: 'radio-label',
+                                            }}
+                                          
+                                        />
+										{
+										ProductType.map(a =>
+											<>
+												<FormControlLabel
+                                            value={a.id}
+                                            control={<Radio className={ selectedType=== a.id ? 'radio-checked' : ''} />}
+                                            label={a.name}
+                                            classes={{
+                                                root: 'radio-root',
+                                                label: 'radio-label',
+                                            }}
+                                          
+                                        />
+											</>
+										)
+									}
+                                        
+
+                                       
+                                    </RadioGroup>
 							</div>
 
 						</div>
@@ -312,36 +388,40 @@ export default function ProductCRUD() {
 
 					</div>
 					<div className="layout_padding gallery_section">
+					{
+								isLoading==true?<span>Loading...</span>:null
+							}
 						<div className="container">
+							
 							<div className="row">
 								{
-
+									
 									a.map(dep =>
 										<div className="col-sm-3 itemPR ">
 											<div className="best_shoes parent ">
 
 												<NavLink to={`/detail/${dep.id}`} state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
-
-												<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
+													<div style={{height:"300px"}}>
+														<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
+													</div>
+												
 
 												<div className="star_text " >
 													<NavLink to={`/detail/${dep.id}`} state={dep.id}>
 														<div className="left_part ">
-															<ul style={{visibility:"hidden"}}>
+															{/* <ul style={{visibility:"hidden"}}>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
-															</ul>
+															</ul> */}
+															<div className="star"><span >{VND.format(dep.price)}</span></div>
 														</div>
 													</NavLink>
 
 													<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="right_part hidden-child">
 														<div className="shoes_price "><span >{VND.format(dep.priceSales)}</span></div>
-
-
-
 													</div></NavLink>
 
 
@@ -452,12 +532,7 @@ export default function ProductCRUD() {
 											
 													{/* btnmua */}
 
-													<button className="btnMua" onClick={()=>{
-													
-														muaNgay(dep.id)
-														handleClickOpen()
-														
-														}}>Mua ngay</button>
+													<NavLink to={`/detail/${dep.id}`} state={dep.id}>	<button className="btnMua" >Mua ngay</button></NavLink>
 													
 													{
 														dtProduct!=null?
@@ -542,11 +617,18 @@ export default function ProductCRUD() {
 													</Dialog>:null
 													}
 													
-
+													
 
 												</div>
+												
 											</div>
+											
+											<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
+                                       					 <span>Giảm giá</span>
+														    <img style={{ position: 'absolute', top: 23, left:4 }} src={triangleTopRight} alt=""/>
+                                    				</Paragraph>
 										</div>
+										
 									)}
 
 							</div>

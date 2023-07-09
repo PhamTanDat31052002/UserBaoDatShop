@@ -24,7 +24,8 @@ export default function DoiMatKhauCRUD()
         
         const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()])[a-zA-Z0-9!@#$%^&*()]{8,}$/;
 		if (password == "") return message.error("Bạn chưa nhập mật khẩu!")
-		if (!passwordRegex.test(password)) {
+        console.log(passwordRegex.test(password))
+		if (passwordRegex.test(password)==false) {
 			return message.error('Mật khẩu không hợp lệ! Vui lòng nhập mật khẩu có ít nhất 1 ký tự hoa, 1 ký tự đặc biệt và độ dài tối thiểu 8 ký tự.')
 		}
         if(token==null)

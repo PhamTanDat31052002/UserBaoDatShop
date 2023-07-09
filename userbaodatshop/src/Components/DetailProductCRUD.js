@@ -34,6 +34,7 @@ export default function Product2() {
     var [load, setLoad] = useState(0);
     var [tongComment, setTongComment] = useState(0);
     var [tongStar, setTongStar] = useState(0);
+    var [anhPhu, setAnhPhu] = useState([]);
     const itemSizeClick = (event) => {
         setItemSize(event.target.value);
     };
@@ -89,9 +90,12 @@ export default function Product2() {
         fetch(variable.API_URL + "Reviews/GetAverageStartReview/" + id)
             .then(response => response.json())
             .then(data => setStarTB(data)).catch(err => console.log(err))
-
+            
+        fetch(variable.API_URL + "ImageProduct/GetAllImageProductById/" + id)
+            .then(response => response.json())
+            .then(data => setAnhPhu(data)).catch(err => console.log(err))
     }, [load])
-
+   
     const truDi1 = () => {
         number >= 2 ?
             setNumber(number - 1) : setNumber(number - 0);
@@ -145,7 +149,7 @@ export default function Product2() {
         const token = getToken();
 
         if (token == null)
-            return message.warning("Bạn cần đăng nhập để đánh giá!")
+            return message.warning("Bạn cần đăng nhập để bình luận!")
 
 
         fetch(variable.API_URL + "Reviews/CreateReview", {
@@ -254,9 +258,14 @@ export default function Product2() {
 
                                     <div className="cntimgDT ">
                                         <div >
-                                            {/* <img id="imgDT" src={require("../Assets/images/" + records.image)} alt="sp" /> */}
+                                          
                                             <div classname='maxImgDT'>
-                                                <img id="imgDT" src={"https://localhost:7067/wwwroot/image/product/" + selectedImage} alt="Ảnh lớn" />
+                                                {
+                                                    selectedImage==records.image?
+                                                    <img id="imgDT"   src={"https://localhost:7067/wwwroot/image/product/" + records.image} alt="Ảnh lớn" />
+                                                    : <img id="imgDT"   src={selectedImage} alt="Ảnh lớn" />
+                                                }
+                                               
 
                                             </div>
 
@@ -265,14 +274,29 @@ export default function Product2() {
 
                                     </div>
 
-                                </div>  <div className="thumbnail-gallery">
+                                </div> 
+                                 <div className="thumbnail-gallery" style={{marginLeft:"3%"}}>
                                     <img
                                         src={"https://localhost:7067/wwwroot/image/product/" + records.image}
                                         alt="Ảnh nhỏ 1"
-                                        className={selectedImage == records.image ? 'selected' : null}
-                                        onClick={() => handleClick(records.image)}
+                                        className={selectedImage == "https://localhost:7067/wwwroot/image/product/" + records.image ? 'selected' : null}
+                                        onClick={() => handleClick("https://localhost:7067/wwwroot/image/product/" + records.image)}
                                     />
-                                    <img
+                                   
+                                    {
+                                        anhPhu!=null?
+                                            anhPhu.map(pic=>
+                                                
+                                                <img
+                                                src={"https://localhost:7067/wwwroot/image/ImageProduct/" + pic.image}
+                                                    alt={pic.productId}
+                                                    className={selectedImage == "https://localhost:7067/wwwroot/image/ImageProduct/" + pic.image ? 'selected' : null}
+                                                    onClick={() => handleClick("https://localhost:7067/wwwroot/image/ImageProduct/" + pic.image)}
+                                                   />
+                                                )
+                                        :null
+                                    }
+                                    {/* <img
                                         src={require("../Assets/images/AoMU2023.png")}
                                         alt="Ảnh nhỏ 1"
                                         className={selectedImage == 'AoMU2023.png' ? 'selected' : null}
@@ -283,7 +307,7 @@ export default function Product2() {
                                         alt="Ảnh nhỏ 2"
                                         className={selectedImage == 'AoMU2023.png' ? 'selected' : null}
                                         onClick={() => handleClick('AoMU2023.png')}
-                                    />
+                                    /> */}
                                     {/* Thêm các ảnh nhỏ khác tương tự */}
                                 </div>
                             </div>
@@ -414,11 +438,14 @@ export default function Product2() {
                         </div>
                         <div>
                             <p className="motaDT">Mô tả sản phẩm</p>
-                            <span>{records.description}</span>
+                            <div className='cntMoTa'>
+                                 <span className='mota'>{records.description}</span>
+                            </div>
+                           
                         </div>
                         <div className='containerDanhGia'>
                             <div>
-                                <h5>Đánh giá sản phẩm</h5>
+                                <h5>Bình luận</h5>
                             </div>
 
                             <div>
@@ -427,7 +454,7 @@ export default function Product2() {
                                     <span>{starTB.toFixed(1)}</span>
                                     <span> trên</span>
                                     <span> 5</span>
-                                    <span> ({tongComment} đánh giá)</span>
+                                    <span> ({tongComment} bình luận)</span>
                                     <div className="starReview ">
                                         {
 
@@ -502,7 +529,7 @@ export default function Product2() {
 
                                 <div className='vietDanhGia'>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Viết đánh giá
+                                        Viết bình luận
                                     </button>
 
                                     {!showAllComments && review.length > 5 && (
@@ -517,7 +544,7 @@ export default function Product2() {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Đánh giá</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Bình luận</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -558,7 +585,7 @@ export default function Product2() {
                                                                 return message.warning("Bạn chưa chọn sao!")
                                                             }
                                                             Addreview()
-                                                        }} >Gửi đánh giá</button>
+                                                        }} >Gửi bình luận</button>
                                                     </div>
 
                                                 </div>

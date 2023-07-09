@@ -76,12 +76,19 @@
     color: rgb(86, 86, 75);
 }
 .motaDT{
- 
+    
     margin-top:2% ;
     text-align: left;
     font-size: 30px;
+    white-space: pre-line;
 }
-
+.cntMoTa{
+  padding: 1%;
+}
+.mota{
+  
+  white-space: pre-line;
+}
 
 /* Button thêm giỏ hàng */
 

@@ -46,6 +46,7 @@ export default function ResultPayBuyNowCRUD() {
             })
                 .then(response => response.json())
                 .then(result => {
+                   
 
                     if (result.vnPayResponseCode == "00") {
                         message.success("Đã hoàn tất đơn hàng")

@@ -5,7 +5,9 @@ import { useEffect } from 'react';
 import { variable } from "../Variable"
 import { useState } from 'react';
 import "../Assets/scrip/slide.js"
+import triangleTopRight from "../Assets/css/giamgia.svg"
 import { NavLink, useLocation } from 'react-router-dom';
+import Paragraph from "antd/lib/typography/Paragraph"
 export default function HomeCRUD() {
     var [product, setProduct] = useState([]);
     var [productRan, setProductRan] = useState();
@@ -57,7 +59,7 @@ export default function HomeCRUD() {
 		style: 'currency',
 		currency: 'VND',
 	});
-    
+  
     return (
         <>
              
@@ -81,44 +83,54 @@ export default function HomeCRUD() {
                     <div class="row">
 					<div class="col-sm-2 padding_0">
 						<p class="mens_taital">Phụ kiện thể thao</p>
-						<div class="page_no">0/2</div>
-						<p class="mens_taital_2">Phụ kiện thể thao</p>
+						
+						<p class="mens_taital_2" style={{marginTop:"700px"}}>Quần áo thể thao</p>
 					</div>
 					<div class="col-sm-5">
 						<div class="banner_taital">
 							<h1 class="banner_text">Mẫu áo bóng đá mới </h1>
-							<h1 class="mens_text"><strong>Hot nhất</strong></h1>
-							<p class="lorem_text">pla pla pla</p>
-							<button class="buy_bt">Mua ngay</button>
-							<button class="more_bt">Xem thêm</button>
+							{/* <h1 class="mens_text"><strong>Hot nhất</strong></h1> */}
+							<p class="lorem_text">Phù hợp giới trẻ thoải mái, năng động</p>
+							<NavLink to={`/detail/${6}`}><button class="buy_bt">Mua ngay</button></NavLink>
+							{/* <button class="more_bt">Xem thêm</button> */}
 						</div>
 					</div>
 					<div class="col-sm-5">
-						<div class="shoes_img"><img src={"https://localhost:7067/wwwroot/image/product/6.png"} alt=''/></div>
+						<div class="shoes_img"> <NavLink to={`/detail/${6}`}><img src={"https://localhost:7067/wwwroot/image/product/6.png"} alt=''/></NavLink></div>
 					</div>
 				</div>
                 </div>
-                <div class="carousel-item ">
-                    <div class="row">
-					<div class="col-sm-2 padding_0">
-						<p class="mens_taital">Phụ kiện thể thao</p>
-						<div class="page_no">0/2</div>
-						<p class="mens_taital_2">Phụ kiện thể thao</p>
-					</div>
-					<div class="col-sm-5">
-						<div class="banner_taital">
-							<h1 class="banner_text">Giày đá bóng </h1>
-							<h1 class="mens_text"><strong>Men's Like Plex</strong></h1>
-							<p class="lorem_text">ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<button class="buy_bt">Buy Now</button>
-							<button class="more_bt">See More</button>
-						</div>
-					</div>
-					<div class="col-sm-5">
-                    <div class="shoes_img"><img src={"https://localhost:7067/wwwroot/image/product/7.png"} alt=''/></div>
-					</div>
-				</div>
-                </div>
+                {
+                    records!=null?
+                        records.map(
+                            qc=>
+                            <div class="carousel-item ">
+                            <div class="row">
+                            <div class="col-sm-2 padding_0">
+                                <p class="mens_taital">Phụ kiện thể thao</p>
+                                {/* <div class="page_no"></div> */}
+                                <p class="mens_taital_2" style={{marginTop:"700px"}}>Quần áo thể thao</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="banner_taital">
+                                    <h1 class="banner_text">{qc.title}</h1>
+                                    {/* <h1 class="mens_text"><strong>Men's Like Plex</strong></h1> */}
+                                    <p class="lorem_text" >{qc.content}</p>
+                                  
+                                      
+                                  
+                                    <NavLink to={`/detail/${qc.productId}`}>  <button class="buy_bt">  Mua ngay </button> </NavLink>
+                                    {/* <button class="more_bt">See More</button> */}
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                            <div class="shoes_img"> <NavLink to={`/detail/${qc.productId}`}><img src={"https://localhost:7067/wwwroot/image/AdvertisingPanel/"+qc.image} alt=''/></NavLink></div>
+                            </div>
+                        </div>
+                        </div>
+                        ):null
+                }
+               
                                     </div>
                                 </div>
                             </div>
@@ -248,38 +260,54 @@ export default function HomeCRUD() {
                     <div class="row">
                         {
                             product!=null?
-                                product.map(pr=>
-                                    <div class="col-sm-3 itemPR">
-                                    <div class="best_shoes parent">
-                                     <NavLink to={`/detail/${pr.id}`}><p className="best_text "><a href="a">{pr.name}</a>  </p></NavLink>
-                                      
-                                        <NavLink to={`/detail/${pr.id}`}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + pr.image} alt='a' /></a></div></NavLink>
+                                product.map(dep=>
+                                    <div className="col-sm-3 itemPR ">
+											<div className="best_shoes parent ">
 
-                                  
-                                        <div className="star_text " >
-													<NavLink to={`/detail/${pr.id}`} >
+												<NavLink to={`/detail/${dep.id}`} state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
+													<div style={{height:"300px"}}>
+														<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
+													</div>
+												
+
+												<div className="star_text " >
+													<NavLink to={`/detail/${dep.id}`} state={dep.id}>
 														<div className="left_part ">
-															<ul  style={{visibility:"hidden"}}>
+															{/* <ul style={{visibility:"hidden"}}>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
 																<li><img className="star" src={require("../Assets/images/star-icon.png")} alt='' /></li>
-															</ul>
+															</ul> */}
+															<div className="star"><span >{VND.format(dep.price)}</span></div>
 														</div>
 													</NavLink>
 
-													<NavLink to={`/detail/${pr.id}`}><div className="right_part hidden-child">
-														<div className="shoes_price "><span >{VND.format(pr.priceSales)}</span></div>
-
-
-
+													<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="right_part hidden-child">
+														<div className="shoes_price "><span >{VND.format(dep.priceSales)}</span></div>
 													</div></NavLink>
 
 
 												</div>
-                                    </div>
-                                </div>
+												<div className="hidden-child2">
+												
+
+													<NavLink to={`/detail/${dep.id}`} state={dep.id}>	<button className="btnMua" >Mua ngay</button></NavLink>
+													
+													
+													
+													
+
+												</div>
+												
+											</div>
+											
+											<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
+                                       					 <span>Giảm giá</span>
+														    <img style={{ position: 'absolute', top: 23, left:4 }} src={triangleTopRight} alt=""/>
+                                    				</Paragraph>
+										</div>
                                     ) :null
                         }
                       

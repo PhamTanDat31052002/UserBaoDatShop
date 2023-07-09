@@ -291,6 +291,7 @@ button {
 	font-size: 13pt;
 	color: #fefefe;
 	margin-left: 0px;
+    margin-bottom: 100px;
 }
 
 .buy_bt{ 
@@ -300,6 +301,18 @@ button {
 	background-color: #ff4e5b;
 	color: #ffffff;
 	font-size: 16pt;
+ }
+ .buy_bt a{
+    color: white;
+ }
+ .muangayhome{
+  
+    width: 150px;
+    padding: 2%;
+    background-color: #ff4e5b;
+	color: #ffffff;
+	font-size: 16pt;
+    /* height: 35px; */
  }
 
  .more_bt{
@@ -577,6 +590,7 @@ body{
 }
 .star{
     width: 80%;
+    text-decoration-line: line-through;
 }
 .shoes_icon{
 	width: 100%;
@@ -588,6 +602,7 @@ body{
 .star_text{
 	width: 100%;
 	float: left;
+    font-size: 20px;
 }
 .left_part {
     width: 100%;
@@ -1519,3 +1534,19 @@ body{
  .contentGoiY{
     width: 68%;
  }
+ .badge {
+    display: flex;
+    flex-direction: column;
+}
+
+.badge > span {
+    font-size: 16px;
+    color: #fff !important;
+    background-color: #da1b14;
+    border: 1px solid #da1b14;
+    padding: 2px 6px;
+}
+
+.badge > img {
+    width: 8px;
+}

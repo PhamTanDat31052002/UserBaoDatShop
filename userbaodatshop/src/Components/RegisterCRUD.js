@@ -40,7 +40,6 @@ const RegisterCRUD = () => {
 			setAvatar(value.target.files[0])
 			setNameAvatar(value.target.files[0].name)
 		}
-
 	}
 
 	function setToken(userToken) {
