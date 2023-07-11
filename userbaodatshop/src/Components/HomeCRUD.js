@@ -82,9 +82,9 @@ export default function HomeCRUD() {
                                     <div class="carousel-item active">
                     <div class="row">
 					<div class="col-sm-2 padding_0">
-						<p class="mens_taital">Phụ kiện thể thao</p>
+						<p class="mens_taital" style={{visibility:"hidden"}}>Phụ kiện thể thao</p>
 						
-						<p class="mens_taital_2" style={{marginTop:"700px"}}>Quần áo thể thao</p>
+						<p class="mens_taital_2" style={{visibility:"hidden"}} >Quần áo thể thao</p>
 					</div>
 					<div class="col-sm-5">
 						<div class="banner_taital">
@@ -107,9 +107,9 @@ export default function HomeCRUD() {
                             <div class="carousel-item ">
                             <div class="row">
                             <div class="col-sm-2 padding_0">
-                                <p class="mens_taital">Phụ kiện thể thao</p>
+                                <p class="mens_taital" style={{visibility:"hidden"}}>Phụ kiện thể thao</p>
                                 {/* <div class="page_no"></div> */}
-                                <p class="mens_taital_2" style={{marginTop:"700px"}}>Quần áo thể thao</p>
+                                <p class="mens_taital_2" style={{visibility:"hidden"}}>Quần áo thể thao</p>
                             </div>
                             <div class="col-sm-5">
                                 <div class="banner_taital">
@@ -150,7 +150,7 @@ export default function HomeCRUD() {
                                     productNewRan1!=null?
                         <NavLink to={`/detail/${productNewRan1.id}`}>
                                     <div className="about-img">
-                                    <button className="new_bt">New</button>
+                                    <button className="new_bt">Mới</button>
                                     
                                      <div className="shoes-img"><img src={"https://localhost:7067/wwwroot/image/product/"+productNewRan1.image}  alt='' /></div>
                                     
@@ -168,7 +168,7 @@ export default function HomeCRUD() {
                                 </div></NavLink>:null
                                 }
                                 
-                                <button className="seemore_bt">See More</button>
+                               
                             </div>
                             {
                                  productNewRan2!=null?

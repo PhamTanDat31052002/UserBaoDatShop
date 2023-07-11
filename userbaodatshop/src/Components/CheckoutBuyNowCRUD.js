@@ -233,21 +233,21 @@ export default function CheckoutBuyNowCRUD() {
 
                                     <div class="mb-3">
                                         <label for="text">Họ và tên <span class="text-muted"></span></label>
-                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={infor.fullName} onChange={(e) => setten(e.target.value)} />
+                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên" value={ten} onChange={(e) => setten(e.target.value)} />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập họ và tên!
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">Email <span class="text-muted"></span></label>
-                                        <input type="email" class="form-control" id="email" placeholder="Email" value={infor.email} onChange={(e) => seteamal(e.target.value)} />
+                                        <input type="email" class="form-control" id="email" placeholder="Email" value={email} readOnly />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập Email!
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">Số điện thoại <span class="text-muted"></span></label>
-                                        <input type="number" class="form-control" id="numberphone" placeholder="Số điện thoại" value={infor.phone} onChange={(e) => {
+                                        <input type="number" class="form-control" id="numberphone" placeholder="Số điện thoại" value={dt} onChange={(e) => {
                                             setdt(e.target.value)
                                             setSDTPay(e.target.value)
                                         }} />
@@ -262,7 +262,7 @@ export default function CheckoutBuyNowCRUD() {
                                         <input type="text" class="form-control" readOnly id="address" placeholder="Số nhà, tên đường" required value=
                                             {
                                                 Address1 == "" ?
-                                                    infor.address : Address1
+                                                diachi : Address1
 
                                             }
                                             onChange={(e) => {
@@ -394,7 +394,7 @@ export default function CheckoutBuyNowCRUD() {
 
                                     <hr class="mb-4" />
                                     <div className="tiepTucThanhToan">
-                                        <NavLink to={"/cart"}><p>Giỏ hàng</p></NavLink>
+                                        <NavLink to={"/cart"}><b>Giỏ hàng</b></NavLink>
                                         {/* <NavLink to={"/pay"}> */}
                                         {
                                             // sdtPay == "" ||sdtPay.length!=10?
@@ -402,9 +402,9 @@ export default function CheckoutBuyNowCRUD() {
                                             //     </button>
                                             //     :
 
-                                                <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit"  >
+                                                <button  style={{ marginLeft: "20%", }} class="btn btn-secondary"  type="submit"  >
 
-                                                    <NavLink to={'/paybuynow'} state={[Address1 == '' ?diachi : Address1,
+                                                    <NavLink  style={{color:"white"}} to={'/paybuynow'} state={[Address1 == '' ?diachi : Address1,
                                                      sdtPay == 0 ? dt : sdtPay,
                                                      Disscount==''? total+phiShip: total-(total*Disscount.disscount/100)+phiShip,
                                                        idProductSize,

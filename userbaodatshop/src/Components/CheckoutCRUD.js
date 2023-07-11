@@ -265,7 +265,7 @@ export default function CheckoutCRUD() {
                                     </div>
                                     <div class="mb-3">
                                         <label for="email">Email <span class="text-muted"></span></label>
-                                        <input type="email" class="form-control" id="email" placeholder="Email" value={email} onChange={(e) => seteamal(e.target.value)} />
+                                        <input type="email" class="form-control" id="email" placeholder="Email" value={email} readOnly />
                                         <div class="invalid-feedback">
                                             Vui lòng nhập Email!
                                         </div>
@@ -369,7 +369,7 @@ export default function CheckoutCRUD() {
                                                     <div class="row">
                                                         <div class="col-md-4 mb-3">
                                                             <label for="country">Tỉnh</label>
-                                                            <select class="custom-select d-block w-100" id="country" required onChange={(e) => {
+                                                            <select class="custom-select d-block w-100" style={{width:"100%"}} id="country" required onChange={(e) => {
                                                                 setIdTinh(e.target.value)
                                                                 setTinh(e.target.value)
 
@@ -397,7 +397,7 @@ export default function CheckoutCRUD() {
                                                         </div>
                                                         <div class="col-md-4 mb-3">
                                                             <label for="state">Quận/Huyện</label>
-                                                            <select class="custom-select d-block w-100" id="state" required onClick={() => {
+                                                            <select class="custom-select d-block w-100"  style={{width:"100%"}} id="state" required onClick={() => {
                                                                 APIDiaChi.filter((a) => {
                                                                     if (a.name == IdTinh)
                                                                         setAPIHuyen(a.districts)
@@ -410,7 +410,7 @@ export default function CheckoutCRUD() {
                                                                     setIdHuyen(e.target.value)
                                                                     setQuan(e.target.value)
                                                                 }}>
-                                                                <option value="">Chọn..</option>
+                                                                <option style={{width:"100%"}} value="">Chọn..</option>
                                                                 {
                                                                     APIHuyen.map(huyen =>
                                                                         <option value={huyen.name}>{huyen.name}</option>
@@ -422,7 +422,7 @@ export default function CheckoutCRUD() {
                                                         </div>
                                                         <div class="col-md-4 mb-3">
                                                             <label for="state">Phường/Xã</label>
-                                                            <select class="custom-select d-block w-100" id="state" required onClick={() =>
+                                                            <select class="custom-select d-block w-100" id="state"  style={{width:"100%"}} required onClick={() =>
                                                                 APIHuyen.filter((a) => {
                                                                     if (a.name == IdHuyen)
                                                                         setAPIXa(a.wards)
@@ -467,7 +467,7 @@ export default function CheckoutCRUD() {
 
                                     <hr class="mb-4" />
                                     <div className="tiepTucThanhToan">
-                                        <NavLink to={"/cart"}><p>Giỏ hàng</p></NavLink>
+                                        <NavLink to={"/cart"}><b>Giỏ hàng</b></NavLink>
                                        
                                        {
                                         
@@ -476,7 +476,7 @@ export default function CheckoutCRUD() {
                                         //     </button>
                                         //     :
                                        
-                                            <button style={{ marginLeft: "20%" }} class="btn btn-primary btn-lg" type="submit"  >
+                                            <button style={{ marginLeft: "20%", }} class="btn btn-secondary" type="submit"  >
                                                     
                                             {/* <NavLink to={'/pay'} state={   [
                                                 Address1 == '' ? infor.address : Address1,
@@ -485,7 +485,7 @@ export default function CheckoutCRUD() {
                                                         fullNameNext==''?infor.fullName:fullNameNext
                                                 ]}  >
                                                Tiếp tục đến phương thức thanh toán</NavLink>  */}
-                                                <NavLink to={'/pay'} state={   [
+                                                <NavLink style={{color:"white"}} to={'/pay'} state={   [
                                                 Address1 == '' ? diachi : Address1,
                                                    sdtPay == '' ? dt : sdtPay,
                                                      Disscount==''? total+phiShip: total-(total*Disscount.disscount/100)+phiShip,

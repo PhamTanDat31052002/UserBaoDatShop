@@ -58,14 +58,14 @@ export default function Product2() {
         return userToken
     })
 
-    const [footer,setFooter]=useState()
-	
-	useEffect(() => {
-	
-		fetch(variable.API_URL + "Footer/GetFooter")
-			.then(response => response.json())
-			.then(data => setFooter(data)).catch(err => console.log(err))
-	}, [])
+    const [footer, setFooter] = useState()
+
+    useEffect(() => {
+
+        fetch(variable.API_URL + "Footer/GetFooter")
+            .then(response => response.json())
+            .then(data => setFooter(data)).catch(err => console.log(err))
+    }, [])
 
     useEffect(() => {
 
@@ -90,12 +90,12 @@ export default function Product2() {
         fetch(variable.API_URL + "Reviews/GetAverageStartReview/" + id)
             .then(response => response.json())
             .then(data => setStarTB(data)).catch(err => console.log(err))
-            
+
         fetch(variable.API_URL + "ImageProduct/GetAllImageProductById/" + id)
             .then(response => response.json())
             .then(data => setAnhPhu(data)).catch(err => console.log(err))
     }, [load])
-   
+
     const truDi1 = () => {
         number >= 2 ?
             setNumber(number - 1) : setNumber(number - 0);
@@ -168,7 +168,7 @@ export default function Product2() {
         })
             .then(response => response.json())
             .then(result => {
-                
+
                 const formData = new FormData()
                 var imagelName = nameImageRV
                 formData.append("model", imageRV, result.reviewId)
@@ -177,7 +177,7 @@ export default function Product2() {
                     body: formData
                 }).then(res => res.json()).then(result => {
                     message.success("Đã đánh giá")
-                setLoad(load + 1)
+                    setLoad(load + 1)
                 })
             }, (error) => {
                 console.log(error);
@@ -245,6 +245,7 @@ export default function Product2() {
     //     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
     // 	window.open(facebookUrl, '_blank');
     //   };
+    
     return (
         <>
             {
@@ -258,14 +259,14 @@ export default function Product2() {
 
                                     <div className="cntimgDT ">
                                         <div >
-                                          
+
                                             <div classname='maxImgDT'>
                                                 {
-                                                    selectedImage==records.image?
-                                                    <img id="imgDT"   src={"https://localhost:7067/wwwroot/image/product/" + records.image} alt="Ảnh lớn" />
-                                                    : <img id="imgDT"   src={selectedImage} alt="Ảnh lớn" />
+                                                    selectedImage == records.image ?
+                                                        <img id="imgDT" src={"https://localhost:7067/wwwroot/image/product/" + records.image} alt="Ảnh lớn" />
+                                                        : <img id="imgDT" src={selectedImage} alt="Ảnh lớn" />
                                                 }
-                                               
+
 
                                             </div>
 
@@ -274,27 +275,27 @@ export default function Product2() {
 
                                     </div>
 
-                                </div> 
-                                 <div className="thumbnail-gallery" style={{marginLeft:"3%"}}>
+                                </div>
+                                <div className="thumbnail-gallery" style={{ marginLeft: "3%" }}>
                                     <img
                                         src={"https://localhost:7067/wwwroot/image/product/" + records.image}
                                         alt="Ảnh nhỏ 1"
                                         className={selectedImage == "https://localhost:7067/wwwroot/image/product/" + records.image ? 'selected' : null}
                                         onClick={() => handleClick("https://localhost:7067/wwwroot/image/product/" + records.image)}
                                     />
-                                   
+
                                     {
-                                        anhPhu!=null?
-                                            anhPhu.map(pic=>
-                                                
+                                        anhPhu != null ?
+                                            anhPhu.map(pic =>
+
                                                 <img
-                                                src={"https://localhost:7067/wwwroot/image/ImageProduct/" + pic.image}
+                                                    src={"https://localhost:7067/wwwroot/image/ImageProduct/" + pic.image}
                                                     alt={pic.productId}
                                                     className={selectedImage == "https://localhost:7067/wwwroot/image/ImageProduct/" + pic.image ? 'selected' : null}
                                                     onClick={() => handleClick("https://localhost:7067/wwwroot/image/ImageProduct/" + pic.image)}
-                                                   />
-                                                )
-                                        :null
+                                                />
+                                            )
+                                            : null
                                     }
                                     {/* <img
                                         src={require("../Assets/images/AoMU2023.png")}
@@ -391,14 +392,14 @@ export default function Product2() {
 
                                     <span className='fas fa-store' style={{ fontSize: "21px" }}><b> Có tại cửa hàng:</b></span>
                                     {
-                                        footer!=null?
-                                        <div>
+                                        footer != null ?
+                                            <div>
 
-                                        <span className='fas fa-map-marker-alt' style={{ fontSize: "17px" }}> <b>{footer.adress}</b></span>
-                                    </div>:null
+                                                <span className='fas fa-map-marker-alt' style={{ fontSize: "17px" }}> <b>{footer.adress}</b></span>
+                                            </div> : null
                                     }
-                                    
-                                    
+
+
                                 </div>
                             </div>
                             <div className="columnDT3">
@@ -439,9 +440,9 @@ export default function Product2() {
                         <div>
                             <p className="motaDT">Mô tả sản phẩm</p>
                             <div className='cntMoTa'>
-                                 <span className='mota'>{records.description}</span>
+                                <span className='mota'>{records.description}</span>
                             </div>
-                           
+
                         </div>
                         <div className='containerDanhGia'>
                             <div>
@@ -507,16 +508,16 @@ export default function Product2() {
 
                                                     </div>
                                                     <div className='noiDungDanhGia'>
-                                                         <div>
+                                                        <div>
                                                             <span>{rv.content}</span>
                                                         </div>
                                                         <div >
                                                             {
-                                                                rv.image!=null?
-                                                                <img style={{border:"1px solid rgb(0, 238, 255)"}} src={"https://localhost:7067/wwwroot/image/reviewimage/" + rv.image} alt='' width="50px"></img>:null
+                                                                rv.image != null ?
+                                                                    <img style={{ border: "1px solid rgb(0, 238, 255)" }} src={"https://localhost:7067/wwwroot/image/reviewimage/" + rv.image} alt='' width="50px"></img> : null
                                                             }
                                                         </div>
-                                                       
+
 
                                                         <div className='ngayDanhGia'><span>Ngày đánh giá: {DatetimeFormat(rv.dateTime)} </span></div>
                                                     </div>

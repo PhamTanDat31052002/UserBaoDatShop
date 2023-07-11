@@ -217,12 +217,10 @@ export default function IFAccountCRUD() {
                                         <img  className="imgIF" src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar} alt="ac"></img>
                                     </div> */}
                                     <div>
-                                     
-                                        
                                         <input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) =>
                                             { setTamp(tamp+1)
-                                                ChangeAvatar(e)}}  />
-                                        <button className="btnChonAnh">Chọn ảnh</button>
+                                                ChangeAvatar(e)}} />
+                                        {/* <button className="btnChonAnh">Chọn ảnh</button> */}
                                     </div>
                                 </div>
 

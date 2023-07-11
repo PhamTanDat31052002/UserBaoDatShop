@@ -101,8 +101,6 @@ export default function InvoiceCRUD() {
         let format4 = day   + month  + year;
         return format4;
     })
- 
-
 
     return (
         <>
@@ -149,7 +147,7 @@ export default function InvoiceCRUD() {
                             <Button onClick={()=>filterTinhTrang(1)}>Chưa xác nhận</Button>
                             <Button onClick={()=>filterTinhTrang(2)}>Đang chuẩn bị</Button>
                             <Button onClick={()=>filterTinhTrang(3)}>Đang vận chuyển</Button>  
-                            <Button onClick={()=>filterTinhTrang(6)}>Đã Giao</Button>
+                            
                             <Button onClick={()=>filterTinhTrang(5)}>Hoàn tất</Button>
                             <Button onClick={()=>filterTinhTrang(4)}>Đã hủy</Button>
                             </ButtonGroup>
@@ -167,7 +165,7 @@ export default function InvoiceCRUD() {
                                     <div className="donHang">
                                         <div className="quaTrinhVanChuyen">
                                             <div className="itemQuaTrinhVanChuyen">
-                                                <span>Quá trình vận chuyển</span>
+                                                <span>Tình trạng</span>
                                             </div>
                                             <div className="itemQuaTrinhVanChuyen" style={{ textAlign: "right" }}>
                                                 {
@@ -176,9 +174,13 @@ export default function InvoiceCRUD() {
                                                             dep.orderStatus == 3 ? <span>Đang vận chuyển</span> :
                                                                 dep.orderStatus == 4 ? <span>Đã hủy</span> :
                                                                     dep.orderStatus == 5 ? <span>Hoàn tất</span> :
-                                                                      dep.orderStatus == 6 ? <span>Đã giao</span>:null
+                                                                      null
                                                                      
 
+                                                }
+                                                <span> / </span>
+                                                {
+                                                    dep.pay==true?<span>Đã thanh toán</span>:<span>Chưa thanh toán</span>
                                                 }
                                             </div>
                                         </div>
@@ -214,6 +216,7 @@ export default function InvoiceCRUD() {
                                         <div className="thanhTienIV">
                                             <div className="thanhTien1">
                                                 <span>Ngày đặt hàng: {DatetimeFormat(dep.issuedDate)}</span>
+                                              
                                             </div>
                                             <div className="thanhTien2">
                                             <span>Thành tiền: </span>
@@ -234,7 +237,7 @@ export default function InvoiceCRUD() {
                                             <button className="btnHuyDonIV" onClick={() => history('/')  
                                             } >Đánh giá</button>
                                         </div>:
-                                            dep.orderStatus==6?
+                                            dep.orderStatus==6 ?
                                             <div className="huyDonIV">
 
                                             <button className="btnHuyDonIV" onClick={() => history('/')  
@@ -245,21 +248,25 @@ export default function InvoiceCRUD() {
                                                     {/* modal */}
                                                   
                                                     
-                                            
+
 
                                                         {/* modal */}
-                                                <button className="btnHuyDonIV" onClick={() => {
-                                                    if (dep.orderStatus == 1 || dep.orderStatus == 2) {
-                                                       setopen(true)
-                                                       setId(dep.id)
+                                                        <button className="btnHuyDonIV" onClick={() => {
+                                                            if (dep.pay == true) {
+                                                                message.error("Bạn đã thanh toán không thể hủy! ")
+                                                            }
 
-                                                    }
-                                                    else {
-                                                        message.error("Đơn hàng đang vận chuyển không thể hủy! ")
-                                                   
-                                                    }
-                                                }} >Hủy đơn</button>
-                                            </div>
+
+                                                            else if (dep.orderStatus == 1 || dep.orderStatus == 2) {
+                                                                setopen(true)
+                                                                setId(dep.id)
+                                                            }
+                                                            else {
+                                                                message.error("Đơn hàng đang vận chuyển không thể hủy! ")
+
+                                                            }
+                                                        }} >Hủy đơn</button>
+                                                    </div>
                                         }
 
                                     </div>
