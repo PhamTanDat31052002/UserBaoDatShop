@@ -76,7 +76,7 @@ export default function Product2() {
                 setSelectedImage(data.image)
             }).catch(err => console.log(err))
 
-        fetch(variable.API_URL + "ProductSizes/GetProductSizeByProductId/" + id)
+        fetch(variable.API_URL + "KhoHang/GetSizeOfProduct/" + id)
             .then(response => response.json())
             .then(data => setSizePr(data)).catch(err => console.log(err))
 
@@ -168,9 +168,21 @@ export default function Product2() {
         })
             .then(response => response.json())
             .then(result => {
-
+                if(result=="Bạn đã đánh giá sản phẩm rồi")
+                {
+                    return message.error("Bạn đã đánh giá sản phẩm rồi")
+                }
+                if(result=="Bạn chưa mua sản phẩm nên chưa được đánh giá")
+                {
+                    return message.error("Bạn cần mua sản phẩm để được đánh giá")
+                }
+                if(imageRV=="")
+                {
+                    message.success("Đã đánh giá")
+                    setLoad(load + 1)
+                }
                 const formData = new FormData()
-                var imagelName = nameImageRV
+               
                 formData.append("model", imageRV, result.reviewId)
                 fetch(variable.API_URL + "Reviews/CreateImageReview", {
                     method: "POST",
@@ -179,6 +191,7 @@ export default function Product2() {
                     message.success("Đã đánh giá")
                     setLoad(load + 1)
                 })
+
             }, (error) => {
                 console.log(error);
             })
@@ -336,16 +349,16 @@ export default function Product2() {
                                         sizePr.map(e =>
                                             e.stock != 0 ?
                                                 <div className='itemSizeDT'>
-                                                    <input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} onClick={() => {
+                                                    <input type="radio" name={e.productSize.productId} id={e.productSize.name} value={e.productSizeId} onChange={itemSizeClick} onClick={() => {
                                                         setNumber(1)
                                                         setTonKho(e.stock)
-                                                        setIdPrSize(e.id)
+                                                        setIdPrSize(e.productSizeId)
                                                     }} />
-                                                    <label className="itemRadioDT" for={e.name}>{e.name}</label>
+                                                    <label className="itemRadioDT" for={e.productSize.name}>{e.productSize.name}</label>
 
                                                 </div>
                                                 : <div className='itemSizeDTFalse'>
-                                                    <label className="itemRadioDTFalse" for={e.name}>{e.name}</label>
+                                                    <label className="itemRadioDTFalse" for={e.productSize.name}>{e.productSize.name}</label>
 
                                                 </div>
                                         ) : null}
@@ -458,7 +471,6 @@ export default function Product2() {
                                     <span> ({tongComment} bình luận)</span>
                                     <div className="starReview ">
                                         {
-
                                             starTB == 5 ? <div><span className='starRVHienThi'>★★★★★</span></div> :
                                                 starTB >= 4 && starTB < 5 ? <div><span className='starRVHienThi'>★★★★</span><span>★</span></div> :
                                                     starTB >= 3 && starTB < 4 ? <div><span className='starRVHienThi'>★★★</span><span>★★</span></div> :
@@ -470,7 +482,6 @@ export default function Product2() {
 
                                     </div>
                                 </div>
-
                                 {
                                     displayedComments != null ?
                                         displayedComments.map(rv =>
@@ -530,11 +541,11 @@ export default function Product2() {
 
                                 <div className='vietDanhGia'>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Viết bình luận
+                                        Viết đánh giá
                                     </button>
 
                                     {!showAllComments && review.length > 5 && (
-                                        <button class="btn btn-light xemthemBL" onClick={handleToggleComments}>Xem thêm ({review.length - 5}) bình luận</button>
+                                        <button class="btn btn-light xemthemBL" onClick={handleToggleComments}>Xem thêm ({review.length - 5}) đánh giá</button>
                                     )}
                                     <button>
                                         {showAllComments && (
@@ -545,7 +556,7 @@ export default function Product2() {
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Bình luận</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Đánh giá</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -567,7 +578,12 @@ export default function Product2() {
                                                         ))}
                                                     </div>
                                                     <div>
-                                                        <input type="file" id="imageRV" className="form-style" onChange={(e) => ChangeImageRV(e)} required="" />
+                                                        <input hidden type="file" id="imageRV" className="form-style" onChange={(e) => ChangeImageRV(e)} required="" />
+                                                        <button onClick={()=>{
+                                                            document.getElementById("imageRV").click()
+                                                        }}>
+                                                            Chọn ảnh
+                                                        </button>
                                                     </div>
                                                     <div class="row">
 
@@ -586,7 +602,7 @@ export default function Product2() {
                                                                 return message.warning("Bạn chưa chọn sao!")
                                                             }
                                                             Addreview()
-                                                        }} >Gửi bình luận</button>
+                                                        }} >Gửi đánh giá</button>
                                                     </div>
 
                                                 </div>

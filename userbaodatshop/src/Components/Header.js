@@ -124,9 +124,6 @@ export default function PrimarySearchAppBar() {
           })
           setCountCart(a)
         }).catch(err => console.log(err))
-
-
-
     }
   }, [])
 
@@ -366,7 +363,6 @@ export default function PrimarySearchAppBar() {
 
             {
               token == null ? null
-
                 : <IconButton  style={{outline:"none"}} size="large" aria-label="show 4 new mails" color="inherit">
                   <Badge badgeContent={CountCart} color="error">
                     <NavLink to="/cart" className="fas fa-shopping-cart nav-item nav-link itemHeadernew" ></NavLink>

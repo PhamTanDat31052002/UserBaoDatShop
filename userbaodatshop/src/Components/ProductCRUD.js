@@ -26,6 +26,7 @@ export default function ProductCRUD() {
 	var [records, setRecord] = useState([]);
 	var [ProductType, setProductType] = useState([]);
 	const [selectedType, setSelectedType] = useState('Tất cả');
+	const [nameType, setNameType] = useState('');
 	const [filteredProducts, setFilteredProducts] = useState([]);
 	var [dtProduct, setdtProduct] = useState();
 	var [sizePr, setSizePr] = useState();
@@ -38,7 +39,7 @@ export default function ProductCRUD() {
 	const [allLove, setAllLove] = useState([]);
 	const [idMuaNgay, setIdMuaNgay] = useState();
 	var [idPrSize, setIdPrSize] = useState('');
-	const [tam, seta] = useState("");
+	const [top10, setProductTop10] = useState([]);
 	// Yêu thích sp
 
 	const [open, setOpen] = React.useState(false);
@@ -78,6 +79,10 @@ export default function ProductCRUD() {
 			}).then(response => response.json())
 				.then(data => setAllLove(data)).catch(err => console.log(err))
 		}
+		fetch(variable.API_URL + "Products/GetTop10BestSeller")
+		.then(response => response.json())
+		.then(data => {
+			setProductTop10(data)})
 		setIsLoading(false)
 	}, [count])
 
@@ -271,54 +276,34 @@ export default function ProductCRUD() {
 		}
 		return false;
 	});
-	const [minPrice, setMinPrice]=useState(0);
-	const [maxPrice, setMaxPrice]=useState(5000000)
-	// const handleSearchPrice = async (minPrice, maxPrice) => {
-    //     try {
-    //         const dataForm = {
-    //             "page": 1,
-    //             "limit": 50,
-    //             "minPrice": minPrice,
-    //             "maxPrice": maxPrice
-    //         }
-    //         await axiosClient.post("/product/searchByPrice", dataForm)
-    //             .then(response => {
-    //                 if (response === undefined) {
-    //                     setLoading(false);
-    //                 }
-    //                 else {
-    //                     setProductDetail(response.data.docs);
-    //                     setLoading(false);
-    //                 }
-    //             }
-    //             );
-
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
+	const isTop10=((id)=>{
+		for(var i=0;i<top10.length;i++)
+		{
+			if(top10[i].id==id)
+			return true
+		}
+	})
+	
+	
 	return (
 		<>
 
 
 
 			<div>
-				{/* <div>
-					<Slider
-					range
-					min={0}
-					max={5000000}
-					value={[minPrice,maxPrice]}
-					onChange={()=>handleSearchClick()}
-					/>
-					<Button type="primary" icon={<SearchOutlined/>} onClick={()=>handleSearchClick()}>
-						Tìm kiếm 
-					</Button>
+				<div style={{textAlign:"center"}}>
+					{
+						nameType==''?<h2>Tất cả sản phẩm</h2>:null
+					}
+					{
+						
+						ProductType.filter((item)=>{
+							console.log(item)
+							return item.name==nameType?item:null
+						}
+						).map(e=><h2>{e.name}</h2>)
+					}
 				</div>
-				<div>
-					<a style={{fontWeight:'bold'}}>Phạm vi giá</a>
-					<a style={{color:'red'}}>Từ: {minPrice}VNĐ----Đến: {maxPrice}VNĐ</a>
-				</div> */}
 
 				<div className="ContainerProduct">
 
@@ -359,7 +344,7 @@ export default function ProductCRUD() {
                                                 root: 'radio-root',
                                                 label: 'radio-label',
                                             }}
-                                          
+                                            onClick={()=>setNameType('')}
                                         />
 										{
 										ProductType.map(a =>
@@ -372,7 +357,7 @@ export default function ProductCRUD() {
                                                 root: 'radio-root',
                                                 label: 'radio-label',
                                             }}
-                                          
+                                          onClick={()=>setNameType(a.name)}
                                         />
 											</>
 										)
@@ -382,10 +367,7 @@ export default function ProductCRUD() {
                                        
                                     </RadioGroup>
 							</div>
-
 						</div>
-
-
 					</div>
 					<div className="layout_padding gallery_section">
 					{
@@ -395,7 +377,6 @@ export default function ProductCRUD() {
 							
 							<div className="row">
 								{
-									
 									a.map(dep =>
 										<div className="col-sm-3 itemPR ">
 											<div className="best_shoes parent ">
@@ -622,11 +603,18 @@ export default function ProductCRUD() {
 												</div>
 												
 											</div>
-											
-											<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
-                                       					 <span>Giảm giá</span>
+											{
+												isTop10(dep.id)==true?
+												<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
+                                       					 <span>Bán chạy</span>
 														    <img style={{ position: 'absolute', top: 23, left:4 }} src={triangleTopRight} alt=""/>
-                                    				</Paragraph>
+                                    				</Paragraph>:
+													<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
+													<span>Giảm giá</span>
+													<img style={{ position: 'absolute', top: 23, left:4 }} src={triangleTopRight} alt=""/>
+											</Paragraph>
+											}
+											
 										</div>
 										
 									)}
@@ -635,10 +623,9 @@ export default function ProductCRUD() {
 
 
 						</div>
-
+						
 						<div className="nextPage">
-
-
+												
 							<nav>
 								<ul className='pagination'>
 									<li className='page-item'>

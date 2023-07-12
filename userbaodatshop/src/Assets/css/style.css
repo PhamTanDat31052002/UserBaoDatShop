@@ -1550,3 +1550,42 @@ body{
 .badge > img {
     width: 8px;
 }
+/* voucher */
+.sanVoucher{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  
+    margin: 1%;
+    padding: 5% 12%;
+}
+.itemvoucher{
+    margin-right: 2%;
+    margin-bottom: 2%;
+    width: 31%;
+    display: flex;
+    border: 1px solid;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+.itemvc1{
+    width: 3%;
+    background-color: black;
+    border-radius: 10px 0px 0px 10px;
+}
+.itemvc2{
+    padding: 9% 1% 1% 2%;
+    width: 25%;
+    border-right: 1px dashed;
+}
+.itemvc3{
+    padding: 1%;
+    width: 70%;
+}
+.saochep{
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+    padding: 1% 2%;
+    font-size: 13px;
+}

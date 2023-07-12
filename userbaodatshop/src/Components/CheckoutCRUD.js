@@ -110,7 +110,7 @@ export default function CheckoutCRUD() {
             .then(data => setAPIDiaChi(data)).catch(err => console.log(err))
 
     }, [])
-    const validationVOucher=((e)=>{
+    const validationVOucher=((ten,tong)=>{
         const token = getToken();
         fetch(variable.API_URL + "Vouchers/ValidationVoucher", {
             method: "POST",
@@ -119,7 +119,8 @@ export default function CheckoutCRUD() {
                 Accept: 'application/json',
                 'Authorization': `Bearer ${token.value}`,
             },body: JSON.stringify({
-				name:e
+				name:ten,
+                total:tong
 			})
         })
             .then(response => response.json())
@@ -127,7 +128,7 @@ export default function CheckoutCRUD() {
                 if(data=="null")
                 {
                     setDisscount("")
-                    return message.error("Mã không hợp lệ")
+                    return message.error("Mã không hợp lệ hoặc không đủ điều kiện áp dụng")
                 }
                
                 else{
@@ -192,7 +193,7 @@ export default function CheckoutCRUD() {
                                         <input type="text" class="form-control" onChange={(e)=>setVoucher(e.target.value)} value={voucher} placeholder="Mã giảm giá" />
                                         <div class="input-group-append">
                                             <button onClick={()=>{
-                                               validationVOucher(voucher)
+                                               validationVOucher(voucher,total)
                                             }}  class="btn btn-secondary">Sử dụng</button>
                                         </div>
                                         <div className="tamTinhCO">

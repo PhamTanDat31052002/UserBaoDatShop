@@ -6,6 +6,10 @@ import PropTypes from 'prop-types'; import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import { Alert, Space, message } from 'antd';
 import "../Assets/css/styleRegister.css"
+import {
+    Avatar,
+
+} from '@mui/material';
 const RegisterCRUD = () => {
 	const history = useNavigate()
 
@@ -149,6 +153,7 @@ const RegisterCRUD = () => {
 			)
 		messageApi.destroy()
 	}
+
 	return (
 		<>
 			<body className="registerCNT">
@@ -185,13 +190,36 @@ const RegisterCRUD = () => {
 							<i className="input-icon uil uil-at"></i>
 							<label>Địa chỉ</label>
 						</div>
-						<div className="user-box user-box-btn">
-							<input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) => ChangeAvatar(e)} required="" />
-							<label htmlFor="avatar" className="custom-button">
-								<span>Select Avatar</span>
-								<i className="input-icon uil uil-at"></i>
-							</label>
-
+						<div className="user-box " style={{display:"flex"}}>
+							<input  type="file" id="avatarrg" className="form-style" placeholder="Chọn ảnh" onChange={(e) => ChangeAvatar(e)} />
+							{/* <button className="btnChonAnhRegis" onClick={()=>{
+								document.getElementById("avatarrg").click()
+							}}>
+								Chọn ảnh
+							</button> */}
+							
+							
+							{
+								avatar!=""?
+								<Avatar
+            
+								src={URL.createObjectURL(avatar)}
+								alt={""}
+								sx={{
+								    ml:10,
+									width: 35,
+									height: 35,
+								}}/>:null
+							}
+							{/* <Avatar
+            
+							src={"https://localhost:7067/wwwroot/image/product/6.png"}
+							alt={""}
+							sx={{
+								ml:10,
+								width: 40,
+								height: 40,
+							}}/> */}
 						</div>
 						<div className="user-box">
 							<span style={{ fontStyle: "italic" }}>Lưu ý: Link xác thực sẽ được gửi vào email bạn đăng ký. Truy cập email để xác thực ngay sau khi đăng ký để có thể đăng nhập.</span>

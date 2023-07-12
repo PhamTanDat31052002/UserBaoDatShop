@@ -65,8 +65,11 @@
 .btnChonAnh{
     border: 1px solid;
     padding: 1% 2%;
-    margin: 6%;
+    margin-top: 6%;
+    margin-left: 8%;
     background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    
 }
 .itemIP{
     border: none;

@@ -13,6 +13,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import moment from 'moment';
 export default function InvoiceCRUD() {
     var [invoice, setInvoice] = useState([]);
     var [filter, setFilter] = useState([]);
@@ -92,7 +93,10 @@ export default function InvoiceCRUD() {
             setFilter(data)
         }
     })
- 
+    const DayTime=((day)=>{
+        const formattedDateTime = moment(day).format("HH:mm, DD/MM/YYYY");
+        return formattedDateTime;
+    })
     const DatetimeFormat=((e)=>{
         const abc = new Date(e) 
         var day =  abc.getDate()  +"/";
@@ -215,7 +219,7 @@ export default function InvoiceCRUD() {
 
                                         <div className="thanhTienIV">
                                             <div className="thanhTien1">
-                                                <span>Ngày đặt hàng: {DatetimeFormat(dep.issuedDate)}</span>
+                                                <span>Thời gian đặt hàng: {DayTime(dep.issuedDate)}</span>
                                               
                                             </div>
                                             <div className="thanhTien2">

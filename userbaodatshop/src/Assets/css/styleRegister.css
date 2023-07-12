@@ -18,7 +18,14 @@
     background-color: rgb(255, 254, 254);
    
   }
+.btnChonAnhRegis{
+  border: 1px solid;
+  padding: 1% 2%;
 
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  
+}
   .register-box h2 {
     margin: 0 0 30px;
     padding: 0;

@@ -227,7 +227,6 @@ export default function CartCRUD() {
                         <span className='itemHeadCart2'>Thành tiền</span>
                     </div>
                     {
-
                         records != null ?
                             records.map(dep =>
                                 productItem.filter((item) => {

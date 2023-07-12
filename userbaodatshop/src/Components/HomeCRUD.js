@@ -8,11 +8,15 @@ import "../Assets/scrip/slide.js"
 import triangleTopRight from "../Assets/css/giamgia.svg"
 import { NavLink, useLocation } from 'react-router-dom';
 import Paragraph from "antd/lib/typography/Paragraph"
+import copy from 'clipboard-copy';
+import moment from 'moment';
+
 export default function HomeCRUD() {
     var [product, setProduct] = useState([]);
     var [productRan, setProductRan] = useState();
     var [productNewRan1, setProductNewRan1] = useState();
     var [productNewRan2, setProductNewRan2] = useState();
+    var [voucher, setVoucher] = useState([]);
     
     var [records, setRecords] = useState([]);
     function getToken() {
@@ -51,6 +55,11 @@ export default function HomeCRUD() {
                     }
                     setProductNewRan2(data[random2]);
                 }).catch(err => console.log(err))
+        fetch(variable.API_URL + "Vouchers/GetALLVOucherOnCustomer")
+                .then(response => response.json())
+                .then(data => 
+                  setVoucher(data)
+                ).catch(err => console.log(err))
     }, [])
 
     
@@ -59,7 +68,22 @@ export default function HomeCRUD() {
 		style: 'currency',
 		currency: 'VND',
 	});
-  
+    const DayTime=((day)=>{
+        const formattedDateTime = moment(day).format("HH:mm, DD/MM/YYYY");
+        return formattedDateTime;
+    })
+
+//   Sao chép
+const [copied, setCopied] = useState(false);
+
+const handleCopy = ((text)=>{
+    copy(text);
+    setCopied(true);
+    setTimeout(() => {
+        setCopied(false);
+      }, 5000);
+})
+
     return (
         <>
              
@@ -241,6 +265,34 @@ export default function HomeCRUD() {
                     </div>
                 </div>
             </div>
+            <div className='sanVoucher'>
+            <h1 className="new_text" style={{marginTop:"2%"}}><strong>Săn voucher nào</strong></h1>
+           {
+            voucher!=null?
+            voucher.map(vou=>  <div className='itemvoucher'>
+                    <div className='itemvc1'>
+                        
+                    </div>
+                    <div className='itemvc2'>
+                    <h3> {vou.disscount}%</h3>
+                    </div>
+                    <div className='itemvc3'>
+                        <b>Giảm giá {vou.disscount}%</b>
+                        <br></br>
+                        <span style={{fontSize:"13px"}}>{vou.title}</span>
+                        <br style={{paddingTop:"10px"}}></br>
+                        <span >Mã: </span><span style={{fontWeight:"bold"}}>{vou.name} </span>
+                        <button className='saochep' onClick={()=>handleCopy(vou.name)} > Sao chép mã</button>
+                        {/* <button className='saochep' onClick={()=>handleCopy(vou.name)} > {copied ? 'Đã sao chép' : 'Sao chép mã' }</button> */}
+                        <br></br>
+                        <span style={{fontSize:"13px"}}>HSD: {DayTime(vou.endDay)}</span>
+                    </div>
+            </div>
+                
+                ):<span>Hiện chưa có mã khuyễn mãi nào</span>
+           }
+              
+            </div>
             <div className="collection_section layout_padding">
                 <div className="container">
                     <h1 className="new_text" style={{marginTop:"2%"}}><strong>Top 10 sản phẩm bán chạy nhất</strong></h1>
@@ -304,7 +356,7 @@ export default function HomeCRUD() {
 											</div>
 											
 											<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
-                                       					 <span>Giảm giá</span>
+                                       					 <span>Bán chạy</span>
 														    <img style={{ position: 'absolute', top: 23, left:4 }} src={triangleTopRight} alt=""/>
                                     				</Paragraph>
 										</div>

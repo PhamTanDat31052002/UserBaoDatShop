@@ -43,6 +43,10 @@ const Auth = () => {
 		}).then(res => res.json())
 			.then(result => {
 				if (result == "Failed") message.error("Sai tài khoản hoặc mật khẩu");
+				if(result=="Người dùng đã bị khóa")
+				{
+					return message.error("Tài khoản đã bị khóa")
+				}
 				if(result=="Chưa xác minh Email")
 				{
 					return message.error("Email chưa được xác minh")
@@ -60,6 +64,7 @@ const Auth = () => {
                         }, 50);
                     }
                 }
+				
 			
 
 			}, (error) => {

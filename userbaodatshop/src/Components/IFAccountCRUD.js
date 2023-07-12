@@ -120,6 +120,7 @@ export default function IFAccountCRUD() {
                 if(data==true)
                 {
                     setCount(count+1)
+                    window.location.reload(false)
                     message.success("Cập nhật thành công")
                 }
                 else if(data=="SDT"){
@@ -201,26 +202,43 @@ export default function IFAccountCRUD() {
                                 </div>
                                 <div className="item3_itemIF2_2">
                                 <div className="imgIF">
+                                   {
+                                    avatar==null?
                                     <Avatar
             
-                                            src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar}
-                                            alt={""}
-                                            sx={{
-                                              
-                                            //    ml:10,
-                                                width: 100,
-                                                height: 100,
-                                            }}
-                                        />
+                                    src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar}
+                                    alt={""}
+                                    sx={{
+                                      
+                                    //    ml:10,
+                                        width: 100,
+                                        height: 100,
+                                    }}
+                                />:
+                                <Avatar
+            
+                                src={URL.createObjectURL(avatar)}
+                                alt={""}
+                                sx={{
+                                  
+                                //    ml:10,
+                                    width: 100,
+                                    height: 100,
+                                }}
+                            />
+                                   }
+                                   
                                         </div>
                                     {/* <div>
                                         <img  className="imgIF" src={"https://localhost:7067/wwwroot/image/Avatar/" + records.avatar} alt="ac"></img>
                                     </div> */}
                                     <div>
-                                        <input type="file" id="avatar" className="form-style" placeholder="Address" onChange={(e) =>
+                                        <input hidden type="file" id="avatar" className="form-style" placeholder="Chọn ảnh" onChange={(e) =>
                                             { setTamp(tamp+1)
                                                 ChangeAvatar(e)}} />
-                                        {/* <button className="btnChonAnh">Chọn ảnh</button> */}
+                                        <button className="btnChonAnh" onClick={()=>{
+                                            document.getElementById("avatar").click()
+                                        }}>Chọn ảnh</button>
                                     </div>
                                 </div>
 

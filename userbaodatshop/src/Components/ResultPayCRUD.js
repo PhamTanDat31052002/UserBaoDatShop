@@ -32,8 +32,9 @@ export default function ResultPayCRUD() {
         }).then(response => response.json())
             .then(data => setKetQua(data)).catch(err => console.log(err))
     }, [])
-
+    const [isLoading, setIsLoading] = useState(false);
     const AddInvoice = (() => {
+        setIsLoading(true)
         const token = getToken();
         if (result != null) {
             fetch(variable.API_URL + "APIPayment/GeDATaURL" + result, {
@@ -48,15 +49,18 @@ export default function ResultPayCRUD() {
                 .then(result => {
                     
                     if (result.vnPayResponseCode == "00") {
+                        setIsLoading(false)
                         message.success("Đã hoàn tất đơn hàng")
                         history("/invoice")
                     }
                     else if(result.vnPayResponseCode == "24"){
+                        setIsLoading(false)
                         message.error("Không thể hoàn tất do khách hàng hủy giao dịch")
                         history("/cart")
                     }               
                     else
                     {
+                        setIsLoading(false)
                         message.error("Không thể hoàn tất đơn")
                         history("/cart")
                     }
@@ -75,7 +79,7 @@ export default function ResultPayCRUD() {
                 <form>
                     {
                         ketQua.vnPayResponseCode=="00"?
-                       <a style={{ marginLeft: "20%", marginBottom: "4%" }} onClick={() => {
+                       <a style={{ marginLeft: "15%", marginBottom: "4%" }} onClick={() => {
 
                                 AddInvoice()
                             }}>
@@ -85,7 +89,7 @@ export default function ResultPayCRUD() {
                                 <span></span>
                                 Hoàn tất đơn hàng
                             </a>: 
-                              <a style={{ marginLeft: "20%", marginBottom: "4%" }} onClick={() => {
+                              <a style={{ marginLeft: "15%", marginBottom: "4%" }} onClick={() => {
 
                                history("/cart")
                             }}>
@@ -98,6 +102,9 @@ export default function ResultPayCRUD() {
                     }
 
                 </form>
+                {
+                        isLoading==true?<span>Loading...</span>:null
+                    }
                 <div>
                 {
                           ketQua.vnPayResponseCode == "00" ?<span style={{ fontStyle: "italic" }}>*Lưu ý: Vui lòng bấm hoàn tất đơn hàng để xác nhận thanh toán và đặt đơn hàng! </span>:null
