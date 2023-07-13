@@ -35,6 +35,8 @@ export default function Product2() {
     var [tongComment, setTongComment] = useState(0);
     var [tongStar, setTongStar] = useState(0);
     var [anhPhu, setAnhPhu] = useState([]);
+    var [IF, setIF] = useState();
+    
     const itemSizeClick = (event) => {
         setItemSize(event.target.value);
     };
@@ -94,6 +96,21 @@ export default function Product2() {
         fetch(variable.API_URL + "ImageProduct/GetAllImageProductById/" + id)
             .then(response => response.json())
             .then(data => setAnhPhu(data)).catch(err => console.log(err))
+        const token=getToken();
+        if(token!=null)
+        {
+            fetch(variable.API_URL + "Account/GetDetailAccount", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization': `Bearer ${token.value}`,
+                }
+            }).then(response => response.json())
+                .then(data =>{
+                   setIF(data)
+                }).catch(err => console.log(err))
+        }
     }, [load])
 
     const truDi1 = () => {
@@ -136,6 +153,38 @@ export default function Product2() {
                 console.log(error);
             })
     }
+    const DeleteReview=((id)=>{
+        const token = getToken();
+        if(token==null)
+        {
+            return message.warning("Bạn chưa đăng nhập")
+        }
+        else{
+            fetch(variable.API_URL + "Reviews/DeleteReview/"+ id, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization': `Bearer ${token.value}`
+                },
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if(result=="Thành công")
+                    {
+                        message.success("Đã xóa đánh giá của bạn")
+                        setLoad(load+1)
+                    }
+                    else{
+                        message.error("Đây không phải đánh giá của bạn")
+                    }
+                },
+                (error) => {
+                    console.log(error);
+                })
+        }
+		
+    })
     const [imageRV, setImageRV] = useState("")
     const [nameImageRV, setNameImageRV] = useState("")
     const ChangeImageRV = (value) => {
@@ -253,12 +302,6 @@ export default function Product2() {
         setShowAllComments(false);
     };
 
-    // const handleClickChiaSe = () => {
-    // 	const url = window.location.href;
-    //     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    // 	window.open(facebookUrl, '_blank');
-    //   };
-    
     return (
         <>
             {
@@ -531,6 +574,13 @@ export default function Product2() {
 
 
                                                         <div className='ngayDanhGia'><span>Ngày đánh giá: {DatetimeFormat(rv.dateTime)} </span></div>
+                                                        <div>
+                                                            {
+                                                                IF.id==rv.accountId?
+                                                                <button style={{border:"none",background:"none",fontWeight:"bold",fontSize:"13px"}} onClick={()=>DeleteReview(rv.reviewId)}>Xóa</button>:null
+                                                            }
+                                                          
+                                                        </div>
                                                     </div>
                                                 </div>
 
