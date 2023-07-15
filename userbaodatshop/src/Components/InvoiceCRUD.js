@@ -21,6 +21,7 @@ export default function InvoiceCRUD() {
     var history=useNavigate();
     var [id,setId]=useState();
     var [open1, setopen] = useState(false);
+   
     const VND = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
@@ -44,6 +45,7 @@ export default function InvoiceCRUD() {
             .then(data =>{
                 setInvoice(data)
                 setFilter(data)
+               
             } ).catch(err => console.log(err))
 
         fetch(variable.API_URL + "InvoiceDetails/GetAllInvoiceDetails", {
@@ -56,6 +58,7 @@ export default function InvoiceCRUD() {
         })
             .then(response => response.json())
             .then(data => setInvoiceDT(data)).catch(err => console.log(err))
+      
 
     }, [])
     const deleteInvoice = ((id) => {
@@ -105,7 +108,7 @@ export default function InvoiceCRUD() {
         let format4 = day   + month  + year;
         return format4;
     })
-
+  
     return (
         <>
         {/* hủy đơn hàng */}
@@ -219,10 +222,18 @@ export default function InvoiceCRUD() {
 
                                         <div className="thanhTienIV">
                                             <div className="thanhTien1">
+                                                {
+                                                   dep.voucher!=null?
+                                                    <span>Voucher đã áp dụng: {dep.voucher.name}</span>
+                                                    : <span>Đơn hàng không áp dụng voucher</span>
+                                                }
+                                                <br></br>
                                                 <span>Thời gian đặt hàng: {DayTime(dep.issuedDate)}</span>
                                               
                                             </div>
                                             <div className="thanhTien2">
+                                             
+                                                <br></br>
                                             <span>Thành tiền: </span>
                                             <span>{VND.format(dep.total)}</span>
                                             </div>

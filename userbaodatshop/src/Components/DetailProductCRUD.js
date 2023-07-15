@@ -301,7 +301,7 @@ export default function Product2() {
         setContentAddRV('');
         setShowAllComments(false);
     };
-
+    const tokenne=getToken();
     return (
         <>
             {
@@ -433,9 +433,13 @@ export default function Product2() {
                                             <button className='muaNgayDT' onClick={() => message.error("Bạn chưa chọn size!")}>
                                                 Mua ngay
                                             </button>
+                                        :tokenne==null?
+                                        <button className='muaNgayDT' onClick={() => message.warning("Bạn cần đăng nhập để mua!")}>
+                                        Mua ngay
+                                    </button>:
 
-
-                                            : <NavLink to={'/checkoutbuynow'}
+                                            
+                                            <NavLink to={'/checkoutbuynow'}
                                                 state={[number, idPrSize, records.priceSales * number, id]}>
                                                 <button className='muaNgayDT'>
                                                     Mua ngay

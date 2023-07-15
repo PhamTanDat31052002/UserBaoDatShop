@@ -37,7 +37,7 @@ export default function CheckoutBuyNowCRUD() {
     var [sdtPay, setSDTPay] = useState(0);
     var [dcPay, setDcPay] = useState('');
     var [dataPay, setdatapay] = useState([]);
-    var [phiShip, setPhiShip] = useState(20000);
+    var [phiShip, setPhiShip] = useState(35000);
     var [voucher, setVoucher] = useState("");
     var [giaCuoiCung, setGiaCuoiCung] = useState(0);
     var [Disscount,setDisscount]=useState("");
@@ -411,7 +411,8 @@ export default function CheckoutBuyNowCRUD() {
                                                        idProductSize,
                                                         idProduct,
                                                          number,
-                                                         ten
+                                                         ten,
+                                                         Disscount!=null?Disscount.id:null
                                                          ]}  >
                                                         Tiếp tục đến phương thức thanh toán</NavLink>
                                                 </button>

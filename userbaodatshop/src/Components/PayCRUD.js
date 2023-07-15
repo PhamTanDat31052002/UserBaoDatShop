@@ -22,6 +22,8 @@ export default function PayCRUD() {
     var sdt = location.state[1];
     var tongTien = location.state[2];
     var name = location.state[3];
+    var voucher=location.state[4];
+    
     var history = useNavigate();
     var [payMedIV, setPayMedIV] = useState(null);
     var [hienThiBtnHoanThanh, setHienThiBtnHoanThanh] = useState(true);
@@ -33,7 +35,9 @@ export default function PayCRUD() {
     var [open1, setopen] = useState(false);
     var [countCart, setCountCart] = useState(0);
     var [KTpttt, setKTpttt] = useState(null);
-    var [truPhiShip, setTruPhiShip] = useState(0)
+    var [truPhiShip, setTruPhiShip] = useState(0);
+
+    
     const redirectToNewURL = (e) => {
         const newURL = e;
         window.location.href = newURL;
@@ -101,7 +105,9 @@ export default function PayCRUD() {
                 shippingAddress: dc,
                 shippingPhone: sdt,
                 paymentMethods: payMedIV,
-                pay: payIV
+                pay: payIV,
+                voucherId:voucher==null?null:voucher
+              
             })
         })
             .then(response => response.json())
@@ -146,7 +152,8 @@ export default function PayCRUD() {
                 shippingAddress: dc,
                 shippingPhone: sdt,
                 paymentMethods: payMedIV,
-                pay: true
+                pay: true,
+                voucherId:voucher==null?null:voucher
             })
         })
             .then(response => response.json())
@@ -158,6 +165,7 @@ export default function PayCRUD() {
             })
     })
     // paymentmethod: true là giao hàng tận nơi/ false là lấy tại cửa hàng
+   
     return (
         <>
 
@@ -270,7 +278,7 @@ export default function PayCRUD() {
                                         <FormControlLabel
                                             value="option1"
                                             control={<Radio className={selectedValueShip === 'option1' ? 'radio-checked' : ''} />}
-                                            label="Giao hàng tận nơi: 20.000đ"
+                                            label="Giao hàng tận nơi: 35.000đ"
                                             classes={{
                                                 root: 'radio-root',
                                                 label: 'radio-label',
@@ -290,7 +298,7 @@ export default function PayCRUD() {
                                                 label: 'radio-label',
                                             }}
                                             onClick={() => {
-                                                setTruPhiShip(20000)
+                                                setTruPhiShip(35000)
                                                 setPayMedIV(false)
                                             }}
                                         />

@@ -268,7 +268,7 @@ const handleCopy = ((text)=>{
             <div className='sanVoucher'>
             <h1 className="new_text" style={{marginTop:"2%"}}><strong>Săn voucher nào</strong></h1>
            {
-            voucher!=null?
+            voucher!=''?
             voucher.map(vou=>  <div className='itemvoucher'>
                     <div className='itemvc1'>
                         

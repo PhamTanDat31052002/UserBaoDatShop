@@ -24,6 +24,8 @@ export default function PayBuyNowCRUD() {
     var idProduct = location.state[4];
     var number = location.state[5];
     var name = location.state[6];
+    var voucher=location.state[7];
+
     var [truPhiShip, setTruPhiShip] = useState(0)
     var [productSize, setProductSize] = useState();
     var [itemPr, setitemPr] = useState();
@@ -34,7 +36,7 @@ export default function PayBuyNowCRUD() {
     var [KTpttt, setKTpttt] = useState(null);
     var payIV = false;
     var [infor, setInfor] = useState();
-
+  
     const [selectedValue, setSelectedValue] = useState('');
 
     const handleRadioChange = (event) => {
@@ -98,7 +100,8 @@ export default function PayBuyNowCRUD() {
                 pay: payIV,
                 total: tongTien,
                 shippingAddress: dc,
-                shippingPhone: sdt
+                shippingPhone: sdt,
+                voucherId:voucher==null?null:voucher
             })
         })
             .then(response => response.json())
@@ -137,6 +140,7 @@ export default function PayBuyNowCRUD() {
                 pay: true,
                 quantity:number,
                 productSizeID:idProductSize,
+                voucherId:voucher==null?null:voucher
             })
         })
             .then(response => response.json())
@@ -146,6 +150,7 @@ export default function PayBuyNowCRUD() {
                 console.log(error);
             })
     })
+    
     return (
         <>
 
@@ -247,7 +252,7 @@ export default function PayBuyNowCRUD() {
                                         <FormControlLabel
                                             value="option1"
                                             control={<Radio className={selectedValueShip === 'option1' ? 'radio-checked' : ''} />}
-                                            label="Giao hàng tận nơi: 20.000đ"
+                                            label="Giao hàng tận nơi: 35.000đ"
                                             classes={{
                                                 root: 'radio-root',
                                                 label: 'radio-label',
@@ -267,7 +272,7 @@ export default function PayBuyNowCRUD() {
                                                 label: 'radio-label',
                                             }}
                                             onClick={() => {
-                                                setTruPhiShip(20000)
+                                                setTruPhiShip(35000)
                                                 setPayMedIV(false)
                                             }}
                                         />

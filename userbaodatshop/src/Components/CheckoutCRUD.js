@@ -28,7 +28,7 @@ export default function CheckoutCRUD() {
     var [sdtPay, setSDTPay] = useState('');
     var [dcPay, setDcPay] = useState('');
     var [dataPay, setdatapay] = useState([]);
-    var [phiShip,setPhiShip]=useState(20000);
+    var [phiShip,setPhiShip]=useState(35000);
     var [voucher,setVoucher]=useState("");
     var [countCart,setCountCart]=useState(0);
     
@@ -490,7 +490,8 @@ export default function CheckoutCRUD() {
                                                 Address1 == '' ? diachi : Address1,
                                                    sdtPay == '' ? dt : sdtPay,
                                                      Disscount==''? total+phiShip: total-(total*Disscount.disscount/100)+phiShip,
-                                                        ten
+                                                        ten,
+                                                        Disscount==null?null:Disscount.id
                                                 ]}  >
                                                Tiếp tục đến phương thức thanh toán</NavLink> 
                                        </button>

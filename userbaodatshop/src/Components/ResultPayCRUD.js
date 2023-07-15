@@ -79,7 +79,7 @@ export default function ResultPayCRUD() {
                 <form>
                     {
                         ketQua.vnPayResponseCode=="00"?
-                       <a style={{ marginLeft: "15%", marginBottom: "4%" }} onClick={() => {
+                            isLoading==false?  <a style={{ marginLeft: "15%", marginBottom: "4%" }} onClick={() => {
 
                                 AddInvoice()
                             }}>
@@ -88,7 +88,9 @@ export default function ResultPayCRUD() {
                                 <span></span>
                                 <span></span>
                                 Hoàn tất đơn hàng
-                            </a>: 
+                            </a>:null
+                        
+                     : 
                               <a style={{ marginLeft: "15%", marginBottom: "4%" }} onClick={() => {
 
                                history("/cart")

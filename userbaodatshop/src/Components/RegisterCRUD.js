@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Alert, Space, message } from 'antd';
 import "../Assets/css/styleRegister.css"
 import {
-    Avatar,
+    Avatar, Hidden,
 
 } from '@mui/material';
 const RegisterCRUD = () => {
@@ -135,12 +135,23 @@ const RegisterCRUD = () => {
 					})
 				}
 				if (result == 1)
+				{
+					setIsLoading(false)
 					return message.error("Tên đăng nhập này đã được sử dụng")
+				}
+					
 				if (result == 2)
+				{
+					setIsLoading(false)
 					return message.error("Số điện thoại này đã được sử dụng")
+				}
+					
 				if (result == 3)
-
+				{
+					setIsLoading(false)
 					return message.error("Email này đã được sử dụng")
+				}
+					
 
 				// message.error("Đăng ký thất bại!")
 
@@ -224,13 +235,16 @@ const RegisterCRUD = () => {
 						<div className="user-box">
 							<span style={{ fontStyle: "italic" }}>Lưu ý: Link xác thực sẽ được gửi vào email bạn đăng ký. Truy cập email để xác thực ngay sau khi đăng ký để có thể đăng nhập.</span>
 						</div>
-						<a onClick={() => Register()}>
+						{
+							isLoading==false?<a onClick={() => Register()}>
 							<span></span>
 							<span></span>
 							<span></span>
 							<span></span>
 							Đăng ký
-						</a>
+						</a>:null
+						}
+						
 					</form>
 					{
 						isLoading == true ?
