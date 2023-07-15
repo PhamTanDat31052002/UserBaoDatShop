@@ -282,17 +282,7 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static">
         <Toolbar className='headerNew'>
 
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-
-            <MenuIcon />
-
-          </IconButton>
+         
           <Typography
             variant="h6"
             noWrap

@@ -18,6 +18,7 @@ export default function InvoiceCRUD() {
     var [invoice, setInvoice] = useState([]);
     var [filter, setFilter] = useState([]);
     var [invoiceDT, setInvoiceDT] = useState([]);
+    var [giacu, setgiacu] = useState(0);
     var history=useNavigate();
     var [id,setId]=useState();
     var [open1, setopen] = useState(false);
@@ -205,7 +206,7 @@ export default function InvoiceCRUD() {
                                                                 <div><span>{data.productSize.product.name}</span></div>
                                                                 <div><span>Size: {data.productSize.name}</span></div>
                                                                 <div><span>Số lượng: {data.quantity}</span></div>
-                                                               
+                                                              
                                                             </div>
                                                             <div className="giasanPhamIV">
                                                                 
@@ -228,19 +229,38 @@ export default function InvoiceCRUD() {
                                                     : <span>Đơn hàng không áp dụng voucher</span>
                                                 }
                                                 <br></br>
-                                                <span>Thời gian đặt hàng: {DayTime(dep.issuedDate)}</span>
+                                                {
+                                                    dep.paymentMethods==true?
+                                                        <span>Phương vận chuyển: gửi đơn vị vận chuyển</span>:<span>Phương thức nhận hàng: nhận tại cửa hàng</span>
+                                                }
+                                              
+                                               
                                               
                                             </div>
                                             <div className="thanhTien2">
-                                             
+                                            <span>
+                                                Thành tiền: {dep.giaCu}
+                                    
+                                            </span>
+                                            <br></br>
+                                            <span>
+                                                <span>Phí ship: </span>
+                                                {
+                                                    dep.paymentMethods==true?<span>{VND.format(35000)}</span>:<span>{VND.format(0)}</span>
+                                                        
+                                                }
+                                            </span>
                                                 <br></br>
-                                            <span>Thành tiền: </span>
+                                            <span>Tổng tiền: </span>
                                             <span>{VND.format(dep.total)}</span>
                                             </div>
                                            
                                         </div>
-
-                                        {dep.orderStatus == 4 ?
+                                            <div className="HuyDonIVTong"> 
+                                                <div className="NgayDatHang">
+                                                <span>Thời gian đặt hàng: {DayTime(dep.issuedDate)}</span>
+                                                    </div>
+                                                    {dep.orderStatus == 4 ?
                                             <div className="huyDonIV">
 
                                                 <button className="btnHuyDonIV" onClick={() => history('/product')  
@@ -283,6 +303,8 @@ export default function InvoiceCRUD() {
                                                         }} >Hủy đơn</button>
                                                     </div>
                                         }
+                                            </div>
+                                        
 
                                     </div>
                                 </div>

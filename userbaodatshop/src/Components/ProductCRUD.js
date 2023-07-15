@@ -16,11 +16,15 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+
 import { message } from "antd";
 import { Search, SearchOutlined } from "@mui/icons-material";
 import triangleTopRight from "../Assets/css/giamgia.svg"
 import Paragraph from "antd/lib/typography/Paragraph"
 import { Radio, RadioGroup, FormControlLabel } from '@mui/material';
+// import { Input, Radio, Space } from 'antd';
+
+
 export default function ProductCRUD() {
 
 	var [records, setRecord] = useState([]);
@@ -58,7 +62,7 @@ export default function ProductCRUD() {
 	const itemSizeClick = (event) => {
 		setItemSize(event.target.value);
 	};
-	var [count,setCount]=useState(0);
+	var [count, setCount] = useState(0);
 
 	useEffect(() => {
 		setIsLoading(true)
@@ -67,7 +71,7 @@ export default function ProductCRUD() {
 			.then(response => response.json())
 			.then(data => setRecord(data)).catch(err => console.log(err))
 
-		
+
 		if (token != null) {
 			fetch(variable.API_URL + "FavoriteProducts/GetAllFavoriteProduct", {
 				method: "GET",
@@ -80,9 +84,10 @@ export default function ProductCRUD() {
 				.then(data => setAllLove(data)).catch(err => console.log(err))
 		}
 		fetch(variable.API_URL + "Products/GetTop10BestSeller")
-		.then(response => response.json())
-		.then(data => {
-			setProductTop10(data)})
+			.then(response => response.json())
+			.then(data => {
+				setProductTop10(data)
+			})
 		setIsLoading(false)
 	}, [count])
 
@@ -121,12 +126,12 @@ export default function ProductCRUD() {
 		// 	.then(response => response.json())
 		// 	.then(data => setSizePr(data)).catch(err => console.log(err))
 		// }
-		
+
 	};
-	const muaNgay=((id)=>{
-		
-	
-			fetch(variable.API_URL + "Products/GetProductById/" + id)
+	const muaNgay = ((id) => {
+
+
+		fetch(variable.API_URL + "Products/GetProductById/" + id)
 			.then(response => response.json())
 			.then(data => {
 				setdtProduct(data)
@@ -136,8 +141,8 @@ export default function ProductCRUD() {
 		fetch(variable.API_URL + "ProductSizes/GetProductSizeByProductId/" + id)
 			.then(response => response.json())
 			.then(data => setSizePr(data)).catch(err => console.log(err))
-		
-		
+
+
 	})
 	const getToken = (() => {
 		const tokenString = localStorage.getItem('token');
@@ -169,7 +174,7 @@ export default function ProductCRUD() {
 			})
 	}
 	const LikeProduct = (data) => {
-	
+
 		const token = getToken();
 		if (token == null) {
 			return message.error("Bạn cần đăng nhập để yêu thích!")
@@ -188,29 +193,29 @@ export default function ProductCRUD() {
 			.then(response => response.json())
 			.then(result => {
 				message.success("Đã thêm vào danh sách yêu thích")
-				setCount(count+=1)
+				setCount(count += 1)
 			})
 	}
 	const DontLikeProduct = (data) => {
-	
+
 		const token = getToken();
-	
-		fetch(variable.API_URL + "FavoriteProducts/DeleteFavoriteProduct?id="+ data, {
+
+		fetch(variable.API_URL + "FavoriteProducts/DeleteFavoriteProduct?id=" + data, {
 			method: "DELETE",
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
 				'Authorization': `Bearer ${token.value}`
 			},
-		
+
 		})
 			.then(response => response.json())
 			.then(result => {
 				message.success("Đã bỏ sản phẩm khỏi danh sách yêu thích!")
-				setCount(count+=1)
+				setCount(count += 1)
 			})
 	}
-	
+
 	// chuyển trang
 	const [currentPage, setcurrenPage] = useState(1);
 	const recordsPerPage = 12;
@@ -235,7 +240,7 @@ export default function ProductCRUD() {
 	const FilterPrice = (productTypeId) => {
 
 	};
-		//custom select
+	//custom select
 
 
 
@@ -268,40 +273,41 @@ export default function ProductCRUD() {
 	};
 
 	//   custom select
-	const isFavorite = ((id) =>{
-		for(var i=0;i<allLove.length;i++)
-		{
-			if(allLove[i].productId==id)
-			return true
+	const isFavorite = ((id) => {
+		for (var i = 0; i < allLove.length; i++) {
+			if (allLove[i].productId == id)
+				return true
 		}
 		return false;
 	});
-	const isTop10=((id)=>{
-		for(var i=0;i<top10.length;i++)
-		{
-			if(top10[i].id==id)
-			return true
+	const isTop10 = ((id) => {
+		for (var i = 0; i < top10.length; i++) {
+			if (top10[i].id == id)
+				return true
 		}
 	})
-	
-	
+
+	const [value, setValue] = useState(1);
+
+
 	return (
 		<>
 
 
 
 			<div>
-				<div style={{textAlign:"center"}}>
+				
+				<div style={{ textAlign: "center" }}>
 					{
-						nameType==''?<h2>Tất cả sản phẩm</h2>:null
+						nameType == '' ? <h2>Tất cả sản phẩm</h2> : null
 					}
 					{
-						
-						ProductType.filter((item)=>{
+
+						ProductType.filter((item) => {
 							console.log(item)
-							return item.name==nameType?item:null
+							return item.name == nameType ? item : null
 						}
-						).map(e=><h2>{e.name}</h2>)
+						).map(e => <h2>{e.name}</h2>)
 					}
 				</div>
 
@@ -329,52 +335,83 @@ export default function ProductCRUD() {
 									}
 
 								</select> */}
-								
-								<RadioGroup value={selectedType} onChange={(e) =>
+{/* <Radio.Group value={selectedType} onChange={(e) => {
+									setcurrenPage(1)
+									ChangeFilter(e.target.value)
+								}}>
+					<Space direction="vertical">
+					<Radio
+							value={0}
+							// control={<Radio className={selectedType === a.id ? 'radio-checked' : ''} />}
+							classes={{
+								root: 'radio-root',
+								label: 'radio-label',
+							}}
+							onClick={() => setNameType("Tất cả")}
+						>Tất cả</Radio>
+						{
+							
+							ProductType.map(a =>
+								<>
+									<Radio
+										value={a.id}
+										// control={<Radio className={selectedType === a.id ? 'radio-checked' : ''} />}
+										classes={{
+											root: 'radio-root',
+											label: 'radio-label',
+										}}
+										onClick={() => setNameType(a.name)}
+									>{a.name}</Radio>
+								</>
+							)
+						}
+					</Space>
+				</Radio.Group> */}
+								<RadioGroup value={selectedType} onChange={(e) => {
+									setcurrenPage(1)
+									ChangeFilter(e.target.value)
+								}}>
+
+									<FormControlLabel
+										value={0}
+										control={<Radio className={selectedType === 0 ? 'radio-checked' : ''} />}
+										label="Tất cả"
+										classes={{
+											root: 'radio-root',
+											label: 'radio-label',
+										}}
+										onClick={() => setNameType('')}
+									/>
 									{
-										setcurrenPage(1)
-										ChangeFilter(e.target.value)
-									}}>
-										
-												<FormControlLabel
-                                            value={0}
-                                            control={<Radio className={ selectedType=== 0 ? 'radio-checked' : ''} />}
-                                            label="Tất cả"
-                                            classes={{
-                                                root: 'radio-root',
-                                                label: 'radio-label',
-                                            }}
-                                            onClick={()=>setNameType('')}
-                                        />
-										{
 										ProductType.map(a =>
 											<>
 												<FormControlLabel
-                                            value={a.id}
-                                            control={<Radio className={ selectedType=== a.id ? 'radio-checked' : ''} />}
-                                            label={a.name}
-                                            classes={{
-                                                root: 'radio-root',
-                                                label: 'radio-label',
-                                            }}
-                                          onClick={()=>setNameType(a.name)}
-                                        />
+													value={a.id}
+													control={<Radio className={selectedType === a.id ? 'radio-checked' : ''} />}
+													label={a.name}
+
+													classes={{
+														root: 'radio-root',
+														label: 'radio-label',
+													}}
+													onClick={() => setNameType(a.name)}
+												/>
 											</>
 										)
 									}
-                                        
 
-                                       
-                                    </RadioGroup>
+
+
+								</RadioGroup>
 							</div>
 						</div>
 					</div>
 					<div className="layout_padding gallery_section">
-					{
-								isLoading==true?<span>Loading...</span>:null
-							}
+						{
+							isLoading == true ? <span>Loading...</span> : null
+						}
 						<div className="container">
-							
+
 							<div className="row">
 								{
 									a.map(dep =>
@@ -382,10 +419,10 @@ export default function ProductCRUD() {
 											<div className="best_shoes parent ">
 
 												<NavLink to={`/detail/${dep.id}`} state={dep.id}><p className="best_text "><a href="a">{dep.name}</a>  </p></NavLink>
-													<div style={{height:"300px"}}>
-														<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
-													</div>
-												
+												<div style={{ height: "300px" }}>
+													<NavLink to={`/detail/${dep.id}`} state={dep.id}><div className="shoes_icon "><a href="a"><img src={"https://localhost:7067/wwwroot/image/product/" + dep.image} alt='a' /></a></div></NavLink>
+												</div>
+
 
 												<div className="star_text " >
 													<NavLink to={`/detail/${dep.id}`} state={dep.id}>
@@ -410,15 +447,15 @@ export default function ProductCRUD() {
 												<div className="hidden-child2">
 													{/* <i className="fa fa-shopping-cart gioHangPD"></i> */}
 													{
-														isFavorite(dep.id)==true ? 
+														isFavorite(dep.id) == true ?
 															<button
 																className="gioHangPD"
 																onClick={
 																	() => {
 																		DontLikeProduct(dep.id)
-														
-																		
-																		
+
+
+
 																	}
 																}
 																style={{
@@ -429,7 +466,7 @@ export default function ProductCRUD() {
 																	border: 'none',
 																	cursor: 'pointer',
 																	outline: 'none',
-																	width:'13%'
+																	width: '13%'
 
 																}}
 															>
@@ -448,61 +485,61 @@ export default function ProductCRUD() {
 																			left: 0,
 																			width: '100%',
 																			height: '100%',
-																		
+
 
 																		}}
 																	/>
 																	❤️
 
 																</div>
-														 	</button>:
+															</button> :
 															<button
-																	className="gioHangPD"
-																	onClick={
-																		() => {
-	
-																			LikeProduct(dep.id)
-																		
-																		}
+																className="gioHangPD"
+																onClick={
+																	() => {
+
+																		LikeProduct(dep.id)
+
 																	}
+																}
+																style={{
+																	display: 'inline-block',
+																	padding: '4px',
+																	borderRadius: '50%',
+																	backgroundColor: 'white',
+																	border: 'none',
+																	cursor: 'pointer',
+																	outline: 'none',
+
+																	width: '13%'
+																}}
+															>
+																<div
 																	style={{
-																		display: 'inline-block',
-																		padding: '4px',
-																		borderRadius: '50%',
-																		backgroundColor: 'white',
-																		border: 'none',
-																		cursor: 'pointer',
-																		outline: 'none',
-																	
-																		width:'13%'
+																		position: 'relative',
+																		width: '24px',
+																		height: '24px',
+
 																	}}
 																>
 																	<div
 																		style={{
-																			position: 'relative',
-																			width: '24px',
-																			height: '24px',
-																			
+
+																			position: 'absolute',
+																			top: 0,
+																			left: 0,
+																			width: '100%',
+																			height: '100%',
+
 																		}}
-																	>
-																		<div
-																			style={{
-	
-																				position: 'absolute',
-																				top: 0,
-																				left: 0,
-																				width: '100%',
-																				height: '100%',
-																				
-																			}}
-																		/>
-																		🤍
-	
-																	</div>
-																</button>
+																	/>
+																	🤍
+
+																</div>
+															</button>
 													}
 													{/* <span style={{ color: isFavorite(dep.id) ? 'red' : 'white' }}>❤️</span> */}
-													
+
 
 
 
@@ -510,122 +547,122 @@ export default function ProductCRUD() {
 													{/* <button className="btnMua">Mua ngay</button> */}
 
 													{/* btnmua */}
-											
+
 													{/* btnmua */}
 
 													<NavLink to={`/detail/${dep.id}`} state={dep.id}>	<button className="btnMua" >Mua ngay</button></NavLink>
-													
+
 													{
-														dtProduct!=null?
-														<Dialog
-														fullScreen={fullScreen}
-														open={open}
-														onClose={handleClose}
-														aria-labelledby="responsive-dialog-title"
-													>
-														<DialogTitle id="responsive-dialog-title">
-														{dtProduct.name}
-														</DialogTitle>
-														<DialogContent>
-															{/* <DialogContentText>
+														dtProduct != null ?
+															<Dialog
+																fullScreen={fullScreen}
+																open={open}
+																onClose={handleClose}
+																aria-labelledby="responsive-dialog-title"
+															>
+																<DialogTitle id="responsive-dialog-title">
+																	{dtProduct.name}
+																</DialogTitle>
+																<DialogContent>
+																	{/* <DialogContentText>
 																Let Google help apps determine location. This means sending anonymous
 																location data to Google, even when no apps are running.
 															</DialogContentText> */}
-															<DialogContentText>
+																	<DialogContentText>
 
-															
-															{
 
-																dtProduct!=null?
-																<div>
-																			<div>
-	
-																			<span className="phudeDT">Mã số: {dtProduct.sku}</span>
-																		</div>
-																		<div className='hienThiGia'>
-																	
-																			<div>
-																					<span className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(dtProduct.price)}</span> </span>
-																				</div>
+																		{
+
+																			dtProduct != null ?
 																				<div>
-																					<span className="giaDT">Giá Sale: {VND.format(dtProduct.priceSales)}</span>
-																				</div>
+																					<div>
 
-																		</div>
-																		<div className='kichThuoc'>
-																			<span style={{ marginTop: "1%" }}>Kích thước:</span>
-																			{sizePr != null ?
-																				sizePr.map(e =>
-																					e.stock != 0 ?
-																						<div className='itemSizeDT'>
-																							<input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} onClick={() => {
-																								setNumber(1)
-																								setTonKho(e.stock)
-																								setIdPrSize(e.id)
-																							}} />
-																							<label className="itemRadioDT" for={e.name}>{e.name}</label>
+																						<span className="phudeDT">Mã số: {dtProduct.sku}</span>
+																					</div>
+																					<div className='hienThiGia'>
 
+																						<div>
+																							<span className="giaDT2" >Giá gốc:  <span className="soGiaGocDT">{VND.format(dtProduct.price)}</span> </span>
 																						</div>
-																						: <div className='itemSizeDT'>
-																							<label className="itemRadioDT" for={e.name}>{e.name}</label>
-
+																						<div>
+																							<span className="giaDT">Giá Sale: {VND.format(dtProduct.priceSales)}</span>
 																						</div>
-																				) : null}
 
-																		</div>
-																		<div className='tonKho'>
-																			<span>Tồn kho: {tonKho}</span>
-																		</div>
-																</div>:null
-															}</DialogContentText>
-															
-														</DialogContent>
-														<DialogActions>
-															{
-																idPrSize==''?
-																<Button autoFocus onClick={()=>message.error("Bạn chưa chọn size")}>
-																		Mua ngay
-																	</Button>:
-																	<Button autoFocus onClick={handleClose}>
-																	Mua ngay
-																</Button>
-															}
-															
-															<Button onClick={handleClose} autoFocus>
-																Hủy
-															</Button>
-														</DialogActions>
-													</Dialog>:null
+																					</div>
+																					<div className='kichThuoc'>
+																						<span style={{ marginTop: "1%" }}>Kích thước:</span>
+																						{sizePr != null ?
+																							sizePr.map(e =>
+																								e.stock != 0 ?
+																									<div className='itemSizeDT'>
+																										<input type="radio" name={e.productId} id={e.name} value={e.id} onChange={itemSizeClick} onClick={() => {
+																											setNumber(1)
+																											setTonKho(e.stock)
+																											setIdPrSize(e.id)
+																										}} />
+																										<label className="itemRadioDT" for={e.name}>{e.name}</label>
+
+																									</div>
+																									: <div className='itemSizeDT'>
+																										<label className="itemRadioDT" for={e.name}>{e.name}</label>
+
+																									</div>
+																							) : null}
+
+																					</div>
+																					<div className='tonKho'>
+																						<span>Tồn kho: {tonKho}</span>
+																					</div>
+																				</div> : null
+																		}</DialogContentText>
+
+																</DialogContent>
+																<DialogActions>
+																	{
+																		idPrSize == '' ?
+																			<Button autoFocus onClick={() => message.error("Bạn chưa chọn size")}>
+																				Mua ngay
+																			</Button> :
+																			<Button autoFocus onClick={handleClose}>
+																				Mua ngay
+																			</Button>
+																	}
+
+																	<Button onClick={handleClose} autoFocus>
+																		Hủy
+																	</Button>
+																</DialogActions>
+															</Dialog> : null
 													}
-													
-													
+
+
 
 												</div>
-												
+
 											</div>
 											{
-												isTop10(dep.id)==true?
-												<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
-                                       					 <span>Bán chạy</span>
-														    <img style={{ position: 'absolute', top: 23, left:4 }} src={triangleTopRight} alt=""/>
-                                    				</Paragraph>:
-													<Paragraph className='badge' style={{ position: 'absolute', top: 10, left:0 }}>
-													<span>Giảm giá</span>
-													<img style={{ position: 'absolute', top: 23, left:4 }} src={triangleTopRight} alt=""/>
-											</Paragraph>
+												isTop10(dep.id) == true ?
+													<Paragraph className='badge' style={{ position: 'absolute', top: 10, left: 0 }}>
+														<span>Bán chạy</span>
+														<img style={{ position: 'absolute', top: 23, left: 4 }} src={triangleTopRight} alt="" />
+													</Paragraph> :
+													<Paragraph className='badge' style={{ position: 'absolute', top: 10, left: 0 }}>
+														<span>Giảm giá</span>
+														<img style={{ position: 'absolute', top: 23, left: 4 }} src={triangleTopRight} alt="" />
+													</Paragraph>
 											}
-											
+
 										</div>
-										
+
 									)}
 
 							</div>
 
 
 						</div>
-						
+
 						<div className="nextPage">
-												
+
 							<nav>
 								<ul className='pagination'>
 									<li className='page-item'>
