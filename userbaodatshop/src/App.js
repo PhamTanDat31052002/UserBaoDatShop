@@ -23,6 +23,7 @@ import ER404 from './Page/ER404';
 import ResultPay from './Page/ResultPay';
 import ResultPayBuyNow from './Page/ResultPayBuyNow';
 import DoiMatKhau from './Page/DoiMatKhau';
+import ChangePass from './Page/ChangePass';
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         <Route path='/resultpay' exact element={<ResultPay/>}/>
         <Route path='/resultpaybuynow' exact element={<ResultPayBuyNow/>}/>
         <Route path='/doimatkhau' exact element={<DoiMatKhau/>}/>
+        <Route path='/changepass' exact element={<ChangePass/>}/>
         <Route path="*" exact element={<ER404 />} />
       </Routes>
     </BrowserRouter>

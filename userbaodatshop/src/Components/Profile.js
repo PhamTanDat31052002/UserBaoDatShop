@@ -11,7 +11,7 @@ import {
     ListItemText
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';	
-import { IconListCheck, IconMail, IconUser,IconHeart ,IconBasket} from '@tabler/icons';
+import { IconListCheck, IconMail, IconUser,IconHeart ,IconBasket,IconPassword} from '@tabler/icons';
 
 import ProfileImg from '../Assets/images/AoMU2023.png';
 import { useEffect } from 'react';
@@ -117,15 +117,19 @@ const Profile = () => {
                         <IconBasket width={20} />
                     </ListItemIcon>
                  
-                    <ListItemText onClick={()=>history("/invoice")}> Đơn hàng </ListItemText>
-                   
-                    
+                    <ListItemText onClick={()=>history("/invoice")}> Đơn hàng </ListItemText>     
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>
                         <IconHeart width={20} />
                     </ListItemIcon>
                     <ListItemText  onClick={()=>history("/favourites")}>Yêu thích</ListItemText>
+                </MenuItem>
+                <MenuItem>
+                    <ListItemIcon>
+                        <IconPassword width={20} />
+                    </ListItemIcon>
+                    <ListItemText  onClick={()=>history("/changepass")}>Đổi mật khẩu</ListItemText>
                 </MenuItem>
                 <Box mt={1} py={1} px={2}>
                     <Button to="/" variant="outlined" color="primary" component={Link} fullWidth onClick={handleSignOut}>
