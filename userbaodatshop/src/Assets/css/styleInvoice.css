@@ -67,12 +67,26 @@
 .thanhTien1{
     width: 50%;
     font-size: 16px;
+ 
    
 }
 .thanhTien2{
     text-align: right;
     width: 50%;
-
+    
+    display: flex;
+}
+.thanhTien20{
+    width: 57%;
+}
+.thanhTien21{
+    text-align: left;
+    width: 20%;
+  
+}
+.thanhTien22{
+    text-align: right;
+    width: 22%;
 }
 .HuyDonIVTong{
     width: 100%;

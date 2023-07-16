@@ -302,6 +302,7 @@ export default function Product2() {
         setShowAllComments(false);
     };
     const tokenne=getToken();
+  
     return (
         <>
             {
@@ -580,9 +581,10 @@ export default function Product2() {
                                                         <div className='ngayDanhGia'><span>Ngày đánh giá: {DatetimeFormat(rv.dateTime)} </span></div>
                                                         <div>
                                                             {
+                                                                
                                                                 IF!=null?
-                                                                    IF.id==rv.accountId:null?
-                                                                    <button style={{border:"none",background:"none",fontWeight:"bold",fontSize:"13px"}} onClick={()=>DeleteReview(rv.reviewId)}>Xóa</button>:null
+                                                                    IF.id==rv.accountId?
+                                                                    <button style={{border:"none",background:"none",fontWeight:"bold",fontSize:"13px"}} onClick={()=>DeleteReview(rv.reviewId)}>Xóa</button>:null:null
 
                                                             }
                                                           

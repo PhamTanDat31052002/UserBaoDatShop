@@ -238,8 +238,35 @@ export default function InvoiceCRUD() {
                                               
                                             </div>
                                             <div className="thanhTien2">
-                                            <span>
-                                                Thành tiền: {dep.giaCu}
+                                                <div className="thanhTien20"></div>
+                                                <div className="thanhTien21">
+                                                    <span>Tổng tiền:</span>
+                                                    <br></br>
+                                                    <span>Phí ship: </span>
+                                                    <br></br>
+                                                    <span>Được giảm: </span>
+                                                    <br></br>
+                                                    <span>Thành tiền: </span>
+                                                </div>
+                                                <div className="thanhTien22">
+                                                    <span>{VND.format(dep.giaCu)}</span>
+                                                    <br></br>
+                                                    <span>{
+                                                    dep.paymentMethods==true?<span>{VND.format(35000)}</span>:<span>{VND.format(0)}</span>
+                                                        
+                                                }</span>
+                                                    <br></br>
+                                                   {
+                                                    dep.voucher!=null?
+                                                        <span style={{textDecorationLine:"line-through"}}>{VND.format(dep.giaCu*dep.voucher.disscount/100)}</span>:
+                                                        <span>{VND.format(0)}</span>
+                                                   }
+                                                    <br></br>
+                                                    <span>{VND.format(dep.total)}</span>
+                                                </div>
+
+                                            {/* <span>
+                                                Thành tiền: {VND.format(dep.giaCu)}
                                     
                                             </span>
                                             <br></br>
@@ -252,7 +279,7 @@ export default function InvoiceCRUD() {
                                             </span>
                                                 <br></br>
                                             <span>Tổng tiền: </span>
-                                            <span>{VND.format(dep.total)}</span>
+                                            <span>{VND.format(dep.total)}</span> */}
                                             </div>
                                            
                                         </div>
