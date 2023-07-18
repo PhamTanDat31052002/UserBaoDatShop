@@ -5,6 +5,7 @@ import Header from '../Components/Header'
 import Footer from '../Components/Footer'
 import jwt_decode from "jwt-decode";
 import Login from './Login';
+import PageContainer from "./ten";
 export default function Cart() {
   function getToken() {
     const tokenString = localStorage.getItem('token');
@@ -25,6 +26,7 @@ export default function Cart() {
   const decoded = jwt_decode(token);
   if (decoded.RoleUser =="Costumer")
     return (
+      <PageContainer title="Giỏ hàng" description="this is Sample page">
         <div>
             
             <>
@@ -33,6 +35,7 @@ export default function Cart() {
             <Footer/>
             </>
         </div>
+      </PageContainer>
     )
-    else  return <Login />
+    else  return   <Login />    
 }

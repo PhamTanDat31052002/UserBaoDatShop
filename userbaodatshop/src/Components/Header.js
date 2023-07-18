@@ -289,13 +289,13 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <div className="logo " style={{ width: "25%" }}><NavLink to="/"><img src={require('../Assets/images/logo.png')} alt='' /></NavLink></div>
+            <div className="logo " style={{ width: "25%" }}><NavLink to="/"><img src={'https://localhost:7067/wwwroot/Image/Footer/1.jpg'} alt='' /></NavLink></div>
           </Typography>
           <Typography>
             <div className="itemHeader3">
               <div className="searchBody">
                 <div className="search-box" ref={searchBoxRef}>
-                  <button className="btn-search searchColor">
+                  <button  className="btn-search searchColor">
                     <i className="fas fa-search"></i>
                   </button>
                   <input

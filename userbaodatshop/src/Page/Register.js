@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import RegisterCRUD from "../Components/RegisterCRUD";
+import PageContainer from "./ten";
 import ER404 from "../Page/ER404"
 export default function Register(){
     const getToken = (() => {

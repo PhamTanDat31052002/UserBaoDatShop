@@ -7,6 +7,7 @@ import { variable } from "../Variable"
 import { Result, message } from "antd";
 import queryString from 'query-string';
 import { useLocation } from "react-router-dom";
+import PageContainer from "./ten";
 export default function Login() {
    
     const getToken = (() => {

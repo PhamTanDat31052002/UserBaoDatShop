@@ -24,7 +24,7 @@ export default function PayBuyNowCRUD() {
     var idProduct = location.state[4];
     var number = location.state[5];
     var name = location.state[6];
-    var voucher=location.state[7];
+    var voucher = location.state[7];
 
     var [truPhiShip, setTruPhiShip] = useState(0)
     var [productSize, setProductSize] = useState();
@@ -36,7 +36,7 @@ export default function PayBuyNowCRUD() {
     var [KTpttt, setKTpttt] = useState(null);
     var payIV = false;
     var [infor, setInfor] = useState();
-  
+
     const [selectedValue, setSelectedValue] = useState('');
 
     const handleRadioChange = (event) => {
@@ -94,14 +94,14 @@ export default function PayBuyNowCRUD() {
             },
             body: JSON.stringify({
                 nameCustomer: name,
-                quantity:number,
-                productSizeID:idProductSize,
+                quantity: number,
+                productSizeID: idProductSize,
                 paymentMethods: payMedIV,
                 pay: payIV,
                 total: tongTien,
                 shippingAddress: dc,
                 shippingPhone: sdt,
-                voucherId:voucher==null?null:voucher
+                voucherId: voucher == null ? null : voucher
             })
         })
             .then(response => response.json())
@@ -116,12 +116,12 @@ export default function PayBuyNowCRUD() {
                 console.log(error);
             })
     })
-     //custom phương thức vận chuyển
-     const [selectedValueShip, setSelectedValueShip] = useState('');
+    //custom phương thức vận chuyển
+    const [selectedValueShip, setSelectedValueShip] = useState('');
 
-     const handleRadioChangeShip = (event) => {
-         setSelectedValueShip(event.target.value);
-     };
+    const handleRadioChangeShip = (event) => {
+        setSelectedValueShip(event.target.value);
+    };
     const VNPAY = (() => {
         const token = getToken();
         fetch(variable.API_URL + "APIPayment/CreateVNPAYURLBuyNow", {
@@ -138,19 +138,25 @@ export default function PayBuyNowCRUD() {
                 shippingPhone: sdt,
                 paymentMethods: payMedIV,
                 pay: true,
-                quantity:number,
-                productSizeID:idProductSize,
-                voucherId:voucher==null?null:voucher
+                quantity: number,
+                productSizeID: idProductSize,
+                voucherId: voucher == null ? null : voucher
             })
         })
             .then(response => response.json())
             .then(result => {
-                redirectToNewURL(result)
+                if (result == "Sản phẩm không đủ số lượng tồn kho") {
+                    return message.error("Sản phẩm không đủ số lượng tồn kho")
+                }
+                else
+                {
+                    redirectToNewURL(result)
+                }
             }, (error) => {
                 console.log(error);
             })
     })
-    
+
     return (
         <>
 
@@ -248,35 +254,35 @@ export default function PayBuyNowCRUD() {
                                         <span>Phương thức vận chuyển</span>
                                     </div>
                                     <div className="GHTanNoi">
-                                    <RadioGroup value={selectedValueShip} onChange={handleRadioChangeShip}>
-                                        <FormControlLabel
-                                            value="option1"
-                                            control={<Radio className={selectedValueShip === 'option1' ? 'radio-checked' : ''} />}
-                                            label="Giao hàng tận nơi: 35.000đ"
-                                            classes={{
-                                                root: 'radio-root',
-                                                label: 'radio-label',
-                                            }}
-                                            onClick={() => {
-                                                setTruPhiShip(0)
-                                                setPayMedIV(true)
-                                            }}
-                                        />
+                                        <RadioGroup value={selectedValueShip} onChange={handleRadioChangeShip}>
+                                            <FormControlLabel
+                                                value="option1"
+                                                control={<Radio className={selectedValueShip === 'option1' ? 'radio-checked' : ''} />}
+                                                label="Giao hàng tận nơi: 35.000đ"
+                                                classes={{
+                                                    root: 'radio-root',
+                                                    label: 'radio-label',
+                                                }}
+                                                onClick={() => {
+                                                    setTruPhiShip(0)
+                                                    setPayMedIV(true)
+                                                }}
+                                            />
 
-                                        <FormControlLabel
-                                            value="option2"
-                                            control={<Radio className={selectedValueShip === 'option2' ? 'radio-checked' : ''} />}
-                                            label="Đến lấy tại cửa hàng: 0đ"
-                                            classes={{
-                                                root: 'radio-root',
-                                                label: 'radio-label',
-                                            }}
-                                            onClick={() => {
-                                                setTruPhiShip(35000)
-                                                setPayMedIV(false)
-                                            }}
-                                        />
-                                    </RadioGroup>
+                                            <FormControlLabel
+                                                value="option2"
+                                                control={<Radio className={selectedValueShip === 'option2' ? 'radio-checked' : ''} />}
+                                                label="Đến lấy tại cửa hàng: 0đ"
+                                                classes={{
+                                                    root: 'radio-root',
+                                                    label: 'radio-label',
+                                                }}
+                                                onClick={() => {
+                                                    setTruPhiShip(35000)
+                                                    setPayMedIV(false)
+                                                }}
+                                            />
+                                        </RadioGroup>
                                     </div>
                                     <div className="phuongThucThanhToan">
                                         <div>
@@ -323,31 +329,31 @@ export default function PayBuyNowCRUD() {
                                                     )}
 
                                                     {selectedValue === 'option2' && (
-                                                         <div className="content">
-                                                         <p style={{ textAlign: "center" }}>Thanh toán trực tiếp bằng ứng dụng VNPay</p>
-                                                         <button className='hoanTatDonHang' onClick={() => {
-                                                             payMedIV == null ?
-                                                                 message.warning("Vui lòng chọn phương thức vận chuyển") : 
-                                                                 VNPAY()
- 
-                                                         }}>Thanh toán</button>
-                                                     </div>
+                                                        <div className="content">
+                                                            <p style={{ textAlign: "center" }}>Thanh toán trực tiếp bằng ứng dụng VNPay</p>
+                                                            <button className='hoanTatDonHang' onClick={() => {
+                                                                payMedIV == null ?
+                                                                    message.warning("Vui lòng chọn phương thức vận chuyển") :
+                                                                    VNPAY()
+
+                                                            }}>Thanh toán</button>
+                                                        </div>
                                                     )}
                                                 </div>
                                             </div>
                                         </div>
                                         <div>
-                                           {
-                                            hienThiBtnHoanThanh == true ?
-                                            <button className='hoanTatDonHang' onClick={() => {
+                                            {
+                                                hienThiBtnHoanThanh == true ?
+                                                    <button className='hoanTatDonHang' onClick={() => {
 
-                                                payMedIV == null ?
-                                                    message.warning("Vui lòng chọn phương thức vận chuyển") :
-                                                    KTpttt == null ?
-                                                        message.warning("Vui lòng chọn phương thức thanh toán") :
-                                                        setopen(true)
-                                            }}>Hoàn tất đơn hàng</button> : null
-                                           }
+                                                        payMedIV == null ?
+                                                            message.warning("Vui lòng chọn phương thức vận chuyển") :
+                                                            KTpttt == null ?
+                                                                message.warning("Vui lòng chọn phương thức thanh toán") :
+                                                                setopen(true)
+                                                    }}>Hoàn tất đơn hàng</button> : null
+                                            }
                                         </div>
                                     </div>
                                 </div>

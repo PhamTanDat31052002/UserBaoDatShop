@@ -295,7 +295,7 @@ const handleCopy = ((text)=>{
             </div>
             <div className="collection_section layout_padding">
                 <div className="container">
-                    <h1 className="new_text" style={{marginTop:"2%"}}><strong>Top 10 sản phẩm bán chạy nhất</strong></h1>
+                    <h1 className="new_text" style={{marginTop:"2%"}}><strong>Top những sản phẩm bán chạy nhất</strong></h1>
                     <p className="consectetur_text">Những sản phẩm được bán chạy hàng đầu của shop với chất lượng cao, giá thành rẻ</p>
                 </div>
             </div>

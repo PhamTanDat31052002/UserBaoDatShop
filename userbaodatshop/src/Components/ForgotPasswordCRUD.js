@@ -37,7 +37,17 @@ export default function ForgotPasswordCRUD(){
                 {
                     setIsLoading(false)
                     return message.success("Đã gửi link đổi lại mật khẩu vào Email của bạn")
-                }  
+                }
+                else if(data=="Email này không khớp với tài khoản nào cả")
+                {
+                    setIsLoading(false)
+                    return message.error("Email này không khớp với tài khoản nào cả")
+                }
+                else if(data=="Thất bại, vì tài khoản này chưa được kích hoạt")
+                {
+                    setIsLoading(false)
+                    return message.error("Thất bại, vì tài khoản này chưa được kích hoạt")
+                }
             }).catch(err => console.log(err))
     })
     return(

@@ -131,8 +131,6 @@ export default function Product2() {
 
         if (token == null)
             return message.warning("Bạn cần đăng nhập để thêm giỏ hàng!")
-
-
         fetch(variable.API_URL + "Carts/CreateCart", {
             method: "POST",
             headers: {

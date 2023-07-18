@@ -4,7 +4,7 @@ import Footer from "../Components/Footer";
 import jwt_decode from "jwt-decode";
 import Login from './Login';
 import PayBuyNowCRUD from "../Components/PayBuyNowCRUD";
-
+import PageContainer from "./ten";
 export default function PayBuyNow(){
     function getToken() {
         const tokenString = localStorage.getItem('token');

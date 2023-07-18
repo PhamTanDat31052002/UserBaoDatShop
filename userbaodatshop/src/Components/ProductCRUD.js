@@ -299,7 +299,7 @@ export default function ProductCRUD() {
 				
 				<div style={{ textAlign: "center" }}>
 					{
-						nameType == '' ? <h2>Tất cả sản phẩm</h2> : null
+						nameType == '' ? <h2 style={{paddingTop:"1%"}}>Tất cả sản phẩm</h2> : null
 					}
 					{
 
@@ -307,7 +307,7 @@ export default function ProductCRUD() {
 							console.log(item)
 							return item.name == nameType ? item : null
 						}
-						).map(e => <h2>{e.name}</h2>)
+						).map(e => <h2 tyle={{paddingTop:"1%"}}>{e.name}</h2>)
 					}
 				</div>
 
@@ -645,11 +645,11 @@ export default function ProductCRUD() {
 													<Paragraph className='badge' style={{ position: 'absolute', top: 10, left: 0 }}>
 														<span>Bán chạy</span>
 														<img style={{ position: 'absolute', top: 23, left: 4 }} src={triangleTopRight} alt="" />
-													</Paragraph> :
+													</Paragraph> : dep.price>dep.priceSales?
 													<Paragraph className='badge' style={{ position: 'absolute', top: 10, left: 0 }}>
 														<span>Giảm giá</span>
 														<img style={{ position: 'absolute', top: 23, left: 4 }} src={triangleTopRight} alt="" />
-													</Paragraph>
+													</Paragraph>:null
 											}
 
 										</div>

@@ -56,6 +56,7 @@ export default function DoiMatKhauCRUD()
                 message.success("Đổi mật khẩu thành công. Mời bạn đăng nhập!")
                 history('/login')
             }
+           
             else{
                 message.error("Đổi mật khẩu thất bại")
             }

@@ -133,7 +133,7 @@ const Profile = () => {
                 </MenuItem>
                 <Box mt={1} py={1} px={2}>
                     <Button to="/" variant="outlined" color="primary" component={Link} fullWidth onClick={handleSignOut}>
-                        Logout
+                        Đăng xuất
                     </Button>
                 </Box>
             </Menu>

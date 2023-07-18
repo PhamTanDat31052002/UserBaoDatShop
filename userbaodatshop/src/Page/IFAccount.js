@@ -3,6 +3,7 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import IFAccountCRUD from "../Components/IFAccountCRUD";
 import Login from './Login';
+import PageContainer from "./ten";
 export default function IFAccount(){
     function getToken() {
         const tokenString = localStorage.getItem('token');

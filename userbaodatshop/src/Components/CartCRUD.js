@@ -95,8 +95,10 @@ export default function CartCRUD() {
         style: 'currency',
         currency: 'VND',
     });
-    const UpdateCartAdd = ((id) => {
+    const UpdateCartAdd = ((id,sizeid) => {
+
         const token = getToken();
+       
         fetch(variable.API_URL + "Carts/UpdateCart+1/" + id, {
             method: "PUT",
             headers: {
@@ -264,7 +266,7 @@ export default function CartCRUD() {
                                                 </div>
                                             </div>
                                             <div className='itemDetailCart3'>
-                                                <p style={{ marginTop: "2%" }}>{data.priceSales}đ </p>
+                                                <p style={{ marginTop: "2%" }}>{VND.format(data.priceSales)} </p>
                                             </div>
                                             <div className='itemDetailCart3'>
                                                 <div className='divcongtruCart'>
@@ -281,7 +283,7 @@ export default function CartCRUD() {
 
                                                     <input type="text" className='textCongTruCart' value={dep.quantity}></input>
 
-                                                    <button className='congTruCart' onClick={() => UpdateCartAdd(dep.id)}>+</button>
+                                                    <button className='congTruCart' onClick={() => UpdateCartAdd(dep.id,dep.productSizeId)}>+</button>
 
                                                 </div>
                                             </div>

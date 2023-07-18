@@ -15,6 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Radio, RadioGroup, FormControlLabel } from '@mui/material';
+
 export default function PayCRUD() {
     var location = useLocation();
 
@@ -22,8 +23,8 @@ export default function PayCRUD() {
     var sdt = location.state[1];
     var tongTien = location.state[2];
     var name = location.state[3];
-    var voucher=location.state[4];
-    
+    var voucher = location.state[4];
+
     var history = useNavigate();
     var [payMedIV, setPayMedIV] = useState(null);
     var [hienThiBtnHoanThanh, setHienThiBtnHoanThanh] = useState(true);
@@ -37,7 +38,7 @@ export default function PayCRUD() {
     var [KTpttt, setKTpttt] = useState(null);
     var [truPhiShip, setTruPhiShip] = useState(0);
 
-    
+
     const redirectToNewURL = (e) => {
         const newURL = e;
         window.location.href = newURL;
@@ -106,8 +107,8 @@ export default function PayCRUD() {
                 shippingPhone: sdt,
                 paymentMethods: payMedIV,
                 pay: payIV,
-                voucherId:voucher==null?null:voucher
-              
+                voucherId: voucher == null ? null : voucher
+
             })
         })
             .then(response => response.json())
@@ -116,6 +117,9 @@ export default function PayCRUD() {
                     setopen(false)
                     message.success("Đặt hàng thành công!")
                     history("/invoice")
+                } else if (result == "Sản phẩm hiện không đủ số lượng trong kho") {
+                    message.error("Sản phẩm hiện không đủ số lượng trong kho")
+                    setopen(false)
                 }
 
             }, (error) => {
@@ -134,6 +138,7 @@ export default function PayCRUD() {
     const handleRadioChangeShip = (event) => {
         setSelectedValueShip(event.target.value);
     };
+
     // thanh toán vnpay
     const [isLoading, setIsLoading] = useState(false);
     const VNPAY = (() => {
@@ -153,19 +158,24 @@ export default function PayCRUD() {
                 shippingPhone: sdt,
                 paymentMethods: payMedIV,
                 pay: true,
-                voucherId:voucher==null?null:voucher
+                voucherId: voucher == null ? null : voucher
             })
         })
             .then(response => response.json())
             .then(result => {
-                setIsLoading(false)
-                redirectToNewURL(result)
+                if (result == "Sản phẩm không đủ số lượng tồn kho") {
+                  return  message.error("Sản phẩm không đủ số lượng tồn kho")
+                } else {
+                    setIsLoading(false)
+                    redirectToNewURL(result)
+                }
+
             }, (error) => {
                 console.log(error);
             })
     })
     // paymentmethod: true là giao hàng tận nơi/ false là lấy tại cửa hàng
-   
+
     return (
         <>
 
@@ -355,7 +365,7 @@ export default function PayCRUD() {
                                                         <p style={{ textAlign: "center" }}>Thanh toán trực tiếp bằng ứng dụng VNPay</p>
                                                         <button className='hoanTatDonHang' onClick={() => {
                                                             payMedIV == null ?
-                                                                message.warning("Vui lòng chọn phương thức vận chuyển") : 
+                                                                message.warning("Vui lòng chọn phương thức vận chuyển") :
                                                                 VNPAY()
 
                                                         }}>Thanh toán</button>
@@ -384,7 +394,7 @@ export default function PayCRUD() {
                                     </div>
                                     <div>
                                         {
-                                            isLoading==true?<span>Loading...</span>:null
+                                            isLoading == true ? <span>Loading...</span> : null
                                         }
                                     </div>
                                 </div>

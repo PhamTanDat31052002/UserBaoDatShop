@@ -4,6 +4,7 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import jwt_decode from "jwt-decode";
 import Login from './Login';
+import PageContainer from "./ten";
 export default function Pay()
 {
     function getToken() {
